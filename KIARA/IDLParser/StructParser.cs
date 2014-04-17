@@ -66,6 +66,13 @@ namespace KIARA
                 memberName = memberDefinition.Substring(closingBracket, memberDefinition.Length - closingBracket);
             }
 
+            KtdType typeObject = getTypeForMember(memberType);
+
+            createdStruct.members.Add(memberName, typeObject);
+        }
+
+        private KtdType getTypeForMember(string memberType)
+        {
             KtdType typeObject = new KtdType();
 
             if (memberIsArray(memberType))
@@ -81,7 +88,7 @@ namespace KIARA
                 typeObject = KTD.Instance.GetType(memberType);
             }
 
-            createdStruct.members.Add(memberName, typeObject);
+            return typeObject;
         }
 
         private bool memberIsArray(string memberType)
