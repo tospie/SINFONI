@@ -11,8 +11,7 @@ namespace DelegateArgumentMappingTests
         public Tests()
         {
             testStuff();
-            testGetMembers();
-            testIsMappable();
+            testGetMembers();            
         }
 
         delegate object DelegateFunc(object[] args);
@@ -87,15 +86,7 @@ namespace DelegateArgumentMappingTests
             var p = vecObjMembers.First();
             var b = p.GetValue(vecObj);
         }
-    
-        void testIsMappable()
-        {
-            KtdType int16 = new KtdType();
-            int16.name = "i16";
-            short value = 42;
-            var can = int16.canBeAssignedFromType(value.GetType());
-        }
-    
+      
         void testStuff()
         {
             DelegateFunc testDelegate = (DelegateFunc)delegate(object[] a)

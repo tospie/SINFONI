@@ -2,17 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace DelegateArgumentMappingTests
+[assembly: InternalsVisibleTo("KIARAUnitTests")]
+
+namespace KIARA
 {
 
     public class KtdType
     { 
         delegate object MappingFunction(object other);
 
-        public string name { get; internal set; }
+        public KtdType() { }
+
+        public KtdType(string name)
+        {
+            Name = name;
+        }
+
+        public string Name { get; internal set; }
 
         public object AssignValuesFromObject(object other)
         {
@@ -39,7 +49,7 @@ namespace DelegateArgumentMappingTests
 
         internal virtual bool canBeAssignedFromType(Type type)
         {
-            switch(name)
+            switch(Name)
             {
                 case "boolean": return type.IsAssignableFrom(typeof(System.Boolean));
                 case "i16": return type.IsAssignableFrom(typeof(System.Int16));                

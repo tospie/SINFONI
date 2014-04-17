@@ -2,9 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace DelegateArgumentMappingTests
+[assembly: InternalsVisibleTo("KIARAUnitTests")]
+
+namespace KIARA
 {
     public class KtdArray : KtdType
     {
@@ -36,7 +39,7 @@ namespace DelegateArgumentMappingTests
 
         // From StackOverflow:
         // stackoverflow.com/questions/3922029/how-to-retrieve-the-generic-type-used-in-a-generic-ienumerable-in-net
-        public static Type GetEnumerableType(Type type)
+        private static Type GetEnumerableType(Type type)
         {
             if (type == null) throw new ArgumentNullException();
             foreach (Type interfaceType in type.GetInterfaces())

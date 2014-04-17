@@ -1,0 +1,9 @@
+E:\Arbeit\Tests\DelegateArgumentMappingTests\KIARAUnitTests\obj\Debug\KIARAUnitTests.csprojResolveAssemblyReference.cache
+E:\Arbeit\Tests\DelegateArgumentMappingTests\KIARAUnitTests\bin\Debug\KIARAUnitTests.dll
+E:\Arbeit\Tests\DelegateArgumentMappingTests\KIARAUnitTests\bin\Debug\KIARAUnitTests.pdb
+E:\Arbeit\Tests\DelegateArgumentMappingTests\KIARAUnitTests\bin\Debug\KIARA.dll
+E:\Arbeit\Tests\DelegateArgumentMappingTests\KIARAUnitTests\bin\Debug\nunit.framework.dll
+E:\Arbeit\Tests\DelegateArgumentMappingTests\KIARAUnitTests\bin\Debug\KIARA.pdb
+E:\Arbeit\Tests\DelegateArgumentMappingTests\KIARAUnitTests\bin\Debug\nunit.framework.xml
+E:\Arbeit\Tests\DelegateArgumentMappingTests\KIARAUnitTests\obj\Debug\KIARAUnitTests.dll
+E:\Arbeit\Tests\DelegateArgumentMappingTests\KIARAUnitTests\obj\Debug\KIARAUnitTests.pdb
