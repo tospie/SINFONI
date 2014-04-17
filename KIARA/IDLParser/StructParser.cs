@@ -72,10 +72,13 @@ namespace KIARA
             {
                 typeObject = arrayParser.ParseArray(memberType);
             }
+            else if (memberIsMap(memberType))
+            {
+                typeObject = mapParser.ParseMap(memberType);
+            }
             else
             {
-                // TODO: Retrieve Types from KTD
-                typeObject = new KtdType(memberType);
+                typeObject = KTD.Instance.GetType(memberType);
             }
 
             createdStruct.members.Add(memberName, typeObject);
@@ -83,9 +86,17 @@ namespace KIARA
 
         private bool memberIsArray(string memberType)
         {
-            bool isArray = Regex.IsMatch(memberType, "array<[A-Za-z0-9]*>");
+            bool isArray = Regex.IsMatch(memberType, "array<[A-Za-z0-9_]*>");
             return isArray;
         }
+
+        private bool memberIsMap(string memberType)
+        {
+            bool isMap = Regex.IsMatch(memberType, "map<[A-Za-z0-9_]*,[A-Za-z0-9_]*>");
+            return isMap;
+        }
+
         private ArrayParser arrayParser = new ArrayParser();
+        private MapParser mapParser = new MapParser();
     }
 }
