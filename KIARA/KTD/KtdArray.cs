@@ -11,18 +11,6 @@ namespace KIARA
 {
     public class KtdArray : KtdType
     {
-        /* JOB OF THE PARSER LATER !!
-         * 
-        private bool canBeAssignedAsArray(Type type)
-        {
-            Regex arrayTypeMatch = new Regex("array<([A-Za-z0-9]*)>");
-            Match match = arrayTypeMatch.Match(name);
-            var arrayType = match.Groups[1].Value;
-
-            return true;
-        }
-        */
-
         internal override bool canBeAssignedFromType(Type type)
         {
             // Type to match is no enumerable and can thus not be matched to an array
