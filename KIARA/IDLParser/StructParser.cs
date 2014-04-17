@@ -67,10 +67,25 @@ namespace KIARA
             }
 
             KtdType typeObject = new KtdType();
+
+            if (memberIsArray(memberType))
+            {
+                typeObject = arrayParser.ParseArray(memberType);
+            }
+            else
+            {
+                // TODO: Retrieve Types from KTD
                 typeObject = new KtdType(memberType);
+            }
 
             createdStruct.members.Add(memberName, typeObject);
         }
 
+        private bool memberIsArray(string memberType)
+        {
+            bool isArray = Regex.IsMatch(memberType, "array<[A-Za-z0-9]*>");
+            return isArray;
+        }
+        private ArrayParser arrayParser = new ArrayParser();
     }
 }
