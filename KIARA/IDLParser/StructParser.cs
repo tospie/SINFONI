@@ -43,12 +43,31 @@ namespace KIARA
 
             // Removes semicolon and comments at the end of line
             memberDefinition = memberDefinition.Trim().Split(';')[0];
-            string[] memberComponents = memberDefinition.Split(' ');
-            string memberType = memberComponents[0];
-            string memberName = memberComponents[1];
 
-            // TODO: Retrieve Types from KTD
-            createdStruct.members.Add(memberName, new KtdType(memberType));
+            // TODO:
+            // Consider additional spaces that may occur after comma of map definitions
+            string[] memberComponents;
+            string memberType;
+            string memberName;
+
+            if (!(memberDefinition.Contains("array") || memberDefinition.Contains("map")))
+            {
+                memberComponents = memberDefinition.Split(' ');
+                memberType = memberComponents[0];
+                memberName = memberComponents[1];
+            }
+            else
+            {
+                memberDefinition = Regex.Replace(memberDefinition, @"\s+", "");
+                int closingBracket = memberDefinition.IndexOf('>') + 1;
+                memberType = memberDefinition.Substring(0, closingBracket);
+                memberName = memberDefinition.Substring(closingBracket, memberDefinition.Length - closingBracket);
+            }
+
+            KtdType typeObject = new KtdType();
+                typeObject = new KtdType(memberType);
+
+            createdStruct.members.Add(memberName, typeObject);
         }
 
     }
