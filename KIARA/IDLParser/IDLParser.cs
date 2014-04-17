@@ -75,5 +75,7 @@ namespace KIARA
             string collapsed = regex.Replace(idlString, @" ");
             return collapsed;
         }
+
+        private StructParser StructParser = new StructParser();
     }
 }
