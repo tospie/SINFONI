@@ -11,7 +11,13 @@ namespace KIARA
         internal void parseStruct(string structDefinition)
         {
             string structName = parseName(structDefinition);
+            KtdType newStruct = new KtdType(structName);
+
             string[] memberDefinitions = parseMember(structDefinition);
+            foreach (string memberDef in memberDefinitions)
+            {
+                createKtdTypeForMember(memberDef, newStruct);
+            }
         }
 
         private string parseName(string structDefinition)
@@ -29,5 +35,21 @@ namespace KIARA
             string member = memberMatch.Groups[1].Value;
             return member.Split('\n');
         }
+
+        private void createKtdTypeForMember(string memberDefinition, KtdType createdStruct)
+        {
+            if (!memberDefinition.Contains(';'))
+                return;
+
+            // Removes semicolon and comments at the end of line
+            memberDefinition = memberDefinition.Trim().Split(';')[0];
+            string[] memberComponents = memberDefinition.Split(' ');
+            string memberType = memberComponents[0];
+            string memberName = memberComponents[1];
+
+            // TODO: Retrieve Types from KTD
+            createdStruct.members.Add(memberName, new KtdType(memberType));
+        }
+
     }
 }
