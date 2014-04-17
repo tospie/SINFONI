@@ -10,8 +10,9 @@ namespace KIARA
     {
         const string idlString = @"struct AttributeDef {
                             string Guid;
+                            // Strange Name
                             string Name;
-                            any DefaultValue;
+                            any DefaultValue; // Some stuff
                             string Type;  // contains AssemblyQualifiedName of the type
                         }
 
@@ -41,11 +42,15 @@ namespace KIARA
 
             string trimmedIdlString = trimIdlString(idlString);
             string[] structureDefinitions = getStructureDefinitions(trimmedIdlString);
+            foreach (string struc in structureDefinitions)
+            {
+                StructParser.parseStruct(struc);
+            }
         }
 
         private string[] getStructureDefinitions(string idlString)
         {
-            Regex structRegex = new Regex("[struct [A-Za-z0-9_]* {[A-Za-z0-9_<,>;/ ]*}[ ]*]*");
+            Regex structRegex = new Regex("[struct [A-Za-z0-9_]* {[A-Za-z0-9_<,>;/\n ]*}[\n ]*]*");
             MatchCollection matches = structRegex.Matches(idlString);            
             var results = new string[matches.Count];
             for (int i = 0; i < matches.Count; i++)
@@ -65,7 +70,7 @@ namespace KIARA
 
         private string removeTabsAndNewlines(string idlString)
         {
-            string escapedString = Regex.Replace(idlString, @"\t|\n|\r", "");
+            string escapedString = Regex.Replace(idlString, @"\t|\r", "");
             return escapedString;
         }
 
