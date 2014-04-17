@@ -39,10 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ktd.cs" />
-    <Compile Include="KtdArray.cs" />
-    <Compile Include="KtdMap.cs" />
-    <Compile Include="KtdType.cs" />
+    <Compile Include="IDLParser\IDLParser.cs" />
+    <Compile Include="KTD\Ktd.cs" />
+    <Compile Include="KTD\KtdArray.cs" />
+    <Compile Include="KTD\KtdMap.cs" />
+    <Compile Include="KTD\KtdType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
