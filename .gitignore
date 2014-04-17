@@ -1,5 +1,9 @@
 obj/
 bin/
+*.dll
+*.obj
+*.pdb
+*.exe
 *.userprefs
 *.pidb
 *test-results*
