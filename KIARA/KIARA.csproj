@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDLParser\ArrayParser.cs" />
     <Compile Include="IDLParser\IDLParser.cs" />
     <Compile Include="KTD\Ktd.cs" />
     <Compile Include="KTD\KtdArray.cs" />
