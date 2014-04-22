@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestIDLParser.cs" />
+    <Compile Include="TestKTD.cs" />
     <Compile Include="TestValidMappings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
