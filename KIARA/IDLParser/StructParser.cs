@@ -21,7 +21,7 @@ namespace KIARA
                 createKtdTypeForMember(memberDef, newStruct);
             }
 
-            KTD.Instance.RegisterType(structName, newStruct);
+            KTD.Instance.RegisterType(newStruct);
         }
 
         private string parseName(string structDefinition)

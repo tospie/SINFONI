@@ -94,9 +94,9 @@ namespace KIARAUnitTests
         [Test()]
         public void ShouldThrowExceptionOnRegisteringSameTypenameTwice()
         {
-            Assert.DoesNotThrow(() => { KTD.Instance.RegisterType("newType", new KtdType()); });
+            Assert.DoesNotThrow(() => { KTD.Instance.RegisterType(new KtdType("newType")); });
             Assert.Throws(typeof(TypeNameConflictException),
-                () => { KTD.Instance.RegisterType("newType", new KtdType()); }
+                () => { KTD.Instance.RegisterType(new KtdType("newType")); }
                 );
         }
 

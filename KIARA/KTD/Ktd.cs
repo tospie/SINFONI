@@ -30,31 +30,31 @@ namespace KIARA
             return registeredTypes[name];
         }
 
-        public void RegisterType(string name, KtdType type)
+        public void RegisterType(KtdType type)
         {
-            if (registeredTypes.ContainsKey(name))
-                throw new TypeNameConflictException(name);
+            if (registeredTypes.ContainsKey(type.Name))
+                throw new TypeNameConflictException(type.Name);
 
-            registeredTypes.Add(name, type);
+            registeredTypes.Add(type.Name, type);
         }
 
         private void registerBaseTypes()
         {
-            RegisterType("boolean", new KtdType("boolean"));
-            RegisterType("i16", new KtdType("i16"));
-            RegisterType("i32", new KtdType("i32"));
-            RegisterType("i64", new KtdType("i64"));
+            RegisterType(new KtdType("boolean"));
+            RegisterType(new KtdType("i16"));
+            RegisterType(new KtdType("i32"));
+            RegisterType(new KtdType("i64"));
 
-            RegisterType("u16", new KtdType("u16"));
-            RegisterType("u32", new KtdType("u32"));
-            RegisterType("u64", new KtdType("u64"));
+            RegisterType(new KtdType("u16"));
+            RegisterType(new KtdType("u32"));
+            RegisterType(new KtdType("u64"));
 
-            RegisterType("float", new KtdType("float"));
-            RegisterType("double", new KtdType("double"));
+            RegisterType(new KtdType("float"));
+            RegisterType(new KtdType("double"));
 
-            RegisterType("string", new KtdType("string"));
+            RegisterType(new KtdType("string"));
 
-            RegisterType("any", new KtdType("any"));
+            RegisterType(new KtdType("any"));
         }
         private Dictionary<string, KtdType> registeredTypes = new Dictionary<string,KtdType>();
     }
