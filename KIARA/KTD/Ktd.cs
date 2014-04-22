@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using KIARA.Exceptions;
 
 namespace KIARA
 {
@@ -23,7 +24,7 @@ namespace KIARA
         {
             if (!ContainsType(name))
             {
-                throw new Exception("KTD does not contain Type Description with name " + name);
+                throw new TypeNotRegisteredException(name);
             }
 
             return registeredTypes[name];
@@ -31,6 +32,9 @@ namespace KIARA
 
         public void RegisterType(string name, KtdType type)
         {
+            if (registeredTypes.ContainsKey(name))
+                throw new TypeNameConflictException(name);
+
             registeredTypes.Add(name, type);
         }
 
