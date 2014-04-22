@@ -9,6 +9,10 @@ using System.Text;
 
 namespace KIARA
 {
+    /// <summary>
+    /// Represents a map from KTD Types to KtdTypes. KtdMap does not need a name and is not registered to the KTD,
+    /// but is used as member object for KTD Structs.
+    /// </summary>
     public class KtdMap : KtdType
     {
         internal override bool canBeAssignedFromType(Type type)

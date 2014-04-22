@@ -9,6 +9,10 @@ using System.Text;
 
 namespace KIARA
 {
+    /// <summary>
+    /// Represents an array of KTD Types. KtdArray does not need a name and is not registered to the KTD,
+    /// but is used as member object for KTD Structs.
+    /// </summary>
     public class KtdArray : KtdType
     {
         internal override bool canBeAssignedFromType(Type type)

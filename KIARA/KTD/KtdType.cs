@@ -10,18 +10,32 @@ using System.Text.RegularExpressions;
 
 namespace KIARA
 {
-
+    /// <summary>
+    /// Represents a KIARA Type. A KIARA Type is usually defined in an IDL file. KIARA Types include the base types
+    /// supported by KIARA, as well as complex types array, map and string. A KIARA Type provides the necessary methods
+    /// to check if a native type or datastructure can be mapped to the respective KIARA type
+    /// </summary>
     public class KtdType
     { 
         delegate object MappingFunction(object other);
 
+        /// <summary>
+        /// Standard Constructor
+        /// </summary>
         public KtdType() { }
 
+        /// <summary>
+        /// Constructor for named types that should be registered to the KIARA Type Description (KTD)
+        /// </summary>
+        /// <param name="name">Name of the type</param>
         public KtdType(string name)
         {
             Name = name;
         }
 
+        /// <summary>
+        /// Name of the type
+        /// </summary>
         public string Name { get; internal set; }
 
         public object AssignValuesFromObject(object other)
@@ -47,6 +61,12 @@ namespace KIARA
             return result;
         }
 
+        /// <summary>
+        /// Checks if the KIARA Type can be implictly casted from a native C# type or in the case of complex types
+        /// from a native data structure.
+        /// </summary>
+        /// <param name="type">Native type or datastructure that should be assigned to the KIARA type</param>
+        /// <returns>true, if there exists an implicit cast from native type to KIARA type</returns>
         internal virtual bool canBeAssignedFromType(Type type)
         {
             switch(Name)
