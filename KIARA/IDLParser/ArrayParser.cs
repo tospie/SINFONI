@@ -6,9 +6,11 @@ using System.Text.RegularExpressions;
 
 namespace KIARA
 {
-    public class ArrayParser
+    internal class ArrayParser
     {
-        public KtdArray ParseArray(string arrayDefinition)
+        internal static ArrayParser Instance = new ArrayParser();
+
+        internal KtdArray ParseArray(string arrayDefinition)
         {
             KtdArray result = new KtdArray();
 

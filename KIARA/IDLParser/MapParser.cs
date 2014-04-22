@@ -5,9 +5,11 @@ using System.Text;
 
 namespace KIARA
 {
-    public class MapParser
+    internal class MapParser
     {
-        public KtdMap ParseMap(string mapDefinition)
+        internal static MapParser Instance = new MapParser();
+
+        internal KtdMap ParseMap(string mapDefinition)
         {
             int openingBracket = mapDefinition.IndexOf('<');
             int comma = mapDefinition.IndexOf(',');

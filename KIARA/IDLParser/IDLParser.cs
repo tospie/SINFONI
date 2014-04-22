@@ -44,7 +44,7 @@ namespace KIARA
             string[] structureDefinitions = getStructureDefinitions(trimmedIdlString);
             foreach (string struc in structureDefinitions)
             {
-                StructParser.parseStruct(struc);
+                StructParser.Instance.parseStruct(struc);
             }
         }
 
@@ -80,7 +80,5 @@ namespace KIARA
             string collapsed = regex.Replace(idlString, @" ");
             return collapsed;
         }
-
-        private StructParser StructParser = new StructParser();
     }
 }

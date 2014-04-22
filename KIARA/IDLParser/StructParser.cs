@@ -8,6 +8,8 @@ namespace KIARA
 {
     internal class StructParser
     {
+        internal static StructParser Instance = new StructParser();
+
         internal void parseStruct(string structDefinition)
         {
             string structName = parseName(structDefinition);
@@ -77,11 +79,11 @@ namespace KIARA
 
             if (memberIsArray(memberType))
             {
-                typeObject = arrayParser.ParseArray(memberType);
+                typeObject = ArrayParser.Instance.ParseArray(memberType);
             }
             else if (memberIsMap(memberType))
             {
-                typeObject = mapParser.ParseMap(memberType);
+                typeObject = MapParser.Instance.ParseMap(memberType);
             }
             else
             {
@@ -102,8 +104,5 @@ namespace KIARA
             bool isMap = Regex.IsMatch(memberType, "map<[A-Za-z0-9_]*,[A-Za-z0-9_]*>");
             return isMap;
         }
-
-        private ArrayParser arrayParser = new ArrayParser();
-        private MapParser mapParser = new MapParser();
     }
 }
