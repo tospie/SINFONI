@@ -249,5 +249,15 @@ namespace KIARAUnitTests
             Assert.IsTrue(ktd_mapWithStructKeys.canBeAssignedFromType(typeof(Dictionary<nestedTestClass, string>)));
             Assert.IsTrue(ktd_mapWithStructKeys.canBeAssignedFromType(typeof(Dictionary<nestedTestStruct, string>)));
         }
+
+        [Test()]
+        public void ShouldCacheValidMapping()
+        {
+            var KtdType = new KtdType("testType");
+            KtdType.members.Add("i16", KTD.Instance.GetKtdType("i16"));
+            KtdType.canBeAssignedFromType(typeof(List<nestedTestStruct>));
+            Assert.Contains(typeof(List<nestedTestStruct>), KtdType.validMappings.Keys);
+            Assert.IsFalse(KtdType.validMappings[typeof(List<nestedTestStruct>)]);
+        }
     }
 }
