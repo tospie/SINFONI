@@ -32,6 +32,10 @@ namespace KIARA
 
         public void RegisterType(KtdType type)
         {
+            if(type.Name == null
+                || type.Name.Length == 0)
+                throw new InvalidTypeNameException();
+
             if (registeredTypes.ContainsKey(type.Name))
                 throw new TypeNameConflictException(type.Name);
 
