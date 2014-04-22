@@ -6,8 +6,10 @@ using System.Text.RegularExpressions;
 
 namespace KIARA
 {
-    class IDLParser
+    public class IDLParser
     {
+        public static IDLParser Instance = new IDLParser();
+
         const string idlString = @"struct AttributeDef {
                             string Guid;
                             // Strange Name
