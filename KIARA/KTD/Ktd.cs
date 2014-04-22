@@ -20,7 +20,7 @@ namespace KIARA
             return registeredTypes.ContainsKey(name);
         }
 
-        public KtdType GetType(string name)
+        public KtdType GetKtdType(string name)
         {
             if (!ContainsType(name))
             {

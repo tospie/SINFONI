@@ -87,7 +87,7 @@ namespace KIARA
             }
             else
             {
-                typeObject = KTD.Instance.GetType(memberType);
+                typeObject = KTD.Instance.GetKtdType(memberType);
             }
 
             return typeObject;
