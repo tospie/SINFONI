@@ -108,6 +108,13 @@ namespace KIARAUnitTests
         }
 
         [Test()]
+        public void ShouldThrowExceptionOnInvalidTypeName()
+        {
+            Assert.Throws<InvalidTypeNameException>(() => KTD.Instance.RegisterType(new KtdType()));
+            Assert.Throws<InvalidTypeNameException>(() => KTD.Instance.RegisterType(new KtdType("")));
+        }
+
+        [Test()]
         public void ShouldReturnRequestedType()
         {
             KtdType requestedType = KTD.Instance.GetKtdType("i16");
