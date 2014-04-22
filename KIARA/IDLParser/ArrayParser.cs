@@ -18,7 +18,7 @@ namespace KIARA
             int indexEnd = arrayDefinition.IndexOf('>');
             string elementType = arrayDefinition.Substring(indexStart, indexEnd - indexStart);
             
-            result.elementType = KTD.Instance.GetType(elementType);
+            result.elementType = KTD.Instance.GetType(elementType.Trim());
             return result;
         }
     }

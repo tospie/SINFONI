@@ -19,8 +19,8 @@ namespace KIARA
             string valueType = mapDefinition.Substring(comma + 1, closingBracket - comma - 1);
 
             KtdMap result = new KtdMap();
-            result.keyType = KTD.Instance.GetType(keyType);
-            result.elementType = KTD.Instance.GetType(valueType);
+            result.keyType = KTD.Instance.GetType(keyType.Trim());
+            result.elementType = KTD.Instance.GetType(valueType.Trim());
 
             return result;
         }
