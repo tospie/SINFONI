@@ -88,6 +88,15 @@ namespace KIARA
 
         private bool canBeAssignedFromComplexType(Type type)
         {
+            if (validMappings.ContainsKey(type))
+                return validMappings[type];
+
+            else
+                return validMappingForTypeExists(type);
+        }
+
+        private bool validMappingForTypeExists(Type type)
+        {
             var fields = type.GetFields();
             var properties = type.GetProperties();
 
@@ -98,8 +107,13 @@ namespace KIARA
                     || memberCanBeAssignedFromFields(member, fields);
 
                 if (!memberCanBeAssigned)
+                {
+                    validMappings[type] = false;
                     return false;
+                }
             }
+
+            validMappings[type] = true;
             return true;
         }
 
@@ -152,6 +166,7 @@ namespace KIARA
 
         internal Dictionary<string, KtdType> members = new Dictionary<string,KtdType>();
         internal Dictionary<Type, Delegate> mappings = new Dictionary<Type, Delegate>();
+        internal Dictionary<Type, bool> validMappings = new Dictionary<Type, bool>();
     }
  
 }
