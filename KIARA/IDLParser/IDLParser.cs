@@ -52,7 +52,7 @@ namespace KIARA
 
         private string[] getStructureDefinitions(string idlString)
         {
-            Regex structRegex = new Regex("[struct [A-Za-z0-9_]* {[A-Za-z0-9_<,>;/\n ]*}[\n ]*]*");
+            Regex structRegex = new Regex("struct [A-Za-z0-9_]* {[A-Za-z0-9_<,>;/\n ]*}[\n ]*");
             MatchCollection matches = structRegex.Matches(idlString);            
             var results = new string[matches.Count];
             for (int i = 0; i < matches.Count; i++)
