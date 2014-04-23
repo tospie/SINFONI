@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using KIARA;
+using KIARA.Exceptions;
 using NUnit.Framework;
 
 namespace KIARAUnitTests
@@ -10,11 +11,14 @@ namespace KIARAUnitTests
     [TestFixture()]
     class TestIDLParser
     {
+        /*
         [Test()]
         public void ParseExampleIDL()
         {
             IDLParser.Instance.parseIDL();
         }
+        */
+        [SetUp()]
         public void SetUp()
         {
             KTD.Instance = new KTD();
@@ -97,6 +101,27 @@ namespace KIARAUnitTests
 
             var parsedArray = KTD.Instance.GetKtdType("ArrayStruct").members["testArray"];
             Assert.AreEqual(typeof(KtdArray), parsedArray.GetType());
+        }
+
+        [Test()]
+        public void ShouldThrowExceptionOnBadMemberDefinition()
+        {
+            string idl = @"struct ArrayStruct {
+                            struct another struct {};
+                            array<i16> testArray;
+                         }";
+            Assert.Throws<IDLParseException>(() => IDLParser.Instance.parseIDL(idl));
+        }
+
+        [Test()]
+        public void ShouldThrowExceptionOnBadObjectDefinition()
+        {
+            string idl = @"struct ArrayStruct {
+                            array<i16> testArray;
+                         }
+
+                         i32 MisplacedBasetype;";
+            Assert.Throws<IDLParseException>(() => IDLParser.Instance.parseIDL(idl));
         }
     }
 }
