@@ -11,6 +11,12 @@ namespace KIARAUnitTests
     class TestIDLParser
     {
         [Test()]
+        public void ParseExampleIDL()
+        {
+            IDLParser.Instance.parseIDL();
+        }
+
+        [Test()]
         public void ShouldParseCorrectArrayType()
         {
             var intArray = ArrayParser.Instance.ParseArray("array<i16>");
