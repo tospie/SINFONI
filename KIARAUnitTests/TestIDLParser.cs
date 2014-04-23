@@ -11,13 +11,6 @@ namespace KIARAUnitTests
     [TestFixture()]
     class TestIDLParser
     {
-        /*
-        [Test()]
-        public void ParseExampleIDL()
-        {
-            IDLParser.Instance.parseIDL();
-        }
-        */
         [SetUp()]
         public void SetUp()
         {
