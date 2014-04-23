@@ -91,6 +91,7 @@ namespace KIARA
 
             string trimmedIdlString = trimIdlString(idlString);
             string[] structureDefinitions = getStructureDefinitions(trimmedIdlString);
+            string[] serviceDefinitions = getServiceDefinitions(trimmedIdlString);
             foreach (string struc in structureDefinitions)
             {
                 StructParser.Instance.parseStruct(struc);
@@ -101,6 +102,19 @@ namespace KIARA
         {
             Regex structRegex = new Regex("struct [A-Za-z0-9_]* {[A-Za-z0-9_<,>;/()\n ]*}[\n ]*");
             MatchCollection matches = structRegex.Matches(idlString);            
+            var results = new string[matches.Count];
+            for (int i = 0; i < matches.Count; i++)
+            {
+                results[i] = matches[i].Value;
+            }
+
+            return results;
+        }
+
+        private string[] getServiceDefinitions(string idlString)
+        {
+            Regex serviceRegex = new Regex("service[\n ]*[A-Za-z0-9_]* [\n ]*{[A-Za-z0-9_<,>'-;/().@\n ]*}[\n ]*");
+            MatchCollection matches = serviceRegex.Matches(idlString);
             var results = new string[matches.Count];
             for (int i = 0; i < matches.Count; i++)
             {
