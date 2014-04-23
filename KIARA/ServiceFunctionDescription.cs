@@ -5,7 +5,7 @@ using System.Text;
 
 namespace KIARA
 {
-    public class ServiceDescription
+    public class ServiceFunctionDescription
     {
         string Name { get; internal set; }
         KtdType ReturnType { get; internal set; }
