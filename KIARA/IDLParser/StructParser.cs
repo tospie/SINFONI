@@ -10,21 +10,7 @@ namespace KIARA
     {
         internal static StructParser Instance = new StructParser();
 
-        internal void parseStruct(string structDefinition)
-        {
-            string structName = parseName(structDefinition);
-            KtdType newStruct = new KtdType(structName);
-
-            string[] memberDefinitions = parseMember(structDefinition);
-            foreach (string memberDef in memberDefinitions)
-            {
-                createKtdTypeForMember(memberDef, newStruct);
-            }
-
-            KTD.Instance.RegisterType(newStruct);
-        }
-
-        private string parseName(string structDefinition)
+        internal string parseName(string structDefinition)
         {
             Regex nameRegEx = new Regex("struct ([A-Za-z0-9_]*) [{}._<,>; ]*");
             Match nameMatch = nameRegEx.Match(structDefinition);
@@ -32,15 +18,7 @@ namespace KIARA
             return name;
         }
 
-        private string[] parseMember(string structDefinition)
-        {
-            Regex memberRegEx = new Regex("[._ ]*{([A-Za-z0-9_<,>;/\n ]*)}[ ]*");
-            Match memberMatch = memberRegEx.Match(structDefinition);
-            string member = memberMatch.Groups[1].Value;
-            return member.Split('\n');
-        }
-
-        private void createKtdTypeForMember(string memberDefinition, KtdType createdStruct)
+        internal void createKtdTypeForMember(string memberDefinition, KtdType createdStruct)
         {
             if (!memberDefinition.Contains(';'))
                 return;
