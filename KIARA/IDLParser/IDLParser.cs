@@ -3,18 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using KIARA.Exceptions;
 
 namespace KIARA
 {
     public class IDLParser
     {
+        private enum ParseMode
+        {
+            COMMENT,
+            STRUCT,
+            SERVICE,
+            NONE
+        }
+
         public static IDLParser Instance = new IDLParser();
 
         #region ExampleIDL
         const string idlString = @"struct AttributeDef {
                             string Guid;
                             // Strange Name
-                            string Name;
+                            string Name; /* This is some strange name assigned to the line */
                             any DefaultValue; // Some stuff
 
                             string Type;  // contains AssemblyQualifiedName of the type
@@ -88,60 +97,119 @@ namespace KIARA
 
         internal void parseIDL(string idlString = idlString)
         {
+            string[] idlLines =
+                idlString.Split(new string[] { Environment.NewLine },StringSplitOptions.RemoveEmptyEntries);
 
-            string trimmedIdlString = trimIdlString(idlString);
-            string[] structureDefinitions = getStructureDefinitions(trimmedIdlString);
-            string[] serviceDefinitions = getServiceDefinitions(trimmedIdlString);
-            foreach (string struc in structureDefinitions)
+            foreach(string line in idlLines)
             {
-                StructParser.Instance.parseStruct(struc);
+                ++lineNumberParsed;
+                parseLine(line.Trim());
             }
         }
 
-        private string[] getStructureDefinitions(string idlString)
+        private void parseLine(string line)
         {
-            Regex structRegex = new Regex("struct [A-Za-z0-9_]* {[A-Za-z0-9_<,>;/()\n ]*}[\n ]*");
-            MatchCollection matches = structRegex.Matches(idlString);            
-            var results = new string[matches.Count];
-            for (int i = 0; i < matches.Count; i++)
+            if(lineIsComment(line))
+                return;
+
+            line = removeCommentsFromLine(line);
+
+            if (currentlyParsing == ParseMode.NONE)
             {
-                results[i] = matches[i].Value;
+                startObjectParsing(line);
+            }
+            else if (currentlyParsing == ParseMode.STRUCT)
+            {
+                parseLineOfStruct(line);
+            }
+        }
+
+        private void startObjectParsing(string line)
+        {
+            if (line.Contains("struct") && line.IndexOf("struct") == 0)
+            {
+                var structName = StructParser.Instance.parseName(line);
+                currentlyParsedStruct = new KtdType(structName);
+                currentlyParsing = ParseMode.STRUCT;
+            }
+            else if (line.Contains("service") && line.IndexOf("service") == 0)
+            {
+                currentlyParsing = ParseMode.SERVICE;
+            }
+            else
+            {
+                throw new IDLParseException(line, lineNumberParsed);
+            }
+        }
+
+        private void parseLineOfStruct(string line)
+        {
+            // Line contains a closing bracket. In this case, struct definition is finished
+            // and parsing for the current struct can be finished
+            if (line.Contains('}'))
+            {
+                handleLastLineOfStruct(line);
+            }
+            else
+            {
+                StructParser.Instance.createKtdTypeForMember(line, currentlyParsedStruct);
+            }
+        }
+
+        private void handleLastLineOfStruct(string line)
+        {
+            // The closing bracket may appear at the end of the actual last line of the struct definition. Treat the
+            // content of the line up to the closing bracket as member definition and try to parse it
+            if (line.IndexOf('}') > 0)
+            {
+                string lastLine = line.Split('}')[0].Trim();
+                StructParser.Instance.createKtdTypeForMember(lastLine, currentlyParsedStruct);
+                // finalize parsing the struct after having parsed the last line.
+                finalizeStructParsing();
+            }
+            // If the closing bracket is the first character in line, no new information is added to the struct.
+            else
+            {
+                finalizeStructParsing();
+
+                // If the closing bracket is the first character in the line, but there is more content after that,
+                // treat the remaining content as content of a new line.
+                if (line.Length > 1)
+                    parseLine(line.Split('}')[1]);
+            }
+        }
+
+        private void finalizeStructParsing()
+        {
+            currentlyParsing = ParseMode.NONE;
+            KTD.Instance.RegisterType(currentlyParsedStruct);
+        }
+
+        private bool lineIsComment(string line)
+        {
+            return currentlyParsing == ParseMode.COMMENT
+                || line.Contains("//") && line.IndexOf("//") == 0
+                || line.Contains("/*") && line.IndexOf("/*") == 0;
+        }
+
+        private string removeCommentsFromLine(string line)
+        {
+            if (line.Contains("//"))
+                line = line.Substring(0, line.IndexOf("//"));
+
+            if (line.Contains("/*"))
+            {
+                if (line.Contains("*/"))
+                    line = line.Remove(line.IndexOf("/*"), line.IndexOf("*/") - line.IndexOf("/*") + 2);
+                else
+                    line = line.Substring(0, line.IndexOf("/*"));
             }
 
-            return results;
+            return line.Trim();
         }
 
-        private string[] getServiceDefinitions(string idlString)
-        {
-            Regex serviceRegex = new Regex("service[\n ]*[A-Za-z0-9_]* [\n ]*{[A-Za-z0-9_<,>'-;/().@\n ]*}[\n ]*");
-            MatchCollection matches = serviceRegex.Matches(idlString);
-            var results = new string[matches.Count];
-            for (int i = 0; i < matches.Count; i++)
-            {
-                results[i] = matches[i].Value;
-            }
-
-            return results;
-        }
-
-        private string trimIdlString(string idlString)
-        {
-            idlString = removeTabsAndNewlines(idlString);
-            idlString = collapseWhitespaces(idlString);
-            return idlString;
-        }
-
-        private string removeTabsAndNewlines(string idlString)
-        {
-            string escapedString = Regex.Replace(idlString, @"\t|\r", "");
-            return escapedString;
-        }
-
-        private string collapseWhitespaces(string idlString)
-        {
-            Regex regex = new Regex(@"[ ]{2,}");
-            string collapsed = regex.Replace(idlString, @" ");
-            return collapsed;
-        }
+        private ParseMode currentlyParsing = ParseMode.NONE;
+        KtdType currentlyParsedStruct;
+        int lineNumberParsed = 0;
     }
 }
