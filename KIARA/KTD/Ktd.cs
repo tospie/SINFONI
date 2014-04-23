@@ -17,7 +17,7 @@ namespace KIARA
         /// </summary>
         public static KTD Instance = new KTD();
 
-        private KTD()
+        internal KTD()
         {
             registerBaseTypes();
         }
