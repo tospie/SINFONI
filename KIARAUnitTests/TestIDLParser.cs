@@ -15,6 +15,10 @@ namespace KIARAUnitTests
         {
             IDLParser.Instance.parseIDL();
         }
+        public void SetUp()
+        {
+            KTD.Instance = new KTD();
+        }
 
         [Test()]
         public void ShouldParseCorrectArrayType()
