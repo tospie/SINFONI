@@ -7,8 +7,8 @@ namespace KIARA
 {
     public class ServiceFunctionDescription
     {
-        string Name { get; internal set; }
-        KtdType ReturnType { get; internal set; }
+        public string Name { get; internal set; }
+        public KtdType ReturnType { get; internal set; }
 
         internal Dictionary<string, KtdType> parameters;
     }
