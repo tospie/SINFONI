@@ -33,6 +33,7 @@ namespace KIARA
         {
             lineNumberParsed = 0;
             currentlyParsing = ParseMode.NONE;
+            wasParsingBeforeComment = ParseMode.NONE;
 
             string[] idlLines =
                 idlString.Split(new string[] { Environment.NewLine },StringSplitOptions.RemoveEmptyEntries);
