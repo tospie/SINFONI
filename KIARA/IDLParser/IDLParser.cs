@@ -97,7 +97,7 @@ namespace KIARA
         }
 
         /// <summary>
-        /// Checks if a line is actually a comment (C-Style or C++ Style)
+        /// Checks if a line is actually entirely a comment (C-Style or C++ Style)
         /// </summary>
         /// <param name="line">Line of the IDL that is parsed</param>
         /// <returns>true, if the line is a comment</returns>
