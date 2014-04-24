@@ -227,6 +227,8 @@ namespace KIARAUnitTests
         public void ShouldParseExampleIDLWithoutError()
         {
             Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL());
+            var services = ServiceRegistry.Instance.services;
+            var types = KTD.Instance.registeredTypes;
         }
     }
 }
