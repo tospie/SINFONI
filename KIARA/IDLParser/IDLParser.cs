@@ -97,6 +97,9 @@ namespace KIARA
 
         internal void parseIDL(string idlString = idlString)
         {
+            lineNumberParsed = 0;
+            currentlyParsing = ParseMode.NONE;
+
             string[] idlLines =
                 idlString.Split(new string[] { Environment.NewLine },StringSplitOptions.RemoveEmptyEntries);
 
