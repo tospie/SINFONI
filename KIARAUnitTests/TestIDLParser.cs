@@ -117,5 +117,111 @@ namespace KIARAUnitTests
                          i32 MisplacedBasetype;";
             Assert.Throws<IDLParseException>(() => IDLParser.Instance.parseIDL(idl));
         }
+
+        [Test()]
+        public void ShouldParseEmptyServiceDefinition()
+        {
+            string idl = @"service serverSync
+                            {
+                            }";
+            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+            Assert.Contains("serverSync", ServiceRegistry.Instance.services.Keys);
+        }
+
+        [Test()]
+        public void ShouldParseServiceDefinitionWithVoidNoParams()
+        {
+            string idl = @"service serverSync
+                            {
+                                // Returns this server's sync ID.
+                                void getSyncID();
+                            }";
+            Assert.DoesNotThrow(()=>IDLParser.Instance.parseIDL(idl));
+            Assert.IsTrue(ServiceRegistry.Instance.services["serverSync"].ContainsServiceFunction("getSyncID"));
+
+            var serviceFunction = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("getSyncID");
+            Assert.AreEqual("void", serviceFunction.ReturnType.Name);
+            Assert.IsEmpty(serviceFunction.parameters);
+        }
+
+        [Test()]
+        public void ShouldParseTypedServiceFunctionWithParameters()
+        {
+            string idl = @"service serverSync
+                            {
+                                string testFunction(i32 param);
+                            }";
+            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+            Assert.IsTrue(ServiceRegistry.Instance.services["serverSync"].ContainsServiceFunction("testFunction"));
+
+            var serviceFunction = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction");
+            Assert.AreEqual(KTD.Instance.GetKtdType("string"), serviceFunction.ReturnType);
+            Assert.Contains("param", serviceFunction.parameters.Keys);
+
+            var parameter = serviceFunction.parameters["param"];
+            Assert.AreEqual(KTD.Instance.GetKtdType("i32"), parameter);
+        }
+
+        [Test()]
+        public void ShouldParseServiceFunctionWithComplexType()
+        {
+            string idl = @"service serverSync
+                            {
+                                array<string> testFunction1(i32 param);
+                                map<string, boolean> testFunction2(i32 param);
+                            }";
+            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+            var testFunction1 = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction1");
+            var testFunction2 = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction2");
+
+            Assert.AreEqual(typeof(KtdArray), testFunction1.ReturnType.GetType());
+            KtdArray array = (KtdArray)testFunction1.ReturnType;
+            Assert.AreEqual(KTD.Instance.GetKtdType("string"), array.elementType);
+
+            Assert.AreEqual(typeof(KtdMap), testFunction2.ReturnType.GetType());
+            KtdMap map = (KtdMap)testFunction2.ReturnType;
+            Assert.AreEqual(KTD.Instance.GetKtdType("string"), map.keyType);
+            Assert.AreEqual(KTD.Instance.GetKtdType("boolean"), map.elementType);
+        }
+
+        [Test()]
+        public void ShouldParseServiceFunctionWithComplexParameters()
+        {
+            string idl = @"service serverSync
+                            {
+                                void testFunction1(array<i32> param);
+                                void testFunction2(map<string, boolean> param);
+                            }";
+            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+
+            var testFunction1 = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction1");
+            var param1 = testFunction1.parameters["param"];
+            Assert.AreEqual(typeof(KtdArray), param1.GetType());
+            Assert.AreEqual(KTD.Instance.GetKtdType("i32"), ((KtdArray)param1).elementType);
+
+            var testFunction2 = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction2");
+            var param2 = testFunction2.parameters["param"];
+            Assert.AreEqual(typeof(KtdMap), param2.GetType());
+            Assert.AreEqual(KTD.Instance.GetKtdType("string"), ((KtdMap)param2).keyType);
+            Assert.AreEqual(KTD.Instance.GetKtdType("boolean"), ((KtdMap)param2).elementType);
+        }
+
+        [Test()]
+        public void ShouldParseServiceFunctionWithMultipleParameters()
+        {
+            string idl = @"service serverSync
+                            {
+                                void testFunction(string param1, array<i32> param2);                                
+                            }";
+            
+            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+            var testFunction = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction");
+            var param1 = testFunction.parameters["param1"];
+            var param2 = testFunction.parameters["param2"];
+
+            Assert.AreEqual(KTD.Instance.GetKtdType("string"), param1);
+            Assert.AreEqual(typeof(KtdArray), param2.GetType());
+            Assert.AreEqual(KTD.Instance.GetKtdType("i32"), ((KtdArray)param2).elementType);
+        }
     }
 }
