@@ -299,6 +299,53 @@ namespace KIARAUnitTests
             Assert.AreEqual(typeof(KtdArray), param2.GetType());
             Assert.AreEqual(KTD.Instance.GetKtdType("i32"), ((KtdArray)param2).elementType);
         }
+
+        [Test()]
+        public void ShouldHandleLineComments()
+        {
+            string idl = @"service serverSync
+                            {
+                                // This is a line comment
+                                void testFunction(string param1, array<i32> param2;
+                            }";
+            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+        }
+
+        [Test()]
+        public void ShouldHandleInlineComments()
+        {
+            string idl = @"service serverSync
+                            {
+                                void testFunction1(i32 p1 /* This is an inline comment */, string p2);
+                                void testFunction2(string param1, array<i32> param2); // This is another inline comment
+                            }";
+            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+        }
+
+        [Test()]
+        public void ShouldHandleBlockCommentsComments()
+        {
+            string idl = @"service serverSync
+                            {
+                                /* This is a block comment. Block comments will hopefully
+                                 * be treated correctly as well */
+                                void testFunction1;
+                            }";
+            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+        }
+
+        [Test()]
+        public void ShouldHandleBlockCommentsThatEndInline()
+        {
+            string idl = @"service serverSync
+                            {
+                                /* This is a block comment. Block comments will hopefully
+                                 * be treated correctly as well  */ void testFunction1;
+                            }";
+            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+            Assert.IsTrue(ServiceRegistry.Instance.GetService("serverSync").ContainsServiceFunction("testFunction1"));
+        }
+
         [Test()]
         public void ShouldParseExampleIDLWithoutError()
         {
