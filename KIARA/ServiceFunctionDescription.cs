@@ -10,6 +10,13 @@ namespace KIARA
         public string Name { get; internal set; }
         public KtdType ReturnType { get; internal set; }
 
-        internal Dictionary<string, KtdType> parameters;
+        internal ServiceFunctionDescription(string name, KtdType returnType)
+        {
+            Name = name;
+            ReturnType = returnType;
+        }
+
+        internal Dictionary<string, KtdType> parameters =
+            new Dictionary<string,KtdType>();
     }
 }

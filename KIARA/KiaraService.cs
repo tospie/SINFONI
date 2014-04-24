@@ -7,7 +7,14 @@ namespace KIARA
 {
     public class KiaraService
     {
-        Dictionary<string, ServiceFunctionDescription> serviceFunctions =
+        public string Name { get; internal set; }
+
+        public KiaraService(string name)
+        {
+            Name = name;
+        }
+
+        internal Dictionary<string, ServiceFunctionDescription> serviceFunctions =
             new Dictionary<string, ServiceFunctionDescription>();
     }
 }
