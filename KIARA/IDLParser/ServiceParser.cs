@@ -18,6 +18,27 @@ namespace KIARA
             currentlyParsedService = new KiaraService(name);
         }
 
+
+        private void parseParameters(string parameterDefinition, ServiceFunctionDescription functionDescription)
+        {
+            if (parameterDefinition.Length == 0)
+                return;
+
+            string[] parameters = parameterDefinition.Split(',');
+            foreach (string param in parameters)
+            {
+                createParameterForServiceFunction(param.Trim(), functionDescription);
+            }
+        }
+
+        private void createParameterForServiceFunction(string param, ServiceFunctionDescription functionDescription)
+        {
+            string[] values = param.Split(' ');
+            KtdType paramType = getKtdType(values[0].Trim());
+            string paramName = values[1].Trim();
+            functionDescription.parameters.Add(paramName, paramType);
+        }
+
         private KtdType getKtdType(string typeDefinition)
         {
             KtdType paramType;
