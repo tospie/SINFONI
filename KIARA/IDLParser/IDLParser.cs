@@ -7,6 +7,12 @@ using KIARA.Exceptions;
 
 namespace KIARA
 {
+    /// <summary>
+    /// Takes an IDL that is provided locally or at some remote place and translates its contents to an abstract
+    /// representation of types and services. Registeres specified types to the KTD and specified services to
+    /// the KIARA service registry and maps types specified in the IDL to the respective previously parsed
+    /// KTD Types
+    /// </summary>
     public class IDLParser
     {
         internal enum ParseMode
@@ -19,6 +25,10 @@ namespace KIARA
 
         public static IDLParser Instance = new IDLParser();
 
+        /// <summary>
+        /// Parses a complete IDL
+        /// </summary>
+        /// <param name="idlString">Complete IDL</param>
         internal void parseIDL(string idlString)
         {
             lineNumberParsed = 0;
@@ -34,6 +44,11 @@ namespace KIARA
             }
         }
 
+        /// <summary>
+        /// Parses a single line of the IDL. Discards commented lines. Intiates parsing of struct or service
+        /// definitions if line defines a new struct or service
+        /// </summary>
+        /// <param name="line">Line of the IDL that is parsed</param>
         internal void parseLine(string line)
         {
             if(lineIsComment(line) || line.Length == 0)
@@ -55,6 +70,13 @@ namespace KIARA
             }
         }
 
+        /// <summary>
+        /// Parser is currently not parsing an object (struct or service) and encounters a new line.
+        /// The line will be interpreted as either struct or service definition, initiating the respective
+        /// parsing. If the line cannot be matched to either struct or service definition, an exception
+        /// is thrown.
+        /// </summary>
+        /// <param name="line">Line of the IDL that is parsed</param>
         private void startObjectParsing(string line)
         {
             if (line.Contains("struct") && line.IndexOf("struct") == 0)
@@ -73,6 +95,11 @@ namespace KIARA
             }
         }
 
+        /// <summary>
+        /// Checks if a line is actually a comment (C-Style or C++ Style)
+        /// </summary>
+        /// <param name="line">Line of the IDL that is parsed</param>
+        /// <returns>true, if the line is a comment</returns>
         private bool lineIsComment(string line)
         {
             return currentlyParsing == ParseMode.COMMENT
@@ -80,6 +107,11 @@ namespace KIARA
                 || line.Contains("/*") && line.IndexOf("/*") == 0;
         }
 
+        /// <summary>
+        /// Removes inline comments from a line (e.g. next to a member definition)
+        /// </summary>
+        /// <param name="line">Line of the IDL containing the comment</param>
+        /// <returns>Line with comments removed</returns>
         private string removeCommentsFromLine(string line)
         {
             if (line.Contains("//"))
