@@ -8,13 +8,17 @@ namespace KIARA
 {
     internal class ServiceParser
     {
-        internal string parseName(string serviceDefinition)
+        internal static ServiceParser Instance = new ServiceParser();
+
+        internal void startServiceParsing(string serviceDefinition)
         {
             Regex nameRegEx = new Regex("service ([A-Za-z0-9_]*)[{}._<,>; ]*");
             Match nameMatch = nameRegEx.Match(serviceDefinition);
             string name = nameMatch.Groups[1].Value;
-            return name;
+            currentlyParsedService = new KiaraService(name);
+        }
         }
 
+        KiaraService currentlyParsedService;
     }
 }

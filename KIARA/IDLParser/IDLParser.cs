@@ -134,6 +134,7 @@ namespace KIARA
             else if (line.Contains("service") && line.IndexOf("service") == 0)
             {
                 currentlyParsing = ParseMode.SERVICE;
+                ServiceParser.Instance.startServiceParsing(line);
             }
             else
             {
