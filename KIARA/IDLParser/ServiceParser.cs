@@ -81,6 +81,13 @@ namespace KIARA
 
             return paramType;
         }
+
+        private void finalizeServiceParsing(string lastLine)
+        {
+            ServiceRegistry.Instance.services.Add(currentlyParsedService.Name, currentlyParsedService);
+            IDLParser.Instance.currentlyParsing = IDLParser.ParseMode.NONE;
+            if (lastLine.Length > 1)
+                IDLParser.Instance.parseLine(lastLine.Split('}')[1].Trim());
         }
 
         KiaraService currentlyParsedService;
