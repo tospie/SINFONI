@@ -320,6 +320,11 @@ namespace KIARAUnitTests
                                 void testFunction2(string param1, array<i32> param2); // This is another inline comment
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+            Assert.IsTrue(ServiceRegistry.Instance.GetService("serverSync").ContainsServiceFunction("testFunction1"));
+            var testFunction = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction1");
+
+            Assert.Contains("p1", testFunction.parameters.Keys);
+            Assert.Contains("p2", testFunction.parameters.Keys);
         }
 
         [Test()]
@@ -332,6 +337,7 @@ namespace KIARAUnitTests
                                 void testFunction1();
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+            Assert.IsTrue(ServiceRegistry.Instance.GetService("serverSync").ContainsServiceFunction("testFunction1"));
         }
 
         [Test()]
