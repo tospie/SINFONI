@@ -83,6 +83,7 @@ namespace KIARA
 
             RegisterType(new KtdType("any"));
         }
-        private Dictionary<string, KtdType> registeredTypes = new Dictionary<string,KtdType>();
+
+        internal Dictionary<string, KtdType> registeredTypes = new Dictionary<string,KtdType>();
     }
 }
