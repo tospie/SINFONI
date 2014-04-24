@@ -52,7 +52,8 @@ namespace KIARA
 
         private ServiceFunctionDescription createTypedServiceFunction(string nameAndType)
         {
-            string[] values = nameAndType.Split(' ');
+            string[] values = splitDeclarationInNameAndType(nameAndType);
+
             KtdType returnType;
             if (values[0].Trim() == "void")
                 returnType = new KtdType("void");
@@ -76,10 +77,28 @@ namespace KIARA
 
         private void createParameterForServiceFunction(string param, ServiceFunctionDescription functionDescription)
         {
-            string[] values = param.Split(' ');
+            string[] values = splitDeclarationInNameAndType(param);
+
             KtdType paramType = getKtdType(values[0].Trim());
             string paramName = values[1].Trim();
             functionDescription.parameters.Add(paramName, paramType);
+        }
+
+        private string[] splitDeclarationInNameAndType(string declaration)
+        {
+            string[] values;
+            if (declaration.Contains("array<") || declaration.Contains("map<"))
+            {
+                declaration = Regex.Replace(declaration, @"\s+", "");
+                values = declaration.Split('>');
+                values[0] = values[0] + '>';
+            }
+            else
+            {
+                values = declaration.Split(' ');
+            }
+
+            return values;
         }
 
         private KtdType getKtdType(string typeDefinition)
