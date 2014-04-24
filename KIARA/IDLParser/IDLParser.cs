@@ -9,7 +9,7 @@ namespace KIARA
 {
     public class IDLParser
     {
-        private enum ParseMode
+        internal enum ParseMode
         {
             COMMENT,
             STRUCT,
@@ -107,7 +107,7 @@ namespace KIARA
             }
         }
 
-        private void parseLine(string line)
+        internal void parseLine(string line)
         {
             if(lineIsComment(line))
                 return;
@@ -120,7 +120,7 @@ namespace KIARA
             }
             else if (currentlyParsing == ParseMode.STRUCT)
             {
-                parseLineOfStruct(line);
+                StructParser.Instance.parseLineOfStruct(line);
             }
         }
 
@@ -128,8 +128,7 @@ namespace KIARA
         {
             if (line.Contains("struct") && line.IndexOf("struct") == 0)
             {
-                var structName = StructParser.Instance.parseName(line);
-                currentlyParsedStruct = new KtdType(structName);
+                StructParser.Instance.startStructParsing(line);
                 currentlyParsing = ParseMode.STRUCT;
             }
             else if (line.Contains("service") && line.IndexOf("service") == 0)
@@ -140,49 +139,6 @@ namespace KIARA
             {
                 throw new IDLParseException(line, lineNumberParsed);
             }
-        }
-
-        private void parseLineOfStruct(string line)
-        {
-            // Line contains a closing bracket. In this case, struct definition is finished
-            // and parsing for the current struct can be finished
-            if (line.Contains('}'))
-            {
-                handleLastLineOfStruct(line);
-            }
-            else
-            {
-                StructParser.Instance.createKtdTypeForMember(line, currentlyParsedStruct);
-            }
-        }
-
-        private void handleLastLineOfStruct(string line)
-        {
-            // The closing bracket may appear at the end of the actual last line of the struct definition. Treat the
-            // content of the line up to the closing bracket as member definition and try to parse it
-            if (line.IndexOf('}') > 0)
-            {
-                string lastLine = line.Split('}')[0].Trim();
-                StructParser.Instance.createKtdTypeForMember(lastLine, currentlyParsedStruct);
-                // finalize parsing the struct after having parsed the last line.
-                finalizeStructParsing();
-            }
-            // If the closing bracket is the first character in line, no new information is added to the struct.
-            else
-            {
-                finalizeStructParsing();
-
-                // If the closing bracket is the first character in the line, but there is more content after that,
-                // treat the remaining content as content of a new line.
-                if (line.Length > 1)
-                    parseLine(line.Split('}')[1]);
-            }
-        }
-
-        private void finalizeStructParsing()
-        {
-            currentlyParsing = ParseMode.NONE;
-            KTD.Instance.RegisterType(currentlyParsedStruct);
         }
 
         private bool lineIsComment(string line)
@@ -208,8 +164,8 @@ namespace KIARA
             return line.Trim();
         }
 
-        private ParseMode currentlyParsing = ParseMode.NONE;
-        KtdType currentlyParsedStruct;
+        internal ParseMode currentlyParsing = ParseMode.NONE;
+        ServiceFunctionDescription currentlyParsedService;
         int lineNumberParsed = 0;
     }
 }
