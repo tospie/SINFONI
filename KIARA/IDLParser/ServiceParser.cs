@@ -67,8 +67,8 @@ namespace KIARA
         {
             if (parameterDefinition.Length == 0)
                 return;
-
-            string[] parameters = parameterDefinition.Split(',');
+            parameterDefinition = replaceMapKeyValueDelimiter(parameterDefinition);
+            string[] parameters = parameterDefinition.Split(';');
             foreach (string param in parameters)
             {
                 createParameterForServiceFunction(param.Trim(), functionDescription);
@@ -99,6 +99,28 @@ namespace KIARA
             }
 
             return values;
+        }
+
+        private string replaceMapKeyValueDelimiter(string paramDefinition)
+        {
+            bool inMapDef = false;
+            int currentIndex = 0;
+            StringBuilder replacedStringBuilder = new StringBuilder(paramDefinition);
+            foreach (char c in paramDefinition)
+            {
+                if (c == '<')
+                    inMapDef = true;
+                if (c == '>')
+                    inMapDef = false;
+
+                if (c == ',' && !inMapDef)
+                {
+                    replacedStringBuilder.Remove(currentIndex, 1);
+                    replacedStringBuilder.Insert(currentIndex, ';');
+                }
+                currentIndex++;
+            }
+            return replacedStringBuilder.ToString();
         }
 
         private KtdType getKtdType(string typeDefinition)
