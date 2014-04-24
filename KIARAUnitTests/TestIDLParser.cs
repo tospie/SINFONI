@@ -223,5 +223,10 @@ namespace KIARAUnitTests
             Assert.AreEqual(typeof(KtdArray), param2.GetType());
             Assert.AreEqual(KTD.Instance.GetKtdType("i32"), ((KtdArray)param2).elementType);
         }
+        [Test()]
+        public void ShouldParseExampleIDLWithoutError()
+        {
+            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL());
+        }
     }
 }
