@@ -306,7 +306,7 @@ namespace KIARAUnitTests
             string idl = @"service serverSync
                             {
                                 // This is a line comment
-                                void testFunction(string param1, array<i32> param2;
+                                void testFunction(string param1, array<i32> param2);
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
         }
@@ -329,7 +329,7 @@ namespace KIARAUnitTests
                             {
                                 /* This is a block comment. Block comments will hopefully
                                  * be treated correctly as well */
-                                void testFunction1;
+                                void testFunction1();
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
         }
@@ -340,7 +340,7 @@ namespace KIARAUnitTests
             string idl = @"service serverSync
                             {
                                 /* This is a block comment. Block comments will hopefully
-                                 * be treated correctly as well  */ void testFunction1;
+                                 * be treated correctly as well  */ void testFunction1();
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
             Assert.IsTrue(ServiceRegistry.Instance.GetService("serverSync").ContainsServiceFunction("testFunction1"));
