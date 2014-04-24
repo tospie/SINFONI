@@ -15,6 +15,7 @@ namespace KIARAUnitTests
         public void SetUp()
         {
             KTD.Instance = new KTD();
+            ServiceRegistry.Instance = new ServiceRegistry();
         }
 
         [Test()]
