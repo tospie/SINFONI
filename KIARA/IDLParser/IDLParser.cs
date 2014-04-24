@@ -119,6 +119,13 @@ namespace KIARA
                 || line.Contains("//") && line.IndexOf("//") == 0;
         }
 
+        /// <summary>
+        /// Lines may be partially commented out, either by commencing line comments at the end of the line, or by
+        /// ending block comments within the line. Those comments are removed, and the remaining line is handled by
+        /// the IDL parser
+        /// </summary>
+        /// <param name="line">Line of the IDL that contains a comment</param>
+        /// <returns>Line without the commented part</returns>
         private string removeCommentedParts(string line)
         {
             if (line.Contains("//"))
@@ -128,16 +135,7 @@ namespace KIARA
 
             if (line.Contains("/*"))
             {
-                if (line.Contains("*/"))
-                {
-                    line = line.Remove(line.IndexOf("/*"), line.IndexOf("*/") - line.IndexOf("/*") + 2);
-                }
-                else
-                {
-                    line = line.Substring(0, line.IndexOf("/*"));
-                    wasParsingBeforeComment = currentlyParsing;
-                    currentlyParsing = ParseMode.COMMENT;
-                }
+                line = removeBlockCommentStartingInLine(line);
             }
 
             else if (line.Contains("*/"))
@@ -146,6 +144,28 @@ namespace KIARA
             }
 
             return line.Trim();
+        }
+
+        /// <summary>
+        /// A block comment may start within a line, and either also end within this line, or span multiple lines
+        /// starting in the current line. For the first case, the complete inline comment is removed, for the
+        /// second, the entire rest of the line, with switching the parser to comment mode.
+        /// </summary>
+        /// <param name="line">Line of the IDL with starting block comment</param>
+        /// <returns>Line without the block comment part</returns>
+        private string removeBlockCommentStartingInLine(string line)
+        {
+            if (line.Contains("*/"))
+            {
+                line = line.Remove(line.IndexOf("/*"), line.IndexOf("*/") - line.IndexOf("/*") + 2);
+            }
+            else
+            {
+                line = line.Substring(0, line.IndexOf("/*"));
+                wasParsingBeforeComment = currentlyParsing;
+                currentlyParsing = ParseMode.COMMENT;
+            }
+            return line;
         }
 
         internal ParseMode currentlyParsing = ParseMode.NONE;
