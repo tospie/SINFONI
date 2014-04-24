@@ -92,7 +92,7 @@ namespace KIARA
                             // passed as a parameter.
                             void updateDoR(string newDoR);
                         }
-                        ";
+";
         #endregion
 
         internal void parseIDL(string idlString = idlString)
@@ -112,7 +112,7 @@ namespace KIARA
 
         internal void parseLine(string line)
         {
-            if(lineIsComment(line))
+            if(lineIsComment(line) || line.Length == 0)
                 return;
 
             line = removeCommentsFromLine(line);
