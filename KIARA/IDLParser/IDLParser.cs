@@ -122,6 +122,10 @@ namespace KIARA
             {
                 StructParser.Instance.parseLineOfStruct(line);
             }
+            else if (currentlyParsing == ParseMode.SERVICE)
+            {
+                ServiceParser.Instance.parseLineOfService(line, lineNumberParsed);
+            }
         }
 
         private void startObjectParsing(string line)

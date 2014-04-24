@@ -19,6 +19,19 @@ namespace KIARA
             currentlyParsedService = new KiaraService(name);
         }
 
+        internal void parseLineOfService(string line, int lineNumber)
+        {
+            if (line.Contains('{'))
+                line = line.Split('{')[1].Trim();
+            if (line.Length == 0)
+                return;
+
+            if (line.Contains('}'))
+                finalizeServiceParsing(line);
+            else
+                parseServiceFunctionDefinition(line, lineNumber);
+        }
+
         private void parseServiceFunctionDefinition(string line, int lineNumber)
         {
             if (!(line.Contains(';')
