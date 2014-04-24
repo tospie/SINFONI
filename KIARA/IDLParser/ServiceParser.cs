@@ -27,7 +27,7 @@ namespace KIARA
                 return;
 
             if (line.Contains('}'))
-                finalizeServiceParsing(line);
+                finalizeServiceParsing(line, lineNumber);
             else
                 parseServiceFunctionDefinition(line, lineNumber);
         }
@@ -136,11 +136,13 @@ namespace KIARA
             return paramType;
         }
 
-        private void finalizeServiceParsing(string lastLine)
+        private void finalizeServiceParsing(string lastLine, int lineNumber)
         {
+            if (lastLine.IndexOf('}') != 0)
+                parseLineOfService(lastLine.Split()[0].Trim(), lineNumber);
             ServiceRegistry.Instance.services.Add(currentlyParsedService.Name, currentlyParsedService);
             IDLParser.Instance.currentlyParsing = IDLParser.ParseMode.NONE;
-            if (lastLine.Length > 1)
+            if (lastLine.IndexOf('}') == 0 && lastLine.Length > 1)
                 IDLParser.Instance.parseLine(lastLine.Split('}')[1].Trim());
         }
 
