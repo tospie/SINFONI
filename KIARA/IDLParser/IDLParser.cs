@@ -54,7 +54,7 @@ namespace KIARA
             if(lineIsComment(line) || line.Length == 0)
                 return;
 
-            line = removeCommentsFromLine(line);
+            line = removeCommentedParts(line);
 
             if (currentlyParsing == ParseMode.NONE)
             {
@@ -102,34 +102,53 @@ namespace KIARA
         /// <returns>true, if the line is a comment</returns>
         private bool lineIsComment(string line)
         {
+            if (line.Contains("/*"))
+            {
+                if (line.IndexOf("/*") == 0)
+                {
+                    wasParsingBeforeComment = currentlyParsing;
+                    currentlyParsing = ParseMode.COMMENT;
+                }
+            }
+            else if (line.Contains("*/"))
+            {
+                currentlyParsing = wasParsingBeforeComment;
+            }
             return currentlyParsing == ParseMode.COMMENT
-                || line.Contains("//") && line.IndexOf("//") == 0
-                || line.Contains("/*") && line.IndexOf("/*") == 0;
+                || line.Contains("//") && line.IndexOf("//") == 0;
         }
 
-        /// <summary>
-        /// Removes inline comments from a line (e.g. next to a member definition)
-        /// </summary>
-        /// <param name="line">Line of the IDL containing the comment</param>
-        /// <returns>Line with comments removed</returns>
-        private string removeCommentsFromLine(string line)
+        private string removeCommentedParts(string line)
         {
             if (line.Contains("//"))
+            {
                 line = line.Substring(0, line.IndexOf("//"));
+            }
 
             if (line.Contains("/*"))
             {
                 if (line.Contains("*/"))
+                {
                     line = line.Remove(line.IndexOf("/*"), line.IndexOf("*/") - line.IndexOf("/*") + 2);
+                }
                 else
+                {
                     line = line.Substring(0, line.IndexOf("/*"));
+                    wasParsingBeforeComment = currentlyParsing;
+                    currentlyParsing = ParseMode.COMMENT;
+                }
+            }
+
+            else if (line.Contains("*/"))
+            {
+                line = line.Substring(line.IndexOf("*/") + 2, line.Length - ((line.IndexOf("*/")+2)));
             }
 
             return line.Trim();
         }
 
         internal ParseMode currentlyParsing = ParseMode.NONE;
-        ServiceFunctionDescription currentlyParsedService;
+        internal ParseMode wasParsingBeforeComment = ParseMode.NONE;
         int lineNumberParsed = 0;
     }
 }
