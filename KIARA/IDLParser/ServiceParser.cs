@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace KIARA.IDLParser
+namespace KIARA
 {
     internal class ServiceParser
     {
