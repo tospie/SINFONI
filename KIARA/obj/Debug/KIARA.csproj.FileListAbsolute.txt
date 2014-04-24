@@ -1,4 +1,0 @@
-E:\Arbeit\Tests\DelegateArgumentMappingTests\KIARA\bin\Debug\KIARA.dll
-E:\Arbeit\Tests\DelegateArgumentMappingTests\KIARA\bin\Debug\KIARA.pdb
-E:\Arbeit\Tests\DelegateArgumentMappingTests\KIARA\obj\Debug\KIARA.dll
-E:\Arbeit\Tests\DelegateArgumentMappingTests\KIARA\obj\Debug\KIARA.pdb
