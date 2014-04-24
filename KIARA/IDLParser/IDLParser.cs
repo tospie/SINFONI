@@ -132,8 +132,8 @@ namespace KIARA
         {
             if (line.Contains("struct") && line.IndexOf("struct") == 0)
             {
-                StructParser.Instance.startStructParsing(line);
                 currentlyParsing = ParseMode.STRUCT;
+                StructParser.Instance.startStructParsing(line);
             }
             else if (line.Contains("service") && line.IndexOf("service") == 0)
             {
