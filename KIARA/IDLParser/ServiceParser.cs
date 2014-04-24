@@ -18,6 +18,35 @@ namespace KIARA
             currentlyParsedService = new KiaraService(name);
         }
 
+        private void parseServiceFunctionDefinition(string line, int lineNumber)
+        {
+            if (!(line.Contains(';')
+                && line.Contains('(')
+                && line.Contains(')')))
+                throw new IDLParseException(line, lineNumber);
+
+            int indexOfOpenPar = line.IndexOf('(');
+            int indexOfClosePar = line.IndexOf(')');
+
+            string parameterDefinition = line.Substring(indexOfOpenPar + 1, indexOfClosePar - (indexOfOpenPar + 1));
+            string nameAndType = line.Substring(0, indexOfOpenPar);
+
+            ServiceFunctionDescription newServiceFunction = createTypedServiceFunction(nameAndType);
+            parseParameters(parameterDefinition, newServiceFunction);
+            currentlyParsedService.serviceFunctions.Add(newServiceFunction.Name, newServiceFunction);
+        }
+
+        private ServiceFunctionDescription createTypedServiceFunction(string nameAndType)
+        {
+            string[] values = nameAndType.Split(' ');
+            KtdType returnType;
+            if (values[0].Trim() == "void")
+                returnType = new KtdType("void");
+            else
+                returnType = getKtdType(values[0].Trim());
+
+            return new ServiceFunctionDescription(values[1], returnType);
+        }
 
         private void parseParameters(string parameterDefinition, ServiceFunctionDescription functionDescription)
         {
