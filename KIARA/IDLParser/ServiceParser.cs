@@ -17,6 +17,19 @@ namespace KIARA
             string name = nameMatch.Groups[1].Value;
             currentlyParsedService = new KiaraService(name);
         }
+
+        private KtdType getKtdType(string typeDefinition)
+        {
+            KtdType paramType;
+            if (typeDefinition.Contains("array<"))
+                paramType = ArrayParser.Instance.ParseArray(typeDefinition);
+            else if (typeDefinition.Contains("map<"))
+                paramType = MapParser.Instance.ParseMap(typeDefinition);
+            else
+                paramType = KTD.Instance.GetKtdType(typeDefinition);
+
+            return paramType;
+        }
         }
 
         KiaraService currentlyParsedService;
