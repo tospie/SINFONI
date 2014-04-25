@@ -16,6 +16,14 @@ namespace KIARAUnitTests
 
         KtdType i32;
         KtdType ktd_string;
+        KtdType intStruct;
+
+        struct testStruct
+        {
+            public int x;
+            public int y;
+            public bool affe;
+        }
 
         [SetUp()]
         public void Setup()
@@ -25,6 +33,11 @@ namespace KIARAUnitTests
 
             i32 = KTD.Instance.GetKtdType("i32");
             ktd_string = KTD.Instance.GetKtdType("string");
+
+            intStruct = new KtdType();
+            intStruct.members["x"] = i32;
+            intStruct.members["y"] = i32;
+            intStruct.Name = "intStruct";
 
             serviceFunction = new ServiceFunctionDescription("function", new KtdType("void"));
             serviceFunction.parameters.Add("intParameter", i32);
@@ -47,6 +60,51 @@ namespace KIARAUnitTests
 
 
         [Test()]
+        public void CallShouldBeValidForArrayParameters()
+        {
+            KtdArray parameterArray = new KtdArray();
+            parameterArray.elementType = i32;
+
+            var serviceFunction = new ServiceFunctionDescription("arrayFunction", new KtdType("void"));
+            serviceFunction.parameters.Add("arrayParam", parameterArray);
+            service.serviceFunctions.Add("arrayFunction", serviceFunction);
+
+            Connection connection = new Connection();
+            var clientFunction = connection.GenerateClientFunction("service", "arrayFunction");
+            Assert.DoesNotThrow(() => clientFunction(new int[] {1, 2, 3, 4}));
+        }
+
+        [Test()]
+        public void CallShouldBeValidForMapParameters()
+        {
+            KtdMap parameterMap = new KtdMap();
+            parameterMap.elementType = i32;
+            parameterMap.keyType = ktd_string;
+
+            var serviceFunction = new ServiceFunctionDescription("mapFunction", new KtdType("void"));
+            serviceFunction.parameters.Add("mapParam", parameterMap);
+            service.serviceFunctions.Add("mapFunction", serviceFunction);
+
+            Connection connection = new Connection();
+            var clientFunction = connection.GenerateClientFunction("service", "mapFunction");
+            Assert.DoesNotThrow(() => clientFunction(new Dictionary<string, int> {
+                {"first", 1},
+                {"second", 2}
+            }));
+        }
+
+        [Test()]
+        public void CallShouldBeValidForStructParameters()
+        {
+            var serviceFunction = new ServiceFunctionDescription("structFunction", new KtdType("void"));
+            serviceFunction.parameters.Add("structParam", intStruct);
+            service.serviceFunctions.Add("structFunction", serviceFunction);
+
+            var connection = new Connection();
+            var clientFunction = connection.GenerateClientFunction("service", "structFunction");
+            Assert.DoesNotThrow(() => clientFunction(new testStruct { x = 1, y = 1 }));
+        }
+
         [Test()]
         public void CallShouldThrowExceptionWhenRegisteringToNonexistingService()
         {
@@ -62,6 +120,7 @@ namespace KIARAUnitTests
             Assert.Throws<ServiceNotRegisteredException>(
                 () => connection.GenerateClientFunction("service", "invalid_function"));
         }
+
         [Test()]
         public void CallShouldThrowExceptionForWrongParameterCount()
         {
