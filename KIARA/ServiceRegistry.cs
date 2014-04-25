@@ -18,6 +18,11 @@ namespace KIARA
             return services[name];
         }
 
+        public bool ContainsService(string name)
+        {
+            return services.ContainsKey(name);
+        }
+
         internal Dictionary<string, KiaraService> services =
             new Dictionary<string, KiaraService>();
     }
