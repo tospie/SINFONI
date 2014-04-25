@@ -45,6 +45,23 @@ namespace KIARAUnitTests
             Assert.DoesNotThrow(() => clientFunction(1, "Hello World"));
         }
 
+
+        [Test()]
+        [Test()]
+        public void CallShouldThrowExceptionWhenRegisteringToNonexistingService()
+        {
+            Connection connection = new Connection();
+            Assert.Throws<ServiceNotRegisteredException>(
+                () => connection.GenerateClientFunction("invalid_service", "invalid_function"));
+        }
+
+        [Test()]
+        public void CallShouldThrowExceptionWhenRegisteringToNonexistingServiceFunction()
+        {
+            Connection connection = new Connection();
+            Assert.Throws<ServiceNotRegisteredException>(
+                () => connection.GenerateClientFunction("service", "invalid_function"));
+        }
         [Test()]
         public void CallShouldThrowExceptionForWrongParameterCount()
         {
