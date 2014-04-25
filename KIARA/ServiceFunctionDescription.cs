@@ -10,6 +10,19 @@ namespace KIARA
         public string Name { get; internal set; }
         public KtdType ReturnType { get; internal set; }
 
+        internal bool CanBeCalledWithParameters(object[] callParameters)
+        {
+            if (callParameters.Length != parameters.Count)
+                return false;
+
+            for (int i = 0; i < parameters.Values.Count; i++ )
+            {
+                if (!parameters.Values.ElementAt(i).canBeAssignedFromType(callParameters[i].GetType()))
+                    return false;
+            }
+            return true;
+        }
+
         internal ServiceFunctionDescription(string name, KtdType returnType)
         {
             Name = name;
