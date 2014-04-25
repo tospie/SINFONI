@@ -23,6 +23,11 @@ namespace KIARA
             return true;
         }
 
+        internal bool CanBeCalledWithReturnType(Type callReturnType)
+        {
+            return ReturnType.canBeAssignedFromType(callReturnType);
+        }
+
         internal ServiceFunctionDescription(string name, KtdType returnType)
         {
             Name = name;
