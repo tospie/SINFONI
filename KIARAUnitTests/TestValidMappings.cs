@@ -310,5 +310,19 @@ namespace KIARAUnitTests
             oneParameterSF.parameters.Add("floatParameter", ktd_float);
             Assert.IsTrue(oneParameterSF.CanBeCalledWithParameters(new object[] { 1, "Hello World", 1.0f }));
         }
+
+        [Test()]
+        public void ServiceShouldReturnTrueForMatchWithCorrectReturntype()
+        {
+            ServiceFunctionDescription sf = new ServiceFunctionDescription("testfunction", i32);
+            Assert.True(sf.CanBeCalledWithReturnType(typeof(int)));
+        }
+
+        [Test()]
+        public void ServiceShouldReturnFalseForMatchWithWrongReturntype()
+        {
+            ServiceFunctionDescription sf = new ServiceFunctionDescription("testfunction", ktd_float);
+            Assert.False(sf.CanBeCalledWithReturnType(typeof(int)));
+        }
     }
 }
