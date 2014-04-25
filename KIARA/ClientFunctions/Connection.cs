@@ -13,6 +13,14 @@ namespace KIARA
 
         public ClientFunction GenerateClientFunction(string serviceName, string functionName)
         {
+            if (!ServiceRegistry.Instance.ContainsService(serviceName))
+                throw new ServiceNotRegisteredException(serviceName);
+
+            var service = ServiceRegistry.Instance.GetService(serviceName);
+
+            if (!service.ContainsServiceFunction(functionName))
+                throw new ServiceNotRegisteredException(functionName);
+
             return (ClientFunction)delegate(object[] parameters)
             {
                 KiaraService registeredService = ServiceRegistry.Instance.GetService(serviceName);
