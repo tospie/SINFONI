@@ -259,5 +259,56 @@ namespace KIARAUnitTests
             Assert.Contains(typeof(List<nestedTestStruct>), KtdType.validMappings.Keys);
             Assert.IsFalse(KtdType.validMappings[typeof(List<nestedTestStruct>)]);
         }
+
+        [Test()]
+        public void ServiceMatchParametersToEmptyService()
+        {
+            ServiceFunctionDescription noParameterSF =
+                new ServiceFunctionDescription("testfunction", new KtdType("void"));
+
+            Assert.IsTrue(noParameterSF.CanBeCalledWithParameters(new object[] {}));
+        }
+
+        [Test()]
+        public void ServiceShouldNotMatchCallWithWrongParameterCount()
+        {
+            ServiceFunctionDescription noParameterSF =
+                new ServiceFunctionDescription("testfunction", new KtdType("void"));
+            ServiceFunctionDescription oneParameterSF =
+                new ServiceFunctionDescription("testfunction2", new KtdType("void"));
+            oneParameterSF.parameters.Add("parameter", i32);
+
+            Assert.IsFalse(noParameterSF.CanBeCalledWithParameters(new object[] {1}));
+            Assert.IsFalse(oneParameterSF.CanBeCalledWithParameters(new object[] { }));
+        }
+
+        [Test()]
+        public void ServiceShouldMatchCorrectTypedParameters()
+        {
+            ServiceFunctionDescription oneParameterSF =
+                new ServiceFunctionDescription("testfunction1", new KtdType("void"));
+            oneParameterSF.parameters.Add("parameter", i32);
+            Assert.IsTrue(oneParameterSF.CanBeCalledWithParameters(new object[] { 1 }));
+        }
+
+        [Test()]
+        public void ServiceShouldReturnFalseForMatchingParametersWithWrongTypes()
+        {
+            ServiceFunctionDescription oneParameterSF =
+                new ServiceFunctionDescription("testfunction1", new KtdType("void"));
+            oneParameterSF.parameters.Add("parameter", i32);
+            Assert.IsFalse(oneParameterSF.CanBeCalledWithParameters(new object[] { "Hello World" }));
+        }
+
+        [Test()]
+        public void ServiceShouldReturnTrueForMatchingMultipleCorrectParameters()
+        {
+            ServiceFunctionDescription oneParameterSF =
+                new ServiceFunctionDescription("testfunction1", new KtdType("void"));
+            oneParameterSF.parameters.Add("intParameter", i32);
+            oneParameterSF.parameters.Add("stringParameter", ktd_string);
+            oneParameterSF.parameters.Add("floatParameter", ktd_float);
+            Assert.IsTrue(oneParameterSF.CanBeCalledWithParameters(new object[] { 1, "Hello World", 1.0f }));
+        }
     }
 }
