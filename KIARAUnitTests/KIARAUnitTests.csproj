@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestClientFunctions.cs" />
     <Compile Include="TestIDLParser.cs" />
     <Compile Include="TestKTD.cs" />
     <Compile Include="TestValidMappings.cs" />
