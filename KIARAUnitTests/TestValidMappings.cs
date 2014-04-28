@@ -26,8 +26,8 @@ namespace KIARAUnitTests
         KtdType ktd_string;
         KtdType ktd_bool;
 
-        KtdType intStruct;
-        KtdType nestedStruct;
+        KtdStruct intStruct;
+        KtdStruct nestedStruct;
 
         KtdArray ktd_array;
         KtdMap map;
@@ -67,18 +67,15 @@ namespace KIARAUnitTests
         [SetUp()]
         public void InitTests()
         {
-            i16 = new KtdType();
-            i16.Name = "i16";
+            i16 = new KtdType("i16");
 
-            i32 = new KtdType();
-            i32.Name = "i32";
+            i32 = new KtdType("i32");
 
-            i64 = new KtdType();
-            i64.Name = "i64";
+            i64 = new KtdType("i64");
 
-            ui16 = new KtdType("uint16");
-            ui32 = new KtdType("uint32");
-            ui64 = new KtdType("uint64");
+            ui16 = new KtdType("u16");
+            ui32 = new KtdType("u32");
+            ui64 = new KtdType("u64");
 
             ktd_double = new KtdType("double");
 
@@ -90,12 +87,11 @@ namespace KIARAUnitTests
             ktd_bool = new KtdType();
             ktd_bool.Name = "boolean";
 
-            intStruct = new KtdType();
+            intStruct = new KtdStruct("intStruct");
             intStruct.members["x"] = i32;
             intStruct.members["y"] = i32;
-            intStruct.Name = "intStruct";
 
-            nestedStruct = new KtdType();
+            nestedStruct = new KtdStruct("nestedStruct");
             nestedStruct.members["name"] = ktd_string;
             nestedStruct.members["b"] = ktd_bool;
             nestedStruct.members["s"] = intStruct;
@@ -253,7 +249,7 @@ namespace KIARAUnitTests
         [Test()]
         public void ShouldCacheValidMapping()
         {
-            var KtdType = new KtdType("testType");
+            var KtdType = new KtdStruct("testType");
             KtdType.members.Add("i16", KTD.Instance.GetKtdType("i16"));
             KtdType.canBeAssignedFromType(typeof(List<nestedTestStruct>));
             Assert.Contains(typeof(List<nestedTestStruct>), KtdType.validMappings.Keys);

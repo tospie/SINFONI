@@ -140,8 +140,9 @@ namespace KIARAUnitTests
 
             IDLParser.Instance.parseIDL(idl);
             Assert.IsTrue(KTD.Instance.ContainsType("BaseStruct"));
-            Assert.Contains("intValue", KTD.Instance.GetKtdType("BaseStruct").members.Keys);
-            Assert.AreEqual(KTD.Instance.GetKtdType("i32"), KTD.Instance.GetKtdType("BaseStruct").members["intValue"]);
+            KtdStruct baseStruct = KTD.Instance.GetKtdType("BaseStruct") as KtdStruct;
+            Assert.Contains("intValue", baseStruct.members.Keys);
+            Assert.AreEqual(KTD.Instance.GetKtdType("i32"), baseStruct.members["intValue"]);
         }
 
         [Test()]
@@ -153,9 +154,10 @@ namespace KIARAUnitTests
 
             IDLParser.Instance.parseIDL(idl);
             Assert.IsTrue(KTD.Instance.ContainsType("MapStruct"));
-            Assert.Contains("testMap", KTD.Instance.GetKtdType("MapStruct").members.Keys);
+            KtdStruct mapStruct = KTD.Instance.GetKtdType("MapStruct") as KtdStruct;
+            Assert.Contains("testMap", mapStruct.members.Keys);
 
-            var parsedMap = KTD.Instance.GetKtdType("MapStruct").members["testMap"];
+            var parsedMap = mapStruct.members["testMap"];
             Assert.AreEqual(typeof(KtdMap), parsedMap.GetType());
         }
 
@@ -167,9 +169,10 @@ namespace KIARAUnitTests
                          }";
             IDLParser.Instance.parseIDL(idl);
             Assert.IsTrue(KTD.Instance.ContainsType("ArrayStruct"));
-            Assert.Contains("testArray", KTD.Instance.GetKtdType("ArrayStruct").members.Keys);
+            KtdStruct arrayStruct = KTD.Instance.GetKtdType("ArrayStruct") as KtdStruct;
+            Assert.Contains("testArray", arrayStruct.members.Keys);
 
-            var parsedArray = KTD.Instance.GetKtdType("ArrayStruct").members["testArray"];
+            var parsedArray = arrayStruct.members["testArray"];
             Assert.AreEqual(typeof(KtdArray), parsedArray.GetType());
         }
 
