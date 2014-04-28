@@ -42,6 +42,7 @@
     <Compile Include="Exceptions\IDLParseException.cs" />
     <Compile Include="Exceptions\InvalidTypeNameException.cs" />
     <Compile Include="Exceptions\ServiceNotRegisteredException.cs" />
+    <Compile Include="Exceptions\TypeCastException.cs" />
     <Compile Include="Exceptions\TypeNameConflictException.cs" />
     <Compile Include="Exceptions\TypeNotRegisteredException.cs" />
     <Compile Include="IDLParser\ArrayParser.cs" />
