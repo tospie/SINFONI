@@ -26,7 +26,7 @@ namespace KIARA
             Regex nameRegEx = new Regex("struct ([A-Za-z0-9_]*) [{}._<,>; ]*");
             Match nameMatch = nameRegEx.Match(structDefinition);
             string name = nameMatch.Groups[1].Value;
-            currentlyParsedStruct = new KtdType(name);
+            currentlyParsedStruct = new KtdStruct(name);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace KIARA
         /// </summary>
         /// <param name="memberDefinition">IDL entry defining type and name of the member</param>
         /// <param name="createdStruct">Struct that is created during the currrent parsing process</param>
-        internal void createKtdTypeForMember(string memberDefinition, KtdType createdStruct)
+        internal void createKtdTypeForMember(string memberDefinition, KtdStruct createdStruct)
         {
             if (!memberDefinition.Contains(';'))
                 return;
@@ -175,6 +175,6 @@ namespace KIARA
             return isMap;
         }
 
-        KtdType currentlyParsedStruct;
+        KtdStruct currentlyParsedStruct;
     }
 }
