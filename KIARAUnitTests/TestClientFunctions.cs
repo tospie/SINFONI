@@ -16,7 +16,7 @@ namespace KIARAUnitTests
 
         KtdType i32;
         KtdType ktd_string;
-        KtdType intStruct;
+        KtdStruct intStruct;
 
         struct testStruct
         {
@@ -34,10 +34,9 @@ namespace KIARAUnitTests
             i32 = KTD.Instance.GetKtdType("i32");
             ktd_string = KTD.Instance.GetKtdType("string");
 
-            intStruct = new KtdType();
+            intStruct = new KtdStruct("intStruct");
             intStruct.members["x"] = i32;
             intStruct.members["y"] = i32;
-            intStruct.Name = "intStruct";
 
             serviceFunction = new ServiceFunctionDescription("function", new KtdType("void"));
             serviceFunction.parameters.Add("intParameter", i32);
