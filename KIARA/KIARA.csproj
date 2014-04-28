@@ -52,6 +52,7 @@
     <Compile Include="IDLParser\IDLParser.cs" />
     <Compile Include="IDLParser\MapParser.cs" />
     <Compile Include="IDLParser\ServiceParser.cs" />
+    <Compile Include="IProtocol.cs" />
     <Compile Include="KiaraService.cs" />
     <Compile Include="KTD\Ktd.cs" />
     <Compile Include="KTD\KtdArray.cs" />
