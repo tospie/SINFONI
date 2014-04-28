@@ -6,7 +6,7 @@ using KIARA.Exceptions;
 
 namespace KIARA
 {
-    public class Connection
+    public abstract class Connection
     {
         // TODO: Change Return type to ICLientFunctionCall as soon as the calling mechanism is implemented
         public delegate void ClientFunction(params object[] parameters);
