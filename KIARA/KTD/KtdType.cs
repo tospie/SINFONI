@@ -17,7 +17,7 @@ namespace KIARA
     /// </summary>
     public class KtdType
     { 
-        delegate object MappingFunction(object other);
+        public delegate object MappingFunction(object other);
 
         /// <summary>
         /// Standard Constructor
@@ -38,27 +38,18 @@ namespace KIARA
         /// </summary>
         public string Name { get; internal set; }
 
-        public object AssignValuesFromObject(object other)
+        /// <summary>
+        /// Assign values from a native C# object to a KTD Type. Values are mapped by implicit cast for base types,
+        /// arrays, and maps. For structs, values are mapped by name and type, or by a provided mapping function.
+        /// Will throw exception when value cannot be assigned.
+        /// </summary>
+        /// <param name="other">C# object the values of which should be assigned to the KTD type</param>
+        /// <returns>Object that corresponds to an instance of the KTD Type that maps to the C# object</returns>
+        public virtual object AssignValuesFromObject(object other)
         {
-            var result = 0;
-
-            mappings.Add(other.GetType(), (MappingFunction) delegate(object other2){
-                return this.MapByName(other2);
-            });
-
-            if (canBeAssignedFromType(other.GetType()))
             {
                 // Map object by name-type-matching
             }
-            else /* if valid mapping is declared */
-            {
-                // perform mapping as declared in the mapping function
-            }
-
-            MappingFunction map = mappings[other.GetType()] as MappingFunction;
-            map(other);
-
-            return result;
         }
 
         /// <summary>
@@ -86,87 +77,11 @@ namespace KIARA
             }            
         }
 
-        private bool canBeAssignedFromComplexType(Type type)
+        internal virtual bool canBeAssignedFromComplexType(Type type)
         {
-            if (validMappings.ContainsKey(type))
-                return validMappings[type];
-
-            else
-                return validMappingForTypeExists(type);
+            throw new NotImplementedException("Function is only implemented on derived classes of KTDType");
         }
 
-        private bool validMappingForTypeExists(Type type)
-        {
-            var fields = type.GetFields();
-            var properties = type.GetProperties();
-
-            foreach (KeyValuePair<string, KtdType> member in members)
-            {
-                bool memberCanBeAssigned =
-                    memberCanBeAssignedFromProperties(member, properties)
-                    || memberCanBeAssignedFromFields(member, fields);
-
-                if (!memberCanBeAssigned)
-                {
-                    validMappings[type] = false;
-                    return false;
-                }
-            }
-
-            validMappings[type] = true;
-            return true;
-        }
-
-        private bool memberCanBeAssignedFromFields(KeyValuePair<string, KtdType> member, FieldInfo[] fieldInfo)
-        {
-            int indexOfMemberInArray = Array.FindIndex(fieldInfo,
-                delegate(FieldInfo element)
-                {
-                    bool containsElement = element.Name.Equals(member.Key);
-                    return containsElement;
-                });
-
-            if (indexOfMemberInArray == -1)
-                return false;
-
-            var field = fieldInfo[indexOfMemberInArray];
-
-            if (!member.Value.canBeAssignedFromType(field.FieldType))
-                return false;
-
-            return true;
-        }
-
-        private bool memberCanBeAssignedFromProperties(KeyValuePair<string, KtdType> member, PropertyInfo[] propertyInfo)
-        {
-            int indexOfMemberInArray = Array.FindIndex(propertyInfo,
-                delegate(PropertyInfo element)
-                {
-                    bool containsElement = element.Name.Equals(member.Key);
-                    return containsElement;
-                });
-
-            if (indexOfMemberInArray == -1)
-                return false;
-
-            var property = propertyInfo[indexOfMemberInArray];
-
-            if (!member.Value.canBeAssignedFromType(property.PropertyType))
-                return false;
-
-            return true;
-        }
-
-        bool MapByName(object other)
-        {
-            other.GetType().GetMembers();
-            
-            return true;
-        }
-
-        internal Dictionary<string, KtdType> members = new Dictionary<string,KtdType>();
-        internal Dictionary<Type, Delegate> mappings = new Dictionary<Type, Delegate>();
-        internal Dictionary<Type, bool> validMappings = new Dictionary<Type, bool>();
     }
  
 }
