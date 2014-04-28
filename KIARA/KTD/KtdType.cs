@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using KIARA.Exceptions;
 
 [assembly: InternalsVisibleTo("KIARAUnitTests")]
 
@@ -47,8 +48,21 @@ namespace KIARA
         /// <returns>Object that corresponds to an instance of the KTD Type that maps to the C# object</returns>
         public virtual object AssignValuesFromObject(object other)
         {
+            switch (Name)
             {
-                // Map object by name-type-matching
+                case "boolean": return (bool)other;
+                case "i16": return (short)other;
+                case "u16": return (ushort)other;
+                case "i32": return (int)other;
+                case "u32": return (uint)other;
+                case "i64": return (long)other;
+                case "u64": return (ulong)other;
+                case "float": return (float)other;
+                case "double": return (double)other;
+                case "string": return (string)other;
+                case "any": return other;
+                default: throw new TypeCastException("Cannot cast value to KTD Type " + Name + " as " + Name + " is "
+                    + " no base type");
             }
         }
 
