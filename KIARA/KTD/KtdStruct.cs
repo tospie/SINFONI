@@ -10,7 +10,7 @@ namespace KIARA
     {
         public KtdStruct(string name) : base(name) { }
 
-        public object AssignValuesFromObject(object other)
+        public override object AssignValuesFromObject(object other)
         {
             var result = 0;
 
