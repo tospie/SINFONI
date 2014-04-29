@@ -6,10 +6,10 @@ using KIARA;
 
 namespace WSJProtocol
 {
-    public class WSJConnection
+    public class WSJConnection : Connection
     {
 
-        protected override IClientFunctionCall CallFunc(string funcName, params object[] args)
+        protected IClientFunctionCall CallFunc(string funcName, params object[] args)
         {
             int callID = getValidCallID();
 
