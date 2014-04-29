@@ -272,7 +272,7 @@ namespace KIARAUnitTests
                 new ServiceFunctionDescription("testfunction", new KtdType("void"));
             ServiceFunctionDescription oneParameterSF =
                 new ServiceFunctionDescription("testfunction2", new KtdType("void"));
-            oneParameterSF.parameters.Add("parameter", i32);
+            oneParameterSF.Parameters.Add("parameter", i32);
 
             Assert.IsFalse(noParameterSF.CanBeCalledWithParameters(new object[] {1}));
             Assert.IsFalse(oneParameterSF.CanBeCalledWithParameters(new object[] { }));
@@ -283,7 +283,7 @@ namespace KIARAUnitTests
         {
             ServiceFunctionDescription oneParameterSF =
                 new ServiceFunctionDescription("testfunction1", new KtdType("void"));
-            oneParameterSF.parameters.Add("parameter", i32);
+            oneParameterSF.Parameters.Add("parameter", i32);
             Assert.IsTrue(oneParameterSF.CanBeCalledWithParameters(new object[] { 1 }));
         }
 
@@ -292,7 +292,7 @@ namespace KIARAUnitTests
         {
             ServiceFunctionDescription oneParameterSF =
                 new ServiceFunctionDescription("testfunction1", new KtdType("void"));
-            oneParameterSF.parameters.Add("parameter", i32);
+            oneParameterSF.Parameters.Add("parameter", i32);
             Assert.IsFalse(oneParameterSF.CanBeCalledWithParameters(new object[] { "Hello World" }));
         }
 
@@ -301,9 +301,9 @@ namespace KIARAUnitTests
         {
             ServiceFunctionDescription oneParameterSF =
                 new ServiceFunctionDescription("testfunction1", new KtdType("void"));
-            oneParameterSF.parameters.Add("intParameter", i32);
-            oneParameterSF.parameters.Add("stringParameter", ktd_string);
-            oneParameterSF.parameters.Add("floatParameter", ktd_float);
+            oneParameterSF.Parameters.Add("intParameter", i32);
+            oneParameterSF.Parameters.Add("stringParameter", ktd_string);
+            oneParameterSF.Parameters.Add("floatParameter", ktd_float);
             Assert.IsTrue(oneParameterSF.CanBeCalledWithParameters(new object[] { 1, "Hello World", 1.0f }));
         }
 

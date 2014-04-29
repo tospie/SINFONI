@@ -220,7 +220,7 @@ namespace KIARAUnitTests
 
             var serviceFunction = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("getSyncID");
             Assert.AreEqual("void", serviceFunction.ReturnType.Name);
-            Assert.IsEmpty(serviceFunction.parameters);
+            Assert.IsEmpty(serviceFunction.Parameters);
         }
 
         [Test()]
@@ -235,9 +235,9 @@ namespace KIARAUnitTests
 
             var serviceFunction = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction");
             Assert.AreEqual(KTD.Instance.GetKtdType("string"), serviceFunction.ReturnType);
-            Assert.Contains("param", serviceFunction.parameters.Keys);
+            Assert.Contains("param", serviceFunction.Parameters.Keys);
 
-            var parameter = serviceFunction.parameters["param"];
+            var parameter = serviceFunction.Parameters["param"];
             Assert.AreEqual(KTD.Instance.GetKtdType("i32"), parameter);
         }
 
@@ -274,12 +274,12 @@ namespace KIARAUnitTests
             Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
 
             var testFunction1 = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction1");
-            var param1 = testFunction1.parameters["param"];
+            var param1 = testFunction1.Parameters["param"];
             Assert.AreEqual(typeof(KtdArray), param1.GetType());
             Assert.AreEqual(KTD.Instance.GetKtdType("i32"), ((KtdArray)param1).elementType);
 
             var testFunction2 = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction2");
-            var param2 = testFunction2.parameters["param"];
+            var param2 = testFunction2.Parameters["param"];
             Assert.AreEqual(typeof(KtdMap), param2.GetType());
             Assert.AreEqual(KTD.Instance.GetKtdType("string"), ((KtdMap)param2).keyType);
             Assert.AreEqual(KTD.Instance.GetKtdType("boolean"), ((KtdMap)param2).elementType);
@@ -295,8 +295,8 @@ namespace KIARAUnitTests
             
             Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
             var testFunction = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction");
-            var param1 = testFunction.parameters["param1"];
-            var param2 = testFunction.parameters["param2"];
+            var param1 = testFunction.Parameters["param1"];
+            var param2 = testFunction.Parameters["param2"];
 
             Assert.AreEqual(KTD.Instance.GetKtdType("string"), param1);
             Assert.AreEqual(typeof(KtdArray), param2.GetType());
@@ -326,8 +326,8 @@ namespace KIARAUnitTests
             Assert.IsTrue(ServiceRegistry.Instance.GetService("serverSync").ContainsServiceFunction("testFunction1"));
             var testFunction = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction1");
 
-            Assert.Contains("p1", testFunction.parameters.Keys);
-            Assert.Contains("p2", testFunction.parameters.Keys);
+            Assert.Contains("p1", testFunction.Parameters.Keys);
+            Assert.Contains("p2", testFunction.Parameters.Keys);
         }
 
         [Test()]

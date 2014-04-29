@@ -131,7 +131,7 @@ namespace KIARA
 
             KtdType paramType = getKtdType(values[0].Trim());
             string paramName = values[1].Trim();
-            functionDescription.parameters.Add(paramName, paramType);
+            functionDescription.Parameters.Add(paramName, paramType);
         }
 
         /// <summary>

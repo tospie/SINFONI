@@ -41,8 +41,8 @@ namespace KIARAUnitTests
             intStruct.members["y"] = i32;
 
             serviceFunction = new ServiceFunctionDescription("function", new KtdType("void"));
-            serviceFunction.parameters.Add("intParameter", i32);
-            serviceFunction.parameters.Add("stringParameter", ktd_string);
+            serviceFunction.Parameters.Add("intParameter", i32);
+            serviceFunction.Parameters.Add("stringParameter", ktd_string);
 
             service = new KiaraService("service");
             service.serviceFunctions.Add("function", serviceFunction);
@@ -67,7 +67,7 @@ namespace KIARAUnitTests
             parameterArray.elementType = i32;
 
             var serviceFunction = new ServiceFunctionDescription("arrayFunction", new KtdType("void"));
-            serviceFunction.parameters.Add("arrayParam", parameterArray);
+            serviceFunction.Parameters.Add("arrayParam", parameterArray);
             service.serviceFunctions.Add("arrayFunction", serviceFunction);
 
             Connection connection = new TestConnection();
@@ -83,7 +83,7 @@ namespace KIARAUnitTests
             parameterMap.keyType = ktd_string;
 
             var serviceFunction = new ServiceFunctionDescription("mapFunction", new KtdType("void"));
-            serviceFunction.parameters.Add("mapParam", parameterMap);
+            serviceFunction.Parameters.Add("mapParam", parameterMap);
             service.serviceFunctions.Add("mapFunction", serviceFunction);
 
             Connection connection = new TestConnection();
@@ -98,7 +98,7 @@ namespace KIARAUnitTests
         public void CallShouldBeValidForStructParameters()
         {
             var serviceFunction = new ServiceFunctionDescription("structFunction", new KtdType("void"));
-            serviceFunction.parameters.Add("structParam", intStruct);
+            serviceFunction.Parameters.Add("structParam", intStruct);
             service.serviceFunctions.Add("structFunction", serviceFunction);
 
             var connection = new TestConnection();

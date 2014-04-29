@@ -9,7 +9,7 @@ namespace KIARA
     {
         public string Name { get; internal set; }
         public KtdType ReturnType { get; internal set; }
-
+        public Dictionary<string, KtdType> Parameters { get; internal set; }
         internal bool CanBeCalledWithParameters(object[] callParameters)
         {
             if (callParameters.Length != parameters.Count)
@@ -34,7 +34,7 @@ namespace KIARA
             ReturnType = returnType;
         }
 
-        internal Dictionary<string, KtdType> parameters =
+        private Dictionary<string, KtdType> parameters =
             new Dictionary<string,KtdType>();
     }
 }
