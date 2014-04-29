@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="KIARA">
-      <HintPath>..\..\..\Virtual Worlds\FiVES - Dragon\Binaries\Debug\KIARA.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,6 +42,12 @@
     <Compile Include="MessageBuilder.cs" />
     <Compile Include="WSJConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KIARA\KIARA.csproj">
+      <Project>{b43693ef-8534-4491-93b9-d9e4702dc0f3}</Project>
+      <Name>KIARA</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
