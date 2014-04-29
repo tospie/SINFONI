@@ -53,22 +53,10 @@ namespace KIARA
         /// <returns>Object that corresponds to an instance of the KTD Type that maps to the C# object</returns>
         public virtual object AssignValuesFromObject(object other)
         {
-            switch (Name)
-            {
-                case "boolean": return (bool)other;
-                case "i16": return (short)other;
-                case "u16": return (ushort)other;
-                case "i32": return (int)other;
-                case "u32": return (uint)other;
-                case "i64": return (long)other;
-                case "u64": return (ulong)other;
-                case "float": return (float)other;
-                case "double": return (double)other;
-                case "string": return (string)other;
-                case "any": return other;
-                default: throw new TypeCastException("Cannot cast value to KTD Type " + Name + " as " + Name + " is "
-                    + " no base type");
-            }
+            if(!canBeAssignedFromType(other.GetType()))
+                throw new TypeCastException("Cannot assign value to KtdInstance of type " + Name + ": "
+                    + other + " is of Type " + other.GetType());
+            return new KtdTypeInstance(this, other);
         }
 
         /// <summary>
