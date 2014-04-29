@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KIARAUnitTests", "KIARAUnit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSJProtocol", "WSJProtocol\WSJProtocol.csproj", "{615E0BC9-49E0-4A1A-A0EF-48A0D192F588}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalityTestProtocol", "FunctionalityTestProtocol\FunctionalityTestProtocol.csproj", "{DE756EF2-3D21-4303-8146-582EBFAE5115}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{615E0BC9-49E0-4A1A-A0EF-48A0D192F588}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{615E0BC9-49E0-4A1A-A0EF-48A0D192F588}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{615E0BC9-49E0-4A1A-A0EF-48A0D192F588}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE756EF2-3D21-4303-8146-582EBFAE5115}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE756EF2-3D21-4303-8146-582EBFAE5115}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE756EF2-3D21-4303-8146-582EBFAE5115}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE756EF2-3D21-4303-8146-582EBFAE5115}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
