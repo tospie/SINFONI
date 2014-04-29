@@ -34,6 +34,11 @@ namespace KIARA
             Name = name;
         }
 
+        internal KtdType(string name, Type baseType)
+        {
+            this.BaseType = baseType;
+        }
+
         /// <summary>
         /// Name of the type
         /// </summary>
@@ -96,6 +101,7 @@ namespace KIARA
             throw new NotImplementedException("Function is only implemented on derived classes of KTDType");
         }
 
+        private Type BaseType;
     }
  
 }
