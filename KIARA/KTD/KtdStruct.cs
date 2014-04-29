@@ -41,7 +41,7 @@ namespace KIARA
             return true;
         }
 
-        internal override bool canBeAssignedFromComplexType(Type type)
+        internal override bool canBeAssignedFromType(Type type)
         {
             if (validMappings.ContainsKey(type))
                 return validMappings[type];

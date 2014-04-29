@@ -80,13 +80,9 @@ namespace KIARA
                 case "double": return type.IsAssignableFrom(typeof(System.Double));
                 case "string": return type.IsAssignableFrom(typeof(System.String));
                 case "any": return true;
-                default: return canBeAssignedFromComplexType(type);                
-            }            
-        }
+            }
 
-        internal virtual bool canBeAssignedFromComplexType(Type type)
-        {
-            throw new NotImplementedException("Function is only implemented on derived classes of KTDType");
+            return false;
         }
 
         private Type BaseType;
