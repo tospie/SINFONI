@@ -9,7 +9,13 @@ namespace KIARA
     {
         public string Name { get; internal set; }
         public KtdType ReturnType { get; internal set; }
-        public Dictionary<string, KtdType> Parameters { get; internal set; }
+
+        public Dictionary<string, KtdType> Parameters
+        {
+            get { return parameters; }
+            internal set { parameters = value; }
+        }
+
         internal bool CanBeCalledWithParameters(object[] callParameters)
         {
             if (callParameters.Length != parameters.Count)
