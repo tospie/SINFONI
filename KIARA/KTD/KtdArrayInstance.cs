@@ -5,7 +5,7 @@ using System.Text;
 
 namespace KIARA
 {
-    public class KtdArrayInstance
+    public class KtdArrayInstance : KtdTypeInstance
     {
         public KtdArrayInstance(KtdType definition, KtdTypeInstance[] values)
         {

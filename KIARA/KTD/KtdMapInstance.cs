@@ -5,7 +5,7 @@ using System.Text;
 
 namespace KIARA
 {
-    public class KtdMapInstance
+    public class KtdMapInstance : KtdTypeInstance
     {
         public KtdMapInstance(KtdMap type, Dictionary<object, object> values)
         {
