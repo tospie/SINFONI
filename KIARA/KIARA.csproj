@@ -58,6 +58,7 @@
     <Compile Include="KTD\KtdArray.cs" />
     <Compile Include="KTD\KtdArrayInstance.cs" />
     <Compile Include="KTD\KtdMap.cs" />
+    <Compile Include="KTD\KtdMapInstance.cs" />
     <Compile Include="KTD\KtdStruct.cs" />
     <Compile Include="KTD\KtdType.cs" />
     <Compile Include="KTD\KtdTypeInstance.cs" />
