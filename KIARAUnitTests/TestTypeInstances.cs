@@ -174,5 +174,93 @@ namespace KIARAUnitTests
             Assert.Throws<TypeCastException>(
                 () => { var arrayInstance = array.AssignValuesFromObject(floatArray) as KtdArrayInstance; });
         }
+
+        [Test()]
+        public void ShouldAssignDictionaryOfBaseTypesToMap()
+        {
+            var baseTypeDictionary = new Dictionary<string, int> {
+                {"test", 1}
+            };
+
+            KtdMap ktdMap = new KtdMap();
+            ktdMap.keyType = KTD.Instance.GetKtdType("string");
+            ktdMap.elementType = KTD.Instance.GetKtdType("i32");
+
+            KtdMapInstance mapInstance = ktdMap.AssignValuesFromObject(baseTypeDictionary) as KtdMapInstance;
+
+            Assert.AreEqual(1, mapInstance.Values.Count);
+            Assert.AreEqual("test", ((KtdTypeInstance)mapInstance.Values.Keys.ElementAt(0)).Value);
+            Assert.AreEqual(1, ((KtdTypeInstance)mapInstance.Values.Values.ElementAt(0)).Value);
+        }
+
+        [Test()]
+        public void ShouldAssignedArrayTypedKeysToMap()
+        {
+            var arrayKeyDictionary = new Dictionary<int[], string>{
+                {new int[]{1}, "test"}
+            };
+
+            KtdArray keyArray = new KtdArray();
+            keyArray.elementType = KTD.Instance.GetKtdType("i32");
+            KtdMap ktdMap = new KtdMap();
+
+            ktdMap.keyType = keyArray;
+            ktdMap.elementType = KTD.Instance.GetKtdType("string");
+            KtdMapInstance mapInstance = ktdMap.AssignValuesFromObject(arrayKeyDictionary) as KtdMapInstance;
+
+            Assert.AreEqual(typeof(KtdArrayInstance), mapInstance.Values.Keys.ElementAt(0).GetType());
+            Assert.AreEqual(1, ((KtdArrayInstance)mapInstance.Values.Keys.ElementAt(0)).Values.Length);
+            Assert.AreEqual(1, ((KtdArrayInstance)mapInstance.Values.Keys.ElementAt(0)).Values[0].Value);
+        }
+
+        [Test()]
+        public void ShouldAssignedArrayTypedValuesToMap()
+        {
+            var arrayKeyDictionary = new Dictionary<string, int[]>{
+                {"test", new int[]{1} }
+            };
+
+            KtdArray valueArray = new KtdArray();
+            valueArray.elementType = KTD.Instance.GetKtdType("i32");
+            KtdMap ktdMap = new KtdMap();
+
+            ktdMap.keyType =  KTD.Instance.GetKtdType("string");
+            ktdMap.elementType = valueArray;
+            KtdMapInstance mapInstance = ktdMap.AssignValuesFromObject(arrayKeyDictionary) as KtdMapInstance;
+
+            Assert.AreEqual(typeof(KtdArrayInstance), mapInstance.Values.Values.ElementAt(0).GetType());
+            Assert.AreEqual(1, ((KtdArrayInstance)mapInstance.Values.Values.ElementAt(0)).Values.Length);
+            Assert.AreEqual(1, ((KtdArrayInstance)mapInstance.Values.Values.ElementAt(0)).Values[0].Value);
+        }
+
+        [Test()]
+        public void ShouldThrowExceptionOnWrongKeyType()
+        {
+            var baseTypeDictionary = new Dictionary<string, int> {
+                {"test", 1}
+            };
+
+            KtdMap ktdMap = new KtdMap();
+            ktdMap.keyType = KTD.Instance.GetKtdType("i32");
+            ktdMap.elementType = KTD.Instance.GetKtdType("i32");
+
+            Assert.Throws<TypeCastException>(
+                () => { var mapInstance = ktdMap.AssignValuesFromObject(baseTypeDictionary) as KtdMapInstance; });
+        }
+
+        [Test()]
+        public void ShouldThrowExceptionOnWrongValueType()
+        {
+            var baseTypeDictionary = new Dictionary<string, int> {
+                {"test", 1}
+            };
+
+            KtdMap ktdMap = new KtdMap();
+            ktdMap.keyType = KTD.Instance.GetKtdType("string");
+            ktdMap.elementType = KTD.Instance.GetKtdType("string");
+
+            Assert.Throws<TypeCastException>(
+                () => { var mapInstance = ktdMap.AssignValuesFromObject(baseTypeDictionary) as KtdMapInstance; });
+        }
     }
 }
