@@ -10,7 +10,7 @@ namespace KIARA
     {
         public KtdStruct(string name) : base(name) { }
 
-        public override object AssignValuesFromObject(object other)
+        public override KtdTypeInstance AssignValuesFromObject(object other)
         {
             var result = 0;
 
@@ -31,7 +31,7 @@ namespace KIARA
             MappingFunction map = mappings[other.GetType()] as MappingFunction;
             map(other);
 
-            return result;
+            return new KtdStructInstance();
         }
 
         bool MapByName(object other)

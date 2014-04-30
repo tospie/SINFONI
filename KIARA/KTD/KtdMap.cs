@@ -26,16 +26,16 @@ namespace KIARA
                 && elementType.canBeAssignedFromType(keyAndValueTypes[1]);
         }
 
-        public override object AssignValuesFromObject(object other)
+        public override KtdTypeInstance AssignValuesFromObject(object other)
         {
-            var instanceValues = new Dictionary<object, object>();
+            var instanceValues = new Dictionary<KtdTypeInstance, KtdTypeInstance>();
             var otherAsDictionary = other as IDictionary;
 
             foreach (var key in otherAsDictionary.Keys)
             {
                 var value = otherAsDictionary[key];
-                var keyInstance = this.keyType.AssignValuesFromObject(key);
-                var valueInstance = this.elementType.AssignValuesFromObject(value);
+                KtdTypeInstance keyInstance = this.keyType.AssignValuesFromObject(key);
+                KtdTypeInstance valueInstance = this.elementType.AssignValuesFromObject(value);
                 instanceValues.Add(keyInstance, valueInstance);
             }
 

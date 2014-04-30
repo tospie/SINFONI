@@ -30,7 +30,7 @@ namespace KIARA
             return elementType.canBeAssignedFromType(itemType);
         }
 
-        public override object AssignValuesFromObject(object other)
+        public override KtdTypeInstance AssignValuesFromObject(object other)
         {
             if(!canBeAssignedFromType(other.GetType()))
                 throw new TypeCastException("Cannot assign value to Instance of type KtdArray<" + elementType.Name + "> : "

@@ -51,7 +51,7 @@ namespace KIARA
         /// </summary>
         /// <param name="other">C# object the values of which should be assigned to the KTD type</param>
         /// <returns>Object that corresponds to an instance of the KTD Type that maps to the C# object</returns>
-        public virtual object AssignValuesFromObject(object other)
+        public virtual KtdTypeInstance AssignValuesFromObject(object other)
         {
             if(!canBeAssignedFromType(other.GetType()))
                 throw new TypeCastException("Cannot assign value to KtdInstance of type " + Name + ": "
