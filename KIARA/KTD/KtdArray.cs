@@ -16,6 +16,13 @@ namespace KIARA
     /// </summary>
     public class KtdArray : KtdType
     {
+        public KtdArray() { }
+
+        public KtdArray(KtdType type)
+        {
+            elementType = type;
+        }
+
         internal override bool canBeAssignedFromType(Type type)
         {
             // Type to match is no enumerable and can thus not be matched to an array
