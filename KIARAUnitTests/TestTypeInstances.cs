@@ -11,9 +11,59 @@ namespace KIARAUnitTests
     [TestFixture()]
     public class TestTypeInstances
     {
+        KtdStruct intStruct;
+        KtdStruct aStruct;
+        KtdStruct mStruct;
+        KtdStruct sStruct;
+
+        KtdType i32;
+        KtdType ktdString;
+        KtdType ktdBool;
+
+        struct testStruct
+        {
+            public int x;
+            public int y;
+        }
+
+        struct arrayStruct
+        {
+            public int[] arr;
+        }
+
+        struct mapStruct
+        {
+            public Dictionary<string, bool> map;
+        }
+
+        struct structStruct
+        {
+            public testStruct child;
+        }
+
         [SetUp()]
         public void TestSetUp()
         {
+            i32 = KTD.Instance.GetKtdType("i32");
+            ktdString = KTD.Instance.GetKtdType("string");
+            ktdBool = KTD.Instance.GetKtdType("boolean");
+
+            intStruct = new KtdStruct("intStruct");
+            intStruct.members["x"] = i32;
+            intStruct.members["y"] = i32;
+
+            aStruct = new KtdStruct("arrayStruct");
+            aStruct.members.Add("arr", new KtdArray(i32));
+            KTD.Instance.RegisterType(aStruct);
+
+            mStruct = new KtdStruct("mapStruct");
+            mStruct.members.Add("map", new KtdMap(ktdString, ktdBool));
+            KTD.Instance.RegisterType(mStruct);
+
+            sStruct = new KtdStruct("structStruct");
+            sStruct.members.Add("child", intStruct);
+            KTD.Instance.RegisterType(sStruct);
+
             KTD.Instance = new KTD();
         }
 
@@ -261,6 +311,67 @@ namespace KIARAUnitTests
 
             Assert.Throws<TypeCastException>(
                 () => { var mapInstance = ktdMap.AssignValuesFromObject(baseTypeDictionary) as KtdMapInstance; });
+        }
+
+        [Test()]
+        public void ShouldAssignStructOfBaseTypesByName()
+        {
+            var structInstance = new testStruct{
+                x = 1,
+                y = 2
+            };
+
+            KtdStructInstance inst = intStruct.AssignValuesFromObject(structInstance) as KtdStructInstance;
+            Assert.AreEqual(1, inst.Fields["x"].Value);
+            Assert.AreEqual(2, inst.Fields["y"].Value);
+        }
+
+        [Test()]
+        public void ShouldAssignStructWithArrayByName()
+        {
+            var aStructInstance = new arrayStruct {
+                arr = new int[] {1}
+            };
+
+            KtdStructInstance inst = aStruct.AssignValuesFromObject(aStructInstance) as KtdStructInstance;
+            KtdArrayInstance arrayInst = inst.Fields["arr"] as KtdArrayInstance;
+            KtdTypeInstance[] instancedValues = arrayInst.Values;
+            Assert.AreEqual(1, instancedValues.Length);
+            Assert.AreEqual(1, instancedValues[0].Value);
+        }
+
+        [Test()]
+        public void ShouldAssignStructWithMapByName()
+        {
+            var mStructInstance = new mapStruct
+            {
+                map = new Dictionary<string, bool> {
+                    {"value", true}
+                }
+            };
+
+            KtdStructInstance inst = mStruct.AssignValuesFromObject(mStructInstance) as KtdStructInstance;
+            KtdMapInstance m = inst.Fields["map"] as KtdMapInstance;
+            Assert.AreEqual("value", m.Values.Keys.ElementAt(0).Value);
+            Assert.AreEqual(true, m.Values.Values.ElementAt(0).Value);
+        }
+
+        [Test()]
+        public void ShoulsAssignStructWithStructByName()
+        {
+            var structStructInstance = new structStruct
+            {
+                child = new testStruct
+                {
+                    x = 1,
+                    y = 2,
+                }
+            };
+
+            KtdStructInstance inst = sStruct.AssignValuesFromObject(structStructInstance) as KtdStructInstance;
+            KtdStructInstance childInst = inst.Fields["child"] as KtdStructInstance;
+            Assert.AreEqual(1, childInst.Fields["x"].Value);
+            Assert.AreEqual(2, childInst.Fields["y"].Value);
         }
     }
 }
