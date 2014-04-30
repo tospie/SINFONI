@@ -41,6 +41,24 @@ namespace KIARAUnitTests
             public testStruct child;
         }
 
+        class testClassProps
+        {
+            public int x { get; set; }
+            public int y { get; set; }
+        }
+
+        class testClassFields
+        {
+            public int x;
+            public int y;
+        }
+
+        class testClassBoth
+        {
+            public int x;
+            public int y { get; set; }
+        }
+
         [SetUp()]
         public void TestSetUp()
         {
@@ -357,7 +375,7 @@ namespace KIARAUnitTests
         }
 
         [Test()]
-        public void ShoulsAssignStructWithStructByName()
+        public void ShouldAssignStructWithStructFromStructByName()
         {
             var structStructInstance = new structStruct
             {
@@ -372,6 +390,48 @@ namespace KIARAUnitTests
             KtdStructInstance childInst = inst.Fields["child"] as KtdStructInstance;
             Assert.AreEqual(1, childInst.Fields["x"].Value);
             Assert.AreEqual(2, childInst.Fields["y"].Value);
+        }
+
+        [Test()]
+        public void ShouldAssignStructFromClassWithFieldsByName()
+        {
+            var fieldClassInstance = new testClassFields
+            {
+                x = 1,
+                y = 2
+            };
+
+            KtdStructInstance inst = intStruct.AssignValuesFromObject(fieldClassInstance) as KtdStructInstance;
+            Assert.AreEqual(1, inst.Fields["x"].Value);
+            Assert.AreEqual(2, inst.Fields["y"].Value);
+        }
+
+        [Test()]
+        public void ShouldAssignStructFromClassWithPropertiesByName()
+        {
+            var propsClassInstance = new testClassProps
+            {
+                x = 1,
+                y = 2
+            };
+
+            KtdStructInstance inst = intStruct.AssignValuesFromObject(propsClassInstance) as KtdStructInstance;
+            Assert.AreEqual(1, inst.Fields["x"].Value);
+            Assert.AreEqual(2, inst.Fields["y"].Value);
+        }
+
+        [Test()]
+        public void ShouldAssignStructFromClassWithBothByName()
+        {
+            var bothClassInstance = new testClassBoth
+            {
+                x = 1,
+                y = 2
+            };
+
+            KtdStructInstance inst = intStruct.AssignValuesFromObject(bothClassInstance) as KtdStructInstance;
+            Assert.AreEqual(1, inst.Fields["x"].Value);
+            Assert.AreEqual(2, inst.Fields["y"].Value);
         }
     }
 }
