@@ -60,6 +60,7 @@
     <Compile Include="KTD\KtdMap.cs" />
     <Compile Include="KTD\KtdMapInstance.cs" />
     <Compile Include="KTD\KtdStruct.cs" />
+    <Compile Include="KTD\KtdStructInstance.cs" />
     <Compile Include="KTD\KtdType.cs" />
     <Compile Include="KTD\KtdTypeInstance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
