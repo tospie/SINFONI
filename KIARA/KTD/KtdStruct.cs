@@ -21,7 +21,7 @@ namespace KIARA
 
             if (canBeAssignedFromType(other.GetType()))
             {
-                // Map object by name-type-matching
+                return MapByName(other);
             }
             else /* if valid mapping is declared */
             {
@@ -31,14 +31,36 @@ namespace KIARA
             MappingFunction map = mappings[other.GetType()] as MappingFunction;
             map(other);
 
-            return new KtdStructInstance();
+            return new KtdStructInstance(this, new Dictionary<string,KtdTypeInstance>());
         }
 
-        bool MapByName(object other)
+        KtdStructInstance MapByName(object other)
         {
-            other.GetType().GetMembers();
+            var assignedMembers = new Dictionary<string, KtdTypeInstance>();
 
-            return true;
+            foreach (KeyValuePair<string, KtdType> field in members)
+            {
+                KtdTypeInstance ktdValue = getFieldValueForKtdInstance(other, field.Key, field.Value);
+                assignedMembers.Add(field.Key, ktdValue);
+            }
+            return new KtdStructInstance(this, assignedMembers);
+        }
+
+        private KtdTypeInstance getFieldValueForKtdInstance(object other, string fieldName, KtdType ktdType)
+        {
+            KtdTypeInstance assignedValue;
+            var otherField = other.GetType().GetField(fieldName);
+
+            if (otherField == null)
+            {
+                var property = other.GetType().GetProperty(fieldName);
+                assignedValue = ktdType.AssignValuesFromObject(property.GetValue(other, null));
+            }
+            else
+            {
+                assignedValue = ktdType.AssignValuesFromObject(otherField.GetValue(other));
+            }
+            return assignedValue;
         }
 
         internal override bool canBeAssignedFromType(Type type)
