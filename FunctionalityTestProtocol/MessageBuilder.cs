@@ -38,11 +38,5 @@ namespace FunctionalityTestProtocol
             return parameter;
         }
 
-        internal Dictionary<string, object> WriteStruct(KtdStruct IDLstruct, object parameter)
-        {
-            // TODO: Transforming the parameter to the correct representation should be somehow handled here.
-            // AssignValuesFromObject should take care of recursing into struct and array / map typed object
-            return IDLstruct.AssignValuesFromObject(parameter) as Dictionary<string, object>;
-        }
     }
 }
