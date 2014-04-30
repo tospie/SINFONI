@@ -15,6 +15,14 @@ namespace KIARA
     /// </summary>
     public class KtdMap : KtdType
     {
+        public KtdMap() { }
+
+        public KtdMap(KtdType key, KtdType element)
+        {
+            keyType = key;
+            elementType = element;
+        }
+
         internal override bool canBeAssignedFromType(Type type)
         {
             if (!typeof(IDictionary).IsAssignableFrom(type))
