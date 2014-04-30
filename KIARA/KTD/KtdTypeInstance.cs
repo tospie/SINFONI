@@ -7,6 +7,8 @@ namespace KIARA
 {
     public class KtdTypeInstance
     {
+        public KtdTypeInstance() { }
+
         public KtdTypeInstance(KtdType type, object value)
         {
             TypeDefinition = type;
