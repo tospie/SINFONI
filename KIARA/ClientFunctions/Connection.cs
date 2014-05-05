@@ -6,7 +6,7 @@ using KIARA.Exceptions;
 
 namespace KIARA
 {
-    public abstract class Connection
+    public abstract class ConnectionOld
     {
         public delegate IClientFunctionCall ClientFunction(params object[] parameters);
 
