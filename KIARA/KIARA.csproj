@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="ClientFunctions\Connection.cs" />
     <Compile Include="ClientFunctions\IClientFunctionCall.cs" />
+    <Compile Include="Connection.cs" />
     <Compile Include="Exceptions\IDLParseException.cs" />
     <Compile Include="Exceptions\InvalidTypeNameException.cs" />
     <Compile Include="Exceptions\ParameterMismatchException.cs" />
