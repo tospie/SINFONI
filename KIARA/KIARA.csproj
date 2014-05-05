@@ -39,7 +39,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientFunctions\Connection.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="Exceptions\IDLParseException.cs" />
     <Compile Include="Exceptions\InvalidTypeNameException.cs" />
