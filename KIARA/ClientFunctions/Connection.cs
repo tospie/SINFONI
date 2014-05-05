@@ -8,7 +8,6 @@ namespace KIARA
 {
     public abstract class Connection
     {
-        // TODO: Change Return type to ICLientFunctionCall as soon as the calling mechanism is implemented
         public delegate IClientFunctionCall ClientFunction(params object[] parameters);
 
         public ClientFunction GenerateClientFunction(string serviceName, string functionName)
