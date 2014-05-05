@@ -40,7 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientFunctions\Connection.cs" />
-    <Compile Include="ClientFunctions\IClientFunctionCall.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="Exceptions\IDLParseException.cs" />
     <Compile Include="Exceptions\InvalidTypeNameException.cs" />
@@ -53,6 +52,7 @@
     <Compile Include="IDLParser\IDLParser.cs" />
     <Compile Include="IDLParser\MapParser.cs" />
     <Compile Include="IDLParser\ServiceParser.cs" />
+    <Compile Include="IClientFunctionCall.cs" />
     <Compile Include="IProtocol.cs" />
     <Compile Include="KiaraService.cs" />
     <Compile Include="KTD\Ktd.cs" />
