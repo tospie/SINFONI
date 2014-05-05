@@ -9,7 +9,7 @@ namespace KIARA
     public abstract class Connection
     {
         // TODO: Change Return type to ICLientFunctionCall as soon as the calling mechanism is implemented
-        public delegate void ClientFunction(params object[] parameters);
+        public delegate IClientFunctionCall ClientFunction(params object[] parameters);
 
         public ClientFunction GenerateClientFunction(string serviceName, string functionName)
         {
@@ -36,10 +36,10 @@ namespace KIARA
                 for (var i = 0; i < parameters.Length; i++ )
                 {
                     KtdType expectedParameterType = registeredServiceFunction.Parameters.ElementAt(i).Value;
-                    callParameters[i] = expectedParameterType.AssignValuesFromObject(parameters);
+                    callParameters[i] = expectedParameterType.AssignValuesFromObject(parameters[i]);
                 }
                 // TODO: Implement Calling remote functions
-                // return CallClientFunction(serviceName, parameters);
+                return CallClientFunction(serviceName, callParameters);
             };
         }
     }
