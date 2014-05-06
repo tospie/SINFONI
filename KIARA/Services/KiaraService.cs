@@ -27,7 +27,9 @@ namespace KIARA
 
             return serviceFunctions[name];
         }
+
+
         internal Dictionary<string, ServiceFunctionDescription> serviceFunctions =
-            new Dictionary<string, ServiceFunctionDescription>();
+            new Dictionary<string, ServiceFunctionDescription>();        
     }
 }
