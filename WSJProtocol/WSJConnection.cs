@@ -6,7 +6,7 @@ using KIARA;
 
 namespace WSJProtocol
 {
-    public class WSJConnection : Connection
+    public class WSJConnection
     {
 
         protected IClientFunctionCall CallFunc(string funcName, params object[] args)
