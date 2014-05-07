@@ -8,7 +8,30 @@ using NUnit.Framework;
 
 namespace KIARAUnitTests
 {
-    class TestConnection : Connection { }
+    class TestConnection : Connection {
+        public override event EventHandler Closed;
+
+        public override void Disconnect()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void ProcessIDL(string parsedIDL)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void RegisterHandler(string funcName, Delegate handler)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IClientFunctionCall CallClientFunction(string funcName, params object[] args)
+        {
+            IClientFunctionCall mockCall = null;
+            return mockCall;
+        }
+    }
 
     [TestFixture()]
     class TestClientFunctions
