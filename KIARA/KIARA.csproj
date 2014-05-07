@@ -64,7 +64,8 @@
     <Compile Include="IDLParser\ServiceParser.cs" />
     <Compile Include="IClientFunctionCall.cs" />
     <Compile Include="IProtocol.cs" />
-    <Compile Include="KiaraService.cs" />
+    <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\KiaraService.cs" />
     <Compile Include="KTD\Ktd.cs" />
     <Compile Include="KTD\KtdArray.cs" />
     <Compile Include="KTD\KtdArrayInstance.cs" />
@@ -77,8 +78,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IDLParser\StructParser.cs" />
     <Compile Include="ProtocolRegistry.cs" />
-    <Compile Include="ServiceFunctionDescription.cs" />
-    <Compile Include="ServiceRegistry.cs" />
+    <Compile Include="Services\ServiceFunctionDescription.cs" />
+    <Compile Include="Services\ServiceRegistry.cs" />
     <Compile Include="TestingWrappers.cs">
       <SubType>Component</SubType>
     </Compile>
