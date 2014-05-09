@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\ClosedEventArgs.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Error.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Exceptions\TypeCastException.cs" />
     <Compile Include="Exceptions\TypeNameConflictException.cs" />
     <Compile Include="Exceptions\TypeNotRegisteredException.cs" />
+    <Compile Include="FuncCallBase.cs" />
     <Compile Include="IConnectionFactory.cs" />
     <Compile Include="IDLParser\ArrayParser.cs" />
     <Compile Include="IDLParser\IDLParser.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="IDLParser\ServiceParser.cs" />
     <Compile Include="IClientFunctionCall.cs" />
     <Compile Include="IProtocol.cs" />
+    <Compile Include="ProtocolUtils.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Services\KiaraService.cs" />
     <Compile Include="KTD\Ktd.cs" />
