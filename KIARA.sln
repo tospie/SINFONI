@@ -14,6 +14,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9A84E7
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{F22299F5-DD8B-4A94-A6BC-9CB64201C39C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protocols", "Protocols", "{6AC2C9D5-7C9A-49E7-9B9A-58C10597BECD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{76FCAEF8-ACFF-404E-827D-239879217FEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,5 +41,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D0A996D3-E307-4C53-97C6-6F532C43E750} = {F22299F5-DD8B-4A94-A6BC-9CB64201C39C}
+		{B43693EF-8534-4491-93B9-D9E4702DC0F3} = {F22299F5-DD8B-4A94-A6BC-9CB64201C39C}
+		{7729110A-D86E-4802-A158-9BE992C98F68} = {6AC2C9D5-7C9A-49E7-9B9A-58C10597BECD}
 	EndGlobalSection
 EndGlobal
