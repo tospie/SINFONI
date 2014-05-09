@@ -75,16 +75,16 @@
     <Compile Include="PrivateSetterResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebSocketSocketAdapter.cs" />
+    <Compile Include="WSJConnectionFactoryTest.cs" />
+    <Compile Include="WSJFuncCallTest.cs" />
     <Compile Include="WSJSessionSocketAdapter.cs" />
     <Compile Include="WSJConnection.cs" />
     <Compile Include="WSJConnectionFactory.cs" />
     <Compile Include="WSJServer.cs" />
     <Compile Include="WSJSession.cs" />
     <Compile Include="WSJFuncCall.cs" />
-    <Compile Include="WSJFuncCallTest.cs" />
     <Compile Include="WSJConnectionTest.cs" />
     <Compile Include="TestingWrappers.cs" />
-    <Compile Include="WSJConnectionFactoryTest.cs" />
     <Compile Include="StandardFloatConverter.cs" />
     <Compile Include="SocketErrorEventArgs.cs" />
   </ItemGroup>
