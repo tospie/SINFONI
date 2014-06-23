@@ -6,9 +6,16 @@ using KIARA.Exceptions;
 
 namespace KIARA
 {
-    public class KiaraService
+    public class KiaraService : IService
     {
         public string Name { get; internal set; }
+
+        public Context Context { get; private set; }
+
+        public Delegate this[string name]
+        {
+            set { throw new NotImplementedException(); }
+        }
 
         internal KiaraService(string name)
         {
@@ -30,6 +37,6 @@ namespace KIARA
 
 
         internal Dictionary<string, ServiceFunctionDescription> serviceFunctions =
-            new Dictionary<string, ServiceFunctionDescription>();        
+            new Dictionary<string, ServiceFunctionDescription>();
     }
 }
