@@ -47,7 +47,7 @@ namespace KIARA
                 instanceValues.Add(keyInstance, valueInstance);
             }
 
-            return new KtdMapInstance(this, instanceValues);
+            return new KtdMapInstance(instanceValues);
         }
 
         internal KtdType keyType;
