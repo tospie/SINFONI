@@ -7,13 +7,11 @@ namespace KIARA
 {
     public class KtdStructInstance : KtdTypeInstance
     {
-        public KtdStructInstance(KtdType type, Dictionary<string, KtdTypeInstance> fields)
+        public KtdStructInstance(Dictionary<string, KtdTypeInstance> fields)
         {
-            TypeDefinition = type;
             fieldValues = fields;
         }
 
-        public KtdType TypeDefinition { get; private set; }
         public Dictionary<string, KtdTypeInstance> Fields
         {
             get { return fieldValues; }

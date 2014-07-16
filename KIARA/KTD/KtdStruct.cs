@@ -34,7 +34,7 @@ namespace KIARA
             MappingFunction map = mappings[other.GetType()] as MappingFunction;
             map(other);
 
-            return new KtdStructInstance(this, new Dictionary<string,KtdTypeInstance>());
+            return new KtdStructInstance(new Dictionary<string,KtdTypeInstance>());
         }
 
         KtdStructInstance MapByName(object other)
@@ -46,7 +46,7 @@ namespace KIARA
                 KtdTypeInstance ktdValue = getFieldValueForKtdInstance(other, field.Key, field.Value);
                 assignedMembers.Add(field.Key, ktdValue);
             }
-            return new KtdStructInstance(this, assignedMembers);
+            return new KtdStructInstance(assignedMembers);
         }
 
         private KtdTypeInstance getFieldValueForKtdInstance(object other, string fieldName, KtdType ktdType)
