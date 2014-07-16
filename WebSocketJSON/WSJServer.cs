@@ -44,10 +44,6 @@ namespace WebSocketJSON
             NewMessageReceived += (session, value) => session.HandleMessageReceived(value);
         }
 
-        public bool Setup(IServerConfig config, ISocketServerFactory socketServerFactory = null, IReceiveFilterFactory<IWebSocketFragment> receiveFilterFactory = null, ILogFactory logFactory = null, IEnumerable<IConnectionFilter> connectionFilters = null, IEnumerable<ICommandLoader> commandLoaders = null)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
 

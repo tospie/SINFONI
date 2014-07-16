@@ -52,10 +52,13 @@ namespace KIARA
         /// <param name="line">Line of the IDL that is parsed</param>
         internal void parseLine(string line)
         {
-            if(lineIsComment(line) || line.Length == 0)
+            if(lineIsComment(line))
                 return;
 
             line = removeCommentedParts(line);
+
+            if (line.Length == 0)
+                return;
 
             if (currentlyParsing == ParseMode.NONE)
             {

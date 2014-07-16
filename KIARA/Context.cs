@@ -18,8 +18,7 @@ namespace KIARA
     public struct Config
     {
         public string info;
-        public string idlURL;
-        public string idlContents;
+        public string idlURL;        
         public List<Server> servers;
     }
     #endregion
@@ -31,6 +30,7 @@ namespace KIARA
     {
         public static Context DefaultContext = new Context();
 
+        public Config ServerConfiguarion { get; private set; }
         public void Initialize(string hint)
         {
         }
@@ -49,8 +49,8 @@ namespace KIARA
         public void OpenConnection(string configURI, Action<Connection> onConnected)
         {
             string fragment = "";
-            Config config = RetrieveConfig(configURI, out fragment);
-            Server server = SelectServer(fragment, config);
+            this.ServerConfiguarion = RetrieveConfig(configURI, out fragment);                       
+            Server server = SelectServer(fragment, this.ServerConfiguarion);
 
             string protocolName = server.protocol["name"].ToString();
             IConnectionFactory connectionFactory = protocolRegistry.GetConnectionFactory(protocolName);
@@ -129,7 +129,7 @@ namespace KIARA
         {
             if (config.servers == null)
                 throw new Error(ErrorCode.INIT_ERROR, "Configuration file contains no servers.");
-
+            
             int serverNum = -1;
             if (!Int32.TryParse(fragment, out serverNum) || serverNum < 0 || serverNum >= config.servers.Count ||
                 !IsServerProtocolSupported(config.servers[serverNum])) {

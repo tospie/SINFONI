@@ -1,6 +1,6 @@
 {
-  "info": "ServerSyncServer",
-  "idlURL": "serverSync.kiara",
+  "info": "SimpleServer",
+  "idlURL": "server.kiara",
   "servers": [{
     "services": "*",
     "protocol": {

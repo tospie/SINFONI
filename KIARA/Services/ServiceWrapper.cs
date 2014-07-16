@@ -15,7 +15,7 @@
 using System;
 using KIARA;
 
-namespace KIARAPlugin
+namespace KIARA
 {
     class ServiceWrapper : Service, IServiceWrapper
     {
@@ -40,7 +40,7 @@ namespace KIARAPlugin
         internal void HandleConnected(Connection aConnection)
         {
             connection = aConnection;
-
+            
             RegisterMethods(connection);
 
             if (InternalOnConnected != null)

@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using KIARA;
 
-namespace KIARAPlugin
+namespace KIARA
 {
     class ServiceImpl : Service, IServiceImpl
     {

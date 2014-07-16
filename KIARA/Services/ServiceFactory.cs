@@ -15,7 +15,7 @@
 using System;
 using KIARA;
 
-namespace KIARAPlugin
+namespace KIARA
 {
     public static class ServiceFactory
     {

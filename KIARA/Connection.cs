@@ -35,15 +35,14 @@ namespace KIARA
         /// </summary>
         /// <param name="name">Function name.</param>
         /// <returns>Function wrapper.</returns>
-        /* TODO: Check how to transfer this to service.function syntax
         public ClientFunction this[string name]
-        {
+        {            
             get
             {
-                return GenerateClientFunction(name);
+                string[] serviceName = name.Split('.');
+                return GenerateClientFunction(serviceName[0], serviceName[1]);
             }
         }
-        */
 
         /// <summary>
         /// Loads an IDL definition file at <paramref name="uri"/> into the connection.
@@ -53,7 +52,7 @@ namespace KIARA
         {
             string contents = webClient.DownloadString(uri);
             // TODO: Parse the IDL and pass parsed structure into ProcessIDL.
-            ProcessIDL(contents);
+            IDLParser.Instance.parseIDL(contents);
         }
 
         /// <summary>
@@ -91,7 +90,7 @@ namespace KIARA
                     callParameters[i] = expectedParameterType.AssignValuesFromObject(parameters[i]);
                 }
                 // TODO: Implement Calling remote functions
-                return CallClientFunction(serviceName, callParameters);
+                return CallClientFunction(serviceName + "." + functionName, callParameters);
             };
         }
 

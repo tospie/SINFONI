@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using KIARA;
 
-namespace KIARAPlugin
+namespace KIARA
 {
     public delegate void NewClient(Connection connection);
 

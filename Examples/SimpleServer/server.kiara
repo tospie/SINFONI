@@ -1,0 +1,19 @@
+/* **
+* Some Example server. Does not do much apart from adding vectors
+*/
+
+// Our only data structure for the example.
+// Apart from base types, it could also contain arrays and maps
+// of base types and structs
+struct Vector {
+    float x;
+    float y;        
+	float z;
+}
+
+
+// Very basic service for vector operations
+service example
+{
+	Vector addVectors(Vector v, Vector w);
+}

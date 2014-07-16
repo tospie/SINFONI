@@ -14,10 +14,13 @@ namespace KIARA
         {
             var result = 0;
 
-            mappings.Add(other.GetType(), (MappingFunction)delegate(object other2)
+            if (!mappings.ContainsKey(other.GetType()))
             {
-                return this.MapByName(other2);
-            });
+                mappings.Add(other.GetType(), (MappingFunction)delegate(object other2)
+                {
+                    return this.MapByName(other2);
+                });
+            }
 
             if (canBeAssignedFromType(other.GetType()))
             {

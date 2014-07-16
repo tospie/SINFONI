@@ -15,7 +15,7 @@
 using System;
 using KIARA;
 
-namespace KIARAPlugin
+namespace KIARA
 {
     public delegate void Connected(Connection connection);
 
