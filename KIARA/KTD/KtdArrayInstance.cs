@@ -7,12 +7,11 @@ namespace KIARA
 {
     public class KtdArrayInstance : KtdTypeInstance
     {
-        public KtdArrayInstance(KtdType definition, KtdTypeInstance[] values)
+        public KtdArrayInstance(KtdTypeInstance[] values)
         {
-            TypeDefinition = definition;
             Values = values;
         }
-        public KtdType TypeDefinition;
+
         public KtdTypeInstance[] Values { get; internal set; }
     }
 }

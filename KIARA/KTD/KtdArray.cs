@@ -56,7 +56,7 @@ namespace KIARA
                 arrayValues.Add((KtdTypeInstance)elementType.AssignValuesFromObject(value));
             }
 
-            KtdArrayInstance instance = new KtdArrayInstance(this, arrayValues.ToArray());
+            KtdArrayInstance instance = new KtdArrayInstance(arrayValues.ToArray());
             return instance;
         }
         // From StackOverflow:
