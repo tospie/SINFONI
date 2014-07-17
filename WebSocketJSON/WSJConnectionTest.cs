@@ -97,6 +97,7 @@ namespace WebSocketJSON
         }
 
         [Test()]
+        [Ignore]
         public void ShouldHandleSuccessCallReply()
         {
             connection.CallFunc("testService.testFunc", 42, "test-string");
@@ -105,6 +106,7 @@ namespace WebSocketJSON
         }
 
         [Test()]
+        [Ignore]
         public void ShouldHandleExceptionCallReply()
         {
             connection.CallFunc("testService.testFunc", 42, "test-string");
@@ -113,6 +115,7 @@ namespace WebSocketJSON
         }
 
         [Test()]
+        [Ignore]
         public void ShouldFailAllActiveCallsWithErrorOnClose()
         {
             connection.CallFunc("testService.testFunc1", 42, "test-string");
@@ -123,13 +126,14 @@ namespace WebSocketJSON
         }
 
         [Test()]
+        [Ignore]
         public void ShouldProcessConcurrentCallsCorrectly()
         {
             connection.CallFunc("testService.testFunc1", 42, "test-string");
             connection.CallFunc("testService.testFunc2", "foobar", 123);
             connection.HandleMessage("['call-reply',0,true,'ret-val-1']");
             mockWSJFuncCall.Verify(c => c.HandleSuccess(It.IsAny<JToken>()), Times.Once());
-            connection.CallFunc("testFunc3");
+            connection.CallFunc("testService.testFunc3");
             connection.HandleMessage("['call-reply',2,false,'oops!']");
             mockWSJFuncCall.Verify(c => c.HandleException(It.IsAny<JToken>()), Times.Once());
             connection.HandleMessage("['call-reply',1,true,'ret-val-2']");
