@@ -75,7 +75,7 @@ namespace WebSocketJSON
         public void ShouldCorrectlyFormatCallMessage()
         {
             connection.CallFunc("testService.testFunc", 42, "test-string");
-            Assert.AreEqual(connection.sentMessages[0], "[\"call\",0,\"testFunc\",[],42,\"test-string\"]");
+            Assert.AreEqual(connection.sentMessages[0], "[\"call\",0,\"testService.testFunc\",[],42,\"test-string\"]");
         }
 
         [Test()]
