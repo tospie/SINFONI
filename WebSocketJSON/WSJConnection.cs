@@ -79,7 +79,18 @@ namespace WebSocketJSON
             if (!IsOneWay(funcName))
             {
                 string[] serviceDescription = funcName.Split('.');
-                callObj = wsjFuncCallFactory.Construct(serviceDescription[0], serviceDescription[1]);
+                // Usually, a function called via CallClientFunction is parsed from the KIARA IDL and of ther
+                // form serviceName.functionName. However, in some cases (e.g. twisted Unit Tests), functions may be
+                // created locally, only having a GUID as function name. In this case, we appen "LOCAL" as service name
+                // to mark the function as locally created
+                if (serviceDescription.Length < 2)
+                {
+                    callObj = wsjFuncCallFactory.Construct("LOCAL", funcName);
+                }
+                else
+                {
+                    callObj = wsjFuncCallFactory.Construct(serviceDescription[0], serviceDescription[1]);
+                }
 
                 // It is important to add an active call to the list before sending it, otherwise we may end up
                 // receiving call-reply before this happens, which will trigger unnecessary call-error and crash the
@@ -191,6 +202,11 @@ namespace WebSocketJSON
                 bool success = true;
                 try
                 {
+                    // Super Evil Hack Here! Existing unit tests assume that WSJON serializes in a fixed format that
+                    // originates from serializing the native types correctly. Also, the tests do not take into account
+                    // any KTD from any IDL. To make them work, we have to pretend that there is no ServiceRegistry
+                    // maintaining any service description, but bypass type check and automatic KTD Conversion
+                    // by setting service Registry to null
                     if (ServiceRegistry.Instance == null)
                     {
                         returnValue = nativeMethod.DynamicInvoke(parameters);
@@ -270,6 +286,7 @@ namespace WebSocketJSON
                 }
                 else
                 {
+                    // Super Evil Hack! See other super evil hack comment above
                     if (ServiceRegistry.Instance == null)
                     {
                         parameters[i] = args[i].ToObject(paramInfo[i].ParameterType, serializer);
