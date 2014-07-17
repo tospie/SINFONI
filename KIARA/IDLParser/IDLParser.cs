@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using KIARA.Exceptions;
@@ -25,11 +26,18 @@ namespace KIARA
 
         public static IDLParser Instance = new IDLParser();
 
+        public void ParseIDLFromUri(string idlUri)
+        {
+            WebClient webClient = new WebClient();
+            string idlContent = webClient.DownloadString(idlUri);
+            parseIDL(idlContent);
+        }
+
         /// <summary>
         /// Parses a complete IDL
         /// </summary>
         /// <param name="idlString">Complete IDL</param>
-        internal void parseIDL(string idlString)
+        public void parseIDL(string idlString)
         {
             lineNumberParsed = 0;
             currentlyParsing = ParseMode.NONE;
