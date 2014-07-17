@@ -161,6 +161,7 @@ namespace WebSocketJSON
         {
             int callID = data[1].ToObject<int>(serializer);
             string methodName = data[2].ToObject<string>(serializer);
+            string[] serviceDescription = methodName.Split('.');
 
             Delegate nativeMethod = null;
             lock (registeredFunctions)
@@ -190,7 +191,10 @@ namespace WebSocketJSON
                 bool success = true;
                 try
                 {
-                    returnValue = nativeMethod.DynamicInvoke(parameters);
+                    ServiceFunctionDescription service = ServiceRegistry.Instance
+                        .GetService(serviceDescription[0])
+                        .GetServiceFunction(serviceDescription[1]);
+                    returnValue = service.ReturnType.AssignValuesFromObject(nativeMethod.DynamicInvoke(parameters));
                 }
                 catch (Exception e)
                 {
