@@ -107,8 +107,14 @@ namespace KIARA
                 if (handler.Method.GetParameters().Length == 0) {
                     handler.DynamicInvoke();
                 } else {
+                    Type returnType = ServiceRegistry.Instance
+                        .GetService(ServiceName)
+                        .GetServiceFunction(FunctionName)
+                        .ReturnType
+                        .InstanceType;
                     Type argType = handler.Method.GetParameters()[0].ParameterType;
-                    handler.DynamicInvoke(ConvertResult(retValue, argType));
+                    var ktdTypeInstanceResult = ConvertResult(retValue, returnType) as KtdTypeInstance;
+                    handler.DynamicInvoke(ktdTypeInstanceResult.AssignToLocalType(argType));
                 }
             }
 
