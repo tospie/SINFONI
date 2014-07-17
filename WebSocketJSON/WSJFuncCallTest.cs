@@ -26,6 +26,10 @@ namespace WebSocketJSON
             : base("foo", "bar")
         { }
 
+        public WSJFuncCallTest(string serviceName, string methodName)
+            : base(serviceName, methodName)
+        { }
+
         [Test()]
         public void ShouldConvertResults()
         {
