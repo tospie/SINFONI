@@ -177,7 +177,7 @@ namespace WebSocketJSON
                     var args = data.GetRange(4, data.Count - 4);
                     var callbacks = data[3].ToObject<List<int>>(serializer);
                     var paramInfo = new List<ParameterInfo>(nativeMethod.Method.GetParameters());
-                    parameters = ConvertParameters(args, callbacks, paramInfo);
+                    parameters = ConvertParameters(methodName, args, callbacks, paramInfo);
                 }
                 catch (Exception e)
                 {
@@ -208,7 +208,19 @@ namespace WebSocketJSON
             }
         }
 
-        private object[] ConvertParameters(List<JToken> args, List<int> callbacks, List<ParameterInfo> paramInfo)
+        private KtdTypeInstance DeserializeParameterToKtdInstance(string methodName, int parameterNumber, JToken parameter)
+        {
+            string[] serviceDefinition = methodName.Split('.');
+            ServiceFunctionDescription calledFunction =
+            ServiceRegistry.Instance.GetService(serviceDefinition[0]).GetServiceFunction(serviceDefinition[1]);
+
+            KtdType parameterType = calledFunction.Parameters.ElementAt(parameterNumber).Value;
+            Type instanceType = parameterType.InstanceType;
+            KtdTypeInstance instanceParameter = parameter.ToObject(instanceType, serializer) as KtdTypeInstance;
+            return instanceParameter;
+        }
+
+        private object[] ConvertParameters(string methodName, List<JToken> args, List<int> callbacks, List<ParameterInfo> paramInfo)
         {
             object[] parameters = new object[paramInfo.Count];
 
@@ -216,7 +228,7 @@ namespace WebSocketJSON
             if (paramInfo.Count > 0 && paramInfo[0].ParameterType.Equals(typeof(Connection)))
             {
                 parameters[0] = this;
-                var otherParams = ConvertParameters(args, callbacks, paramInfo.GetRange(1, paramInfo.Count - 1));
+                var otherParams = ConvertParameters(methodName, args, callbacks, paramInfo.GetRange(1, paramInfo.Count - 1));
                 otherParams.CopyTo(parameters, 1);
                 return parameters;
             }
@@ -247,7 +259,9 @@ namespace WebSocketJSON
                 }
                 else
                 {
-                    parameters[i] = args[i].ToObject(paramInfo[i].ParameterType, serializer);
+                    // Here:
+                    var receivedTypeInstance = DeserializeParameterToKtdInstance(methodName, i, args[i]);
+                    parameters[i] = receivedTypeInstance.AssignToLocalType(paramInfo[i].ParameterType);
                 }
             }
 
