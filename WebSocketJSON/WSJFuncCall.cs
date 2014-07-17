@@ -23,6 +23,11 @@ namespace WebSocketJSON
     /// </summary>
     public class WSJFuncCall : FuncCallBase, IWSJFuncCall
     {
+        public WSJFuncCall(string serviceName, string methodName)
+            : base(serviceName, methodName)
+        {
+        }
+
         protected override object ConvertResult(object result, Type type)
         {
             if (type == typeof(JToken))

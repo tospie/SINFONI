@@ -78,7 +78,8 @@ namespace WebSocketJSON
             IWSJFuncCall callObj = null;
             if (!IsOneWay(funcName))
             {
-                callObj = wsjFuncCallFactory.Construct();
+                string[] serviceDescription = funcName.Split('.');
+                callObj = wsjFuncCallFactory.Construct(serviceDescription[0], serviceDescription[1]);
 
                 // It is important to add an active call to the list before sending it, otherwise we may end up
                 // receiving call-reply before this happens, which will trigger unnecessary call-error and crash the

@@ -20,14 +20,14 @@ namespace WebSocketJSON
 
     public interface IWSJFuncCallFactory
     {
-        IWSJFuncCall Construct();
+        IWSJFuncCall Construct(string serviceName, string methodName);
     }
 
     public class WSJFuncCallFactory : IWSJFuncCallFactory
     {
-        public IWSJFuncCall Construct()
+        public IWSJFuncCall Construct(string serviceName, string methodName)
         {
-            return new WSJFuncCall();
+            return new WSJFuncCall(serviceName, methodName);
         }
     }
 

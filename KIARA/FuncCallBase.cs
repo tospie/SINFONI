@@ -87,6 +87,11 @@ namespace KIARA
 
         #endregion
 
+        public FuncCallBase(string serviceName, string functionName)
+        {
+            ServiceName = serviceName;
+            FunctionName = functionName;
+        }
         /// <summary>
         /// Notifies the clients of this call that the call was completed successfully. The <paramref name="retValue"/>
         /// is passed into success handlers.
@@ -190,6 +195,9 @@ namespace KIARA
         /// and will be casted to required type using <see cref="convertResult"/>.
         /// </summary>
         protected object cachedResult = null;
+
+        private string ServiceName;
+        private string FunctionName;
     }
 }
 
