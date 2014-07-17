@@ -22,6 +22,10 @@ namespace WebSocketJSON
     [TestFixture()]
     public class WSJFuncCallTest : WSJFuncCall
     {
+        public WSJFuncCallTest()
+            : base("foo", "bar")
+        { }
+
         [Test()]
         public void ShouldConvertResults()
         {
