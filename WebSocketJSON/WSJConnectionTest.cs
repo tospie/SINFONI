@@ -69,6 +69,7 @@ namespace WebSocketJSON
 
             connection = new WSJConnectionWrapper();
             connection.wsjFuncCallFactory = mockWSJFuncCallFactory.Object;
+            ServiceRegistry.Instance = null;
         }
 
         [Test()]

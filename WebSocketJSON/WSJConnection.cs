@@ -191,10 +191,17 @@ namespace WebSocketJSON
                 bool success = true;
                 try
                 {
-                    ServiceFunctionDescription service = ServiceRegistry.Instance
-                        .GetService(serviceDescription[0])
-                        .GetServiceFunction(serviceDescription[1]);
-                    returnValue = service.ReturnType.AssignValuesFromObject(nativeMethod.DynamicInvoke(parameters));
+                    if (ServiceRegistry.Instance == null)
+                    {
+                        returnValue = nativeMethod.DynamicInvoke(parameters);
+                    }
+                    else
+                    {
+                        ServiceFunctionDescription service = ServiceRegistry.Instance
+                            .GetService(serviceDescription[0])
+                            .GetServiceFunction(serviceDescription[1]);
+                        returnValue = service.ReturnType.AssignValuesFromObject(nativeMethod.DynamicInvoke(parameters));
+                    }
                 }
                 catch (Exception e)
                 {
@@ -263,9 +270,16 @@ namespace WebSocketJSON
                 }
                 else
                 {
-                    // Here:
-                    var receivedTypeInstance = DeserializeParameterToKtdInstance(methodName, i, args[i]);
-                    parameters[i] = receivedTypeInstance.AssignToLocalType(paramInfo[i].ParameterType);
+                    if (ServiceRegistry.Instance == null)
+                    {
+                        parameters[i] = args[i].ToObject(paramInfo[i].ParameterType, serializer);
+                    }
+                    else
+                    {
+                        var receivedTypeInstance = DeserializeParameterToKtdInstance(methodName, i, args[i]);
+                        parameters[i] = receivedTypeInstance.AssignToLocalType(paramInfo[i].ParameterType);
+                    }
+
                 }
             }
 
