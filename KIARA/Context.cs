@@ -76,8 +76,8 @@ namespace KIARA
         {
             string fragment = "";
             Config config = RetrieveConfig(configURI, out fragment);
+            IDLParser.Instance.ParseIDLFromUri(config.idlURL);
             Server server = SelectServer(fragment, config);
-
             string protocolName = server.protocol["name"].ToString();
             IConnectionFactory connectionFactory = protocolRegistry.GetConnectionFactory(protocolName);
             connectionFactory.StartServer(server, this, onNewClient);
