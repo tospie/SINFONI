@@ -21,6 +21,7 @@ namespace KIARA
         public KtdArray(KtdType type)
         {
             elementType = type;
+            InstanceType = typeof(KtdArrayInstance);
         }
 
         internal override bool canBeAssignedFromType(Type type)

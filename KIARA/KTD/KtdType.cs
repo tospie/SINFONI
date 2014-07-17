@@ -32,6 +32,7 @@ namespace KIARA
         public KtdType(string name)
         {
             Name = name;
+            InstanceType = typeof(KtdTypeInstance);
         }
 
         internal KtdType(string name, Type baseType)
@@ -43,6 +44,8 @@ namespace KIARA
         /// Name of the type
         /// </summary>
         public string Name { get; internal set; }
+
+        public Type InstanceType { get; internal set; }
 
         /// <summary>
         /// Assign values from a native C# object to a KTD Type. Values are mapped by implicit cast for base types,

@@ -8,7 +8,9 @@ namespace KIARA
 {
     public class KtdStruct : KtdType
     {
-        public KtdStruct(string name) : base(name) { }
+        public KtdStruct(string name) : base(name) {
+            InstanceType = typeof(KtdStructInstance);
+        }
 
         public override KtdTypeInstance AssignValuesFromObject(object other)
         {
