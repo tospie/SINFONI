@@ -51,7 +51,6 @@ namespace KIARA
         public virtual void LoadIDL(string uri)
         {
             string contents = webClient.DownloadString(uri);
-            // TODO: Parse the IDL and pass parsed structure into ProcessIDL.
             IDLParser.Instance.parseIDL(contents);
         }
 
