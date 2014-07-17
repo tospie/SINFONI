@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.Diagnostics;
 using KIARA;
+using Newtonsoft.Json;
 
 namespace WebSocketJSON
 {
@@ -26,13 +27,18 @@ namespace WebSocketJSON
         public WSJFuncCall(string serviceName, string methodName)
             : base(serviceName, methodName)
         {
+            settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            settings.Converters.Add(new StandardFloatConverter());
+            settings.ContractResolver = new PrivateSetterResolver();
+            serializer = JsonSerializer.Create(settings);
         }
 
         protected override object ConvertResult(object result, Type type)
         {
             if (type == typeof(JToken))
                 return result;
-            return ((JToken)result).ToObject(type);
+            var convertedResult = ((JToken)result).ToObject(type, serializer);
+            return convertedResult;
         }
 
         /// <summary>
@@ -52,6 +58,9 @@ namespace WebSocketJSON
         {
             base.HandleException(new Exception(exception.ToString()));
         }
+
+        private JsonSerializerSettings settings = new JsonSerializerSettings();
+        private JsonSerializer serializer;
     }
     
 }
