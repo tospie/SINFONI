@@ -59,7 +59,7 @@ namespace KIARA
             if(!canBeAssignedFromType(other.GetType()))
                 throw new TypeCastException("Cannot assign value to KtdInstance of type " + Name + ": "
                     + other + " is of Type " + other.GetType());
-            return new KtdTypeInstance(this, other);
+            return new KtdTypeInstance(other);
         }
 
         /// <summary>
