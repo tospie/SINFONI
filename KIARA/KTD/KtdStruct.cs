@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -64,6 +65,39 @@ namespace KIARA
                 assignedValue = ktdType.AssignValuesFromObject(otherField.GetValue(other));
             }
             return assignedValue;
+        }
+
+        public override object AssignValuesToNativeType(object value, Type localType)
+        {
+            if (!canBeAssignedFromType(localType))
+                throw new Exceptions.TypeCastException
+                    ("Cannot assign value received for KtdStruct to native type " + localType);
+
+            var dic = value as IDictionary;
+
+            var localTypeInstance = Activator.CreateInstance(localType);
+
+            foreach (string key in dic.Keys)
+            {
+                FieldInfo field = localType.GetField(key);
+                if (field != null)
+                {
+                    var valueToSet = members[key].AssignValuesToNativeType(dic[key], field.FieldType);
+                    field.SetValue(localTypeInstance,
+                        valueToSet);
+                }
+                else
+                {
+                    PropertyInfo property = localType.GetProperty(key);
+                    if (property != null)
+                    {
+                        property.SetValue(localTypeInstance,
+                           members[key].AssignValuesToNativeType(dic[key],property.PropertyType),
+                           null);
+                    }
+                }
+            }
+            return localTypeInstance;
         }
 
         internal override bool canBeAssignedFromType(Type type)
