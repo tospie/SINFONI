@@ -82,7 +82,7 @@ namespace KIARA
                         "Could not call Service Function " + serviceName + "." + functionName
                             + ". The provided parameters can not be mapped to the parameters specified in the IDL.");
                 }
-                KtdTypeInstance[] callParameters = new KtdTypeInstance[parameters.Length];
+                object[] callParameters = new object[parameters.Length];
                 for (var i = 0; i < parameters.Length; i++)
                 {
                     KtdType expectedParameterType = registeredServiceFunction.Parameters.ElementAt(i).Value;
