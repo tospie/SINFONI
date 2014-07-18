@@ -62,6 +62,16 @@ namespace KIARA
             return other;
         }
 
+        /// <summary>
+        /// Assigns a value from KIARA Type to a native C# type. For base types, we do not need to do much more than
+        /// bypassing the value to the actual native type, as C# takes care of the cast.
+        /// </summary>
+        /// <param name="value">Value to be assigned to base type</param>
+        /// <param name="localType">Native C# type to which the value should be assigned</param>
+        /// <returns>The KTD instance casted to Native C# type</returns>
+        public virtual object AssignValuesToNativeType(object value, Type localType)
+        {
+            return value;
         }
 
         /// <summary>
