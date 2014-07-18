@@ -47,6 +47,59 @@ namespace KIARA
             return CreateArrayInstanceFrom(other);
         }
 
+        public override object AssignValuesToNativeType(object value, Type nativeType)
+        {
+            IEnumerable enumerable = value as IEnumerable;
+            Type enumerableElementType = GetEnumerableType(nativeType);
+
+            if (typeof(Array).IsAssignableFrom(nativeType))
+            {
+                var genericAssignArray = typeof(KtdArray).GetMethod("AssignValuesToNativeArray");
+                var genericCall = genericAssignArray.MakeGenericMethod(enumerableElementType);
+                return genericCall.Invoke(this, new object[] { enumerable });
+            }
+
+            else if (typeof(IList).IsAssignableFrom(nativeType))
+            {
+                var genericAssignList = typeof(KtdArray).GetMethod("AssignValuesToNativeList");
+                var genericCall = genericAssignList.MakeGenericMethod(enumerableElementType);
+                return genericCall.Invoke(this, new object[] { enumerable });
+            }
+
+            else
+            {
+                var genericAssignSet = typeof(KtdArray).GetMethod("AssignValuesToNativeSet");
+                var genericCall = genericAssignSet.MakeGenericMethod(enumerableElementType);
+                return genericCall.Invoke(this, new object[] { enumerable });
+            }
+        }
+
+        public T[] AssignValuesToNativeArray<T>(IEnumerable enumerable)
+        {
+            ISet<T> valueSet = AssignValuesToNativeSet<T>(enumerable);
+            return valueSet.ToArray();
+        }
+
+        public List<T> AssignValuesToNativeList<T>(IEnumerable enumerable)
+        {
+            List<T> valueList = new List<T>();
+            foreach (var el in enumerable)
+            {
+                valueList.Add((T)elementType.AssignValuesToNativeType(el, typeof(T)));
+            }
+            return valueList;
+        }
+
+        public ISet<T> AssignValuesToNativeSet<T>(IEnumerable enumerable)
+        {
+            ISet<T> valueSet = new HashSet<T>();
+            foreach (var el in enumerable)
+            {
+                valueSet.Add((T)elementType.AssignValuesToNativeType(el, typeof(T)));
+            }
+            return valueSet;
+        }
+
         private object CreateArrayInstanceFrom(object other)
         {
             var array = other as IEnumerable;
@@ -60,6 +113,10 @@ namespace KIARA
             return arrayValues.ToArray();
         }
 
+        private ISet<T> AssignValuesToSet<T>(object value)
+        {
+            ISet<T> returnedSet = new HashSet<T>();
+            return returnedSet;
         }
         // From StackOverflow:
         // stackoverflow.com/questions/3922029/how-to-retrieve-the-generic-type-used-in-a-generic-ienumerable-in-net
