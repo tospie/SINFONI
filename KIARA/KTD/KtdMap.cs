@@ -51,6 +51,30 @@ namespace KIARA
             return instanceValues;
         }
 
+        public override object AssignValuesToNativeType(object value, Type nativeType)
+        {
+            if(!canBeAssignedFromType(value.GetType()))
+                throw new KIARA.Exceptions.TypeCastException("Cannot assign value of KtdMap to native object of type " + nativeType);
+
+           // Dictionary<object, object> valueDictionary = (Dictionary<object, object>)value;
+            Type[] keyAndValueTypes = nativeType.GetGenericArguments();
+            var genericAssignDictionary = typeof(KtdMap).GetMethod("AssignValuesToTypesDictionary");
+            var genericCall = genericAssignDictionary.MakeGenericMethod(keyAndValueTypes[0], keyAndValueTypes[1]);
+            return genericCall.Invoke(this, new object[] { value });
+        }
+
+        public Dictionary<TKey, TValue> AssignValuesToTypesDictionary
+            <TKey, TValue>(IDictionary valueDictionary)
+        {
+            Dictionary<TKey, TValue> localTypeDictionary = new Dictionary<TKey, TValue>();
+            foreach(var key in valueDictionary.Keys)
+            {
+                localTypeDictionary.Add(
+                       (TKey) keyType.AssignValuesToNativeType(key, typeof(TKey)),
+                       (TValue)elementType.AssignValuesToNativeType(valueDictionary[key], typeof(TValue))
+                    );
+            }
+            return localTypeDictionary;
         }
 
         internal KtdType keyType;
