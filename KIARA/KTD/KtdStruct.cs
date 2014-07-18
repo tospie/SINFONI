@@ -12,10 +12,8 @@ namespace KIARA
             InstanceType = typeof(KtdStructInstance);
         }
 
-        public override KtdTypeInstance AssignValuesFromObject(object other)
+        public override object AssignValuesFromObject(object other)
         {
-            var result = 0;
-
             if (!mappings.ContainsKey(other.GetType()))
             {
                 mappings.Add(other.GetType(), (MappingFunction)delegate(object other2)
@@ -36,24 +34,24 @@ namespace KIARA
             MappingFunction map = mappings[other.GetType()] as MappingFunction;
             map(other);
 
-            return new KtdStructInstance(new Dictionary<string,KtdTypeInstance>());
+            return new Dictionary<string,object>();
         }
 
-        KtdStructInstance MapByName(object other)
+        object MapByName(object other)
         {
-            var assignedMembers = new Dictionary<string, KtdTypeInstance>();
+            var assignedMembers = new Dictionary<string, object>();
 
             foreach (KeyValuePair<string, KtdType> field in members)
             {
-                KtdTypeInstance ktdValue = getFieldValueForKtdInstance(other, field.Key, field.Value);
+                var ktdValue = getFieldValueForKtdInstance(other, field.Key, field.Value);
                 assignedMembers.Add(field.Key, ktdValue);
             }
-            return new KtdStructInstance(assignedMembers);
+            return  assignedMembers;
         }
 
-        private KtdTypeInstance getFieldValueForKtdInstance(object other, string fieldName, KtdType ktdType)
+        private object getFieldValueForKtdInstance(object other, string fieldName, KtdType ktdType)
         {
-            KtdTypeInstance assignedValue;
+            var assignedValue = other;
             var otherField = other.GetType().GetField(fieldName);
 
             if (otherField == null)
