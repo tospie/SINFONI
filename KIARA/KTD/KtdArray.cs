@@ -38,7 +38,7 @@ namespace KIARA
             return elementType.canBeAssignedFromType(itemType);
         }
 
-        public override KtdTypeInstance AssignValuesFromObject(object other)
+        public override object AssignValuesFromObject(object other)
         {
             if(!canBeAssignedFromType(other.GetType()))
                 throw new TypeCastException("Cannot assign value to Instance of type KtdArray<" + elementType.Name + "> : "
@@ -47,18 +47,19 @@ namespace KIARA
             return CreateArrayInstanceFrom(other);
         }
 
-        private KtdArrayInstance CreateArrayInstanceFrom(object other)
+        private object CreateArrayInstanceFrom(object other)
         {
             var array = other as IEnumerable;
-            List<KtdTypeInstance> arrayValues = new List<KtdTypeInstance>();
+            List<object> arrayValues = new List<object>();
 
             foreach (object value in array)
             {
-                arrayValues.Add((KtdTypeInstance)elementType.AssignValuesFromObject(value));
+                arrayValues.Add(elementType.AssignValuesFromObject(value));
             }
 
-            KtdArrayInstance instance = new KtdArrayInstance(arrayValues.ToArray());
-            return instance;
+            return arrayValues.ToArray();
+        }
+
         }
         // From StackOverflow:
         // stackoverflow.com/questions/3922029/how-to-retrieve-the-generic-type-used-in-a-generic-ienumerable-in-net
