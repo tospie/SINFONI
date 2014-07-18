@@ -89,80 +89,134 @@ namespace KIARAUnitTests
         public void ShouldAssignValueToInt16()
         {
             KtdType i16 = KTD.Instance.GetKtdType("i16");
-            KtdTypeInstance shortInstance = i16.AssignValuesFromObject((short)1) as KtdTypeInstance;
-            Assert.AreEqual((short)1, (short)shortInstance.Value);
+            short shortInstance = (short)i16.AssignValuesFromObject((short)1);
+            Assert.AreEqual((short)1, shortInstance);
+        }
+
+        [Test()]
+        public void ShouldAssingI16toNativeShort()
+        {
+            KtdType i16 = KTD.Instance.GetKtdType("i16");
+            Assert.AreEqual((short)1, i16.AssignValuesToNativeType(1, typeof(short)));
         }
 
         [Test()]
         public void ShouldAssignValueToUInt16()
         {
             KtdType u16 = KTD.Instance.GetKtdType("u16");
-            KtdTypeInstance ushortInstance = u16.AssignValuesFromObject((ushort)1) as KtdTypeInstance;
-            Assert.AreEqual(1, (ushort)ushortInstance.Value);
+            ushort ushortInstance = (ushort)u16.AssignValuesFromObject((ushort)1);
+            Assert.AreEqual(1, ushortInstance);
+        }
+
+        [Test()]
+        public void ShouldAssignUInt16ValueToNativeUshort()
+        {
+            KtdType u16 = KTD.Instance.GetKtdType("u16");
+            Assert.AreEqual(1, u16.AssignValuesToNativeType(1, typeof(ushort)));
         }
 
         [Test()]
         public void ShouldAssignValueToInt32()
         {
             KtdType i32 = KTD.Instance.GetKtdType("i32");
-            KtdTypeInstance intInstance = i32.AssignValuesFromObject(1) as KtdTypeInstance;
-            Assert.AreEqual(1, (int)intInstance.Value);
+            int intInstance = (int)i32.AssignValuesFromObject(1);
+            Assert.AreEqual(1, intInstance);
+        }
+
+        [Test()]
+        public void ShouldAssignInt32ToNativeInt()
+        {
+            KtdType i32 = KTD.Instance.GetKtdType("i32");
+            Assert.AreEqual(1, i32.AssignValuesToNativeType(1, typeof(int)));
         }
 
         [Test()]
         public void ShouldAssignValueToUInt32()
         {
             KtdType u32 = KTD.Instance.GetKtdType("u32");
-            KtdTypeInstance uintInstance = u32.AssignValuesFromObject((uint)1) as KtdTypeInstance;
-            Assert.AreEqual(1, (uint)uintInstance.Value);
+            uint uintInstance = (uint)u32.AssignValuesFromObject((uint)1);
+            Assert.AreEqual(1, uintInstance);
+        }
+
+        [Test()]
+        public void ShouldAssignUInt32ToNativeUInt()
+        {
+            KtdType u32 = KTD.Instance.GetKtdType("u32");
+            Assert.AreEqual(1, u32.AssignValuesToNativeType(1, typeof(uint)));
         }
 
         [Test()]
         public void ShouldAssignValueToInt64()
         {
             KtdType i64 = KTD.Instance.GetKtdType("i64");
-            KtdTypeInstance int64Instance = i64.AssignValuesFromObject((long)1) as KtdTypeInstance;
-            Assert.AreEqual((long)1, (long)int64Instance.Value);
+            long int64Instance = (long)i64.AssignValuesFromObject((long)1);
+            Assert.AreEqual((long)1, int64Instance);
+        }
+
+        [Test()]
+        public void ShouldAssignInt64ToNativeLong()
+        {
+            KtdType i64 = KTD.Instance.GetKtdType("i64");
+            Assert.AreEqual((long)1, i64.AssignValuesToNativeType(1, typeof(long)));
         }
 
         [Test()]
         public void ShouldAssignValueToUInt64()
         {
             KtdType u64 = KTD.Instance.GetKtdType("u64");
-            KtdTypeInstance u64Instance = u64.AssignValuesFromObject((ulong)1) as KtdTypeInstance;
-            Assert.AreEqual((ulong)1, (ulong)u64Instance.Value);
+            ulong u64Instance = (ulong)u64.AssignValuesFromObject((ulong)1);
+            Assert.AreEqual((ulong)1, u64Instance);
+        }
+
+        [Test()]
+        public void ShouldAssignU64ToNativeUlong()
+        {
+            KtdType u64 = KTD.Instance.GetKtdType("u64");
+            Assert.AreEqual((ulong)1, u64.AssignValuesToNativeType(1, typeof(ulong)));
         }
 
         [Test()]
         public void ShouldAssignValueToFloat()
         {
             KtdType f = KTD.Instance.GetKtdType("float");
-            KtdTypeInstance fInstance = f.AssignValuesFromObject(1.0f) as KtdTypeInstance;
-            Assert.AreEqual(1.0f, (float)fInstance.Value);
+            float fInstance = (float)f.AssignValuesFromObject(1.0f);
+            Assert.AreEqual(1.0f, fInstance);
+        }
+
+        [Test()]
+        public void ShouldAssignFloatToNativeFloat()
+        {
+            KtdType f = KTD.Instance.GetKtdType("float");
+           Assert.AreEqual(1.0f, f.AssignValuesToNativeType(1.0, typeof(float)));
         }
 
         [Test()]
         public void ShouldAssignValueToDouble()
         {
             KtdType d = KTD.Instance.GetKtdType("double");
-            KtdTypeInstance dInstance = d.AssignValuesFromObject(1.0) as KtdTypeInstance;
-            Assert.AreEqual(1.0, (double)dInstance.Value);
+            double dInstance = (double)d.AssignValuesFromObject(1.0);
+            Assert.AreEqual(1.0, dInstance);
         }
 
         [Test()]
-        public void ShouldAssignValueToBoolean()
+        public void ShouldAssignDoubleToNativeDouble()
+        {
+            KtdType d = KTD.Instance.GetKtdType("double");
+            Assert.AreEqual(1.0, d.AssignValuesToNativeType(1.0, typeof(double)));
+        }
+
+        [Test()]
+        public void ShouldAssignBooleanToNativeBool()
         {
             KtdType b = KTD.Instance.GetKtdType("boolean");
-            KtdTypeInstance boolInstance = b.AssignValuesFromObject(true) as KtdTypeInstance;
-            Assert.AreEqual(true, (bool)boolInstance.Value);
+            Assert.AreEqual(true, b.AssignValuesToNativeType(true, typeof(bool)));
         }
 
         [Test()]
-        public void ShouldAssignValueToString()
+        public void ShouldAssignStringToNativeString()
         {
             KtdType s = KTD.Instance.GetKtdType("string");
-            KtdTypeInstance stringInstance = s.AssignValuesFromObject("Hello World") as KtdTypeInstance;
-            Assert.AreEqual("Hello World", (string)stringInstance.Value);
+            Assert.AreEqual("Hello World", s.AssignValuesToNativeType("Hello World", typeof(string)));
         }
 
         [Test()]
@@ -171,8 +225,17 @@ namespace KIARAUnitTests
             KtdType any = KTD.Instance.GetKtdType("any");
             var anyValue = 1;
 
-            KtdTypeInstance stringInstance = any.AssignValuesFromObject(anyValue) as KtdTypeInstance;
-            Assert.AreEqual(anyValue, stringInstance.Value);
+            var stringInstance = any.AssignValuesFromObject(anyValue);
+            Assert.AreEqual(anyValue, stringInstance);
+        }
+
+        [Test()]
+        public void ShouldAssignAnyToNative()
+        {
+            KtdType any = KTD.Instance.GetKtdType("any");
+            var anyValue = 1;
+
+            Assert.AreEqual(anyValue, any.AssignValuesToNativeType(anyValue, anyValue.GetType()));
         }
 
         [Test()]
@@ -182,9 +245,20 @@ namespace KIARAUnitTests
             KtdArray array = new KtdArray();
             array.elementType = KTD.Instance.GetKtdType("i32");
 
-            KtdArrayInstance arrayInstance =  array.AssignValuesFromObject(intArray) as KtdArrayInstance;
-            Assert.AreEqual(1, arrayInstance.Values.Length);
-            Assert.AreEqual(1, (int)arrayInstance.Values[0].Value);
+            var arrayInstance =  array.AssignValuesFromObject(intArray) as object[];
+            Assert.AreEqual(1, arrayInstance.Length);
+            Assert.AreEqual(1, (int)arrayInstance[0]);
+        }
+
+        [Test()]
+        public void ShouldAssignArrayToNativeArray()
+        {
+            var intArray = new int[0];
+            KtdArray array = new KtdArray();
+            array.elementType = KTD.Instance.GetKtdType("i32");
+            var test = array.AssignValuesToNativeType(new int[1]{1}, intArray.GetType());
+            Assert.AreEqual(1, ((int[])test).Length);
+            Assert.AreEqual(1, ((int[])test)[0]);
         }
 
         [Test()]
@@ -194,9 +268,20 @@ namespace KIARAUnitTests
             KtdArray array = new KtdArray();
             array.elementType = KTD.Instance.GetKtdType("i32");
 
-            KtdArrayInstance arrayInstance = array.AssignValuesFromObject(intList) as KtdArrayInstance;
-            Assert.AreEqual(1, arrayInstance.Values.Length);
-            Assert.AreEqual(1, (int)arrayInstance.Values[0].Value);
+            var arrayInstance = array.AssignValuesFromObject(intList) as object[];
+            Assert.AreEqual(1, arrayInstance.Length);
+            Assert.AreEqual(1, (int)arrayInstance[0]);
+        }
+
+        [Test()]
+        public void ShouldAssignArrayToNativeList()
+        {
+            var intList = new List<int>();
+            KtdArray array = new KtdArray();
+            array.elementType = KTD.Instance.GetKtdType("i32");
+            List<int> test = (List<int>)array.AssignValuesToNativeType(new int[1] { 1 }, intList.GetType());
+            Assert.AreEqual(1, test.Count);
+            Assert.AreEqual(1, test[0]);
         }
 
         [Test()]
@@ -206,9 +291,95 @@ namespace KIARAUnitTests
             KtdArray array = new KtdArray();
             array.elementType = KTD.Instance.GetKtdType("i32");
 
-            KtdArrayInstance arrayInstance = array.AssignValuesFromObject(intSet) as KtdArrayInstance;
-            Assert.AreEqual(1, arrayInstance.Values.Length);
-            Assert.AreEqual(1, (int)arrayInstance.Values[0].Value);
+            object[] arrayInstance = array.AssignValuesFromObject(intSet) as object[];
+            Assert.AreEqual(1, arrayInstance.Length);
+            Assert.AreEqual(1, (int)arrayInstance[0]);
+        }
+
+        [Test()]
+        public void ShouldAssignArrayToNativeSet()
+        {
+            var intSet = new HashSet<int>();
+            KtdArray array = new KtdArray();
+            array.elementType = KTD.Instance.GetKtdType("i32");
+            ISet<int> test = (HashSet<int>)array.AssignValuesToNativeType(new int[1] { 1 }, intSet.GetType());
+            Assert.AreEqual(1, test.Count);
+            Assert.AreEqual(1, test.ElementAt(0));
+        }
+
+        [Test()]
+        public void ShouldAssignArrayOfArraysToNative()
+        {
+            var intArray = new int[1][];
+            intArray[0] = new int[1] { 2 };
+            KtdArray innerArray = new KtdArray();
+            innerArray.elementType = KTD.Instance.GetKtdType("i32");
+            KtdArray outerArray = new KtdArray();
+            outerArray.elementType = innerArray;
+            int[][] test = (int[][])outerArray.AssignValuesToNativeType(intArray, intArray.GetType());
+            Assert.AreEqual(1, test.Length);
+            Assert.AreEqual(1, test[0].Length);
+            Assert.AreEqual(new int[1] { 2 }, test[0]);
+        }
+
+        [Test()]
+        public void ShouldAssignArrayOfListsToNative()
+        {
+            var intArray = new int[1][];
+            intArray[0] = new int[1] { 2 };
+            List<int>[] listArray = new List<int> [1] { new List<int> { 1 } };
+            KtdArray innerArray = new KtdArray();
+            innerArray.elementType = KTD.Instance.GetKtdType("i32");
+            KtdArray outerArray = new KtdArray();
+            outerArray.elementType = innerArray;
+            List<int>[] test = (List<int>[])outerArray.AssignValuesToNativeType(intArray, listArray.GetType());
+            Assert.IsAssignableFrom<List<int>>(test[0]);
+            Assert.AreEqual(2, test[0][0]);
+        }
+
+        [Test()]
+        public void ShouldAssignListOfArraysToNative()
+        {
+            var intArray = new int[1][];
+            intArray[0] = new int[1] { 2 };
+            List<int[]> arrayList = new List<int[]>{ new int[1] { 1 } };
+            KtdArray innerArray = new KtdArray();
+            innerArray.elementType = KTD.Instance.GetKtdType("i32");
+            KtdArray outerArray = new KtdArray();
+            outerArray.elementType = innerArray;
+            List<int[]> test = (List<int[]>)outerArray.AssignValuesToNativeType(intArray, arrayList.GetType());
+            Assert.IsAssignableFrom<int[]>(test[0]);
+            Assert.AreEqual(2, test[0][0]);
+        }
+
+        [Test()]
+        public void ShouldAssignArrayOfSetsToNative()
+        {
+            var intArray = new int[1][];
+            intArray[0] = new int[1] { 2 };
+            ISet<int>[] setArray = new HashSet<int>[1] { new HashSet<int> { 1 } };
+            KtdArray innerArray = new KtdArray();
+            innerArray.elementType = KTD.Instance.GetKtdType("i32");
+            KtdArray outerArray = new KtdArray();
+            outerArray.elementType = innerArray;
+            HashSet<int>[] test = (HashSet<int>[])outerArray.AssignValuesToNativeType(intArray, setArray.GetType());
+            Assert.IsAssignableFrom<HashSet<int>>(test[0]);
+            Assert.AreEqual(2, test[0].ElementAt(0));
+        }
+
+        [Test()]
+        public void ShouldAssignLSetOfArraysToNative()
+        {
+            var intArray = new int[1][];
+            intArray[0] = new int[1] { 2 };
+            ISet<int[]> arraySet = new HashSet<int[]> { new int[1] { 1 } };
+            KtdArray innerArray = new KtdArray();
+            innerArray.elementType = KTD.Instance.GetKtdType("i32");
+            KtdArray outerArray = new KtdArray();
+            outerArray.elementType = innerArray;
+            ISet<int[]> test = (HashSet<int[]>)outerArray.AssignValuesToNativeType(intArray, arraySet.GetType());
+            Assert.IsAssignableFrom<int[]>(test.ElementAt(0));
+            Assert.AreEqual(2, test.ElementAt(0)[0]);
         }
 
         [Test()]
@@ -218,8 +389,8 @@ namespace KIARAUnitTests
             KtdArray array = new KtdArray();
             array.elementType = KTD.Instance.GetKtdType("i32");
 
-            KtdArrayInstance arrayInstance = array.AssignValuesFromObject(intArray) as KtdArrayInstance;
-            Assert.AreEqual(0, arrayInstance.Values.Length);
+            object[] arrayInstance = array.AssignValuesFromObject(intArray) as object[];
+            Assert.AreEqual(0, arrayInstance.Length);
         }
 
         [Test()]
@@ -229,7 +400,7 @@ namespace KIARAUnitTests
             array.elementType = KTD.Instance.GetKtdType("i32");
 
             Assert.Throws<TypeCastException>(
-                () => { KtdArrayInstance arrayInstance = array.AssignValuesFromObject(1) as KtdArrayInstance; });
+                () => { object[] arrayInstance = array.AssignValuesFromObject(1) as object[]; });
         }
 
         [Test()]
@@ -240,7 +411,7 @@ namespace KIARAUnitTests
             array.elementType = KTD.Instance.GetKtdType("i32");
 
             Assert.Throws<TypeCastException>(
-                () => { var arrayInstance = array.AssignValuesFromObject(floatArray) as KtdArrayInstance; });
+                () => { var arrayInstance = array.AssignValuesFromObject(floatArray) as object[]; });
         }
 
         [Test()]
@@ -254,11 +425,28 @@ namespace KIARAUnitTests
             ktdMap.keyType = KTD.Instance.GetKtdType("string");
             ktdMap.elementType = KTD.Instance.GetKtdType("i32");
 
-            KtdMapInstance mapInstance = ktdMap.AssignValuesFromObject(baseTypeDictionary) as KtdMapInstance;
+            Dictionary<object, object> mapInstance
+                = ktdMap.AssignValuesFromObject(baseTypeDictionary) as Dictionary<object, object>;
 
             Assert.AreEqual(1, mapInstance.Values.Count);
-            Assert.AreEqual("test", ((KtdTypeInstance)mapInstance.Values.Keys.ElementAt(0)).Value);
-            Assert.AreEqual(1, ((KtdTypeInstance)mapInstance.Values.Values.ElementAt(0)).Value);
+            Assert.AreEqual("test", (mapInstance.Keys.ElementAt(0)));
+            Assert.AreEqual(1, (mapInstance.Values.ElementAt(0)));
+        }
+
+        [Test()]
+        public void ShouldAssignMapOfBaseTypesToDictionary()
+        {
+            var baseTypeDictionary = new Dictionary<string, int> {
+                {"test", 1}
+            };
+
+            KtdMap ktdMap = new KtdMap();
+            ktdMap.keyType = KTD.Instance.GetKtdType("string");
+            ktdMap.elementType = KTD.Instance.GetKtdType("i32");
+            Dictionary<string, int> nativeDictionary =
+                (Dictionary<string, int>)ktdMap.AssignValuesToNativeType(baseTypeDictionary,
+                typeof(Dictionary<string, int>));
+            Assert.AreEqual(baseTypeDictionary, nativeDictionary);
         }
 
         [Test()]
@@ -274,15 +462,35 @@ namespace KIARAUnitTests
 
             ktdMap.keyType = keyArray;
             ktdMap.elementType = KTD.Instance.GetKtdType("string");
-            KtdMapInstance mapInstance = ktdMap.AssignValuesFromObject(arrayKeyDictionary) as KtdMapInstance;
+            Dictionary<object, object> mapInstance
+                = ktdMap.AssignValuesFromObject(arrayKeyDictionary) as Dictionary<object, object>;
 
-            Assert.AreEqual(typeof(KtdArrayInstance), mapInstance.Values.Keys.ElementAt(0).GetType());
-            Assert.AreEqual(1, ((KtdArrayInstance)mapInstance.Values.Keys.ElementAt(0)).Values.Length);
-            Assert.AreEqual(1, ((KtdArrayInstance)mapInstance.Values.Keys.ElementAt(0)).Values[0].Value);
+            Assert.AreEqual(typeof(object[]), mapInstance.Keys.ElementAt(0).GetType());
+            Assert.AreEqual(1,  ((object[])mapInstance.Keys.ElementAt(0)).Length);
+            Assert.AreEqual(1, ((object[])mapInstance.Keys.ElementAt(0))[0]);
         }
 
         [Test()]
-        public void ShouldAssignedArrayTypedValuesToMap()
+        public void ShouldAssingMapWithArrayKeysToNativeArrayKeyDictionary()
+        {
+            var arrayKeyDictionary = new Dictionary<int[], string>{
+                {new int[]{1}, "test"}
+            };
+
+            KtdArray keyArray = new KtdArray();
+            keyArray.elementType = KTD.Instance.GetKtdType("i32");
+            KtdMap ktdMap = new KtdMap();
+
+            ktdMap.keyType = keyArray;
+            ktdMap.elementType = KTD.Instance.GetKtdType("string");
+            Dictionary<int[], string> nativeDictionary = (Dictionary<int[], string>)ktdMap
+                .AssignValuesToNativeType(arrayKeyDictionary, arrayKeyDictionary.GetType());
+            Assert.AreEqual(arrayKeyDictionary.Keys, nativeDictionary.Keys);
+            Assert.AreEqual(arrayKeyDictionary.Values, nativeDictionary.Values);
+        }
+
+        [Test()]
+        public void ShouldAssignArrayTypedValuesToMap()
         {
             var arrayKeyDictionary = new Dictionary<string, int[]>{
                 {"test", new int[]{1} }
@@ -294,11 +502,12 @@ namespace KIARAUnitTests
 
             ktdMap.keyType =  KTD.Instance.GetKtdType("string");
             ktdMap.elementType = valueArray;
-            KtdMapInstance mapInstance = ktdMap.AssignValuesFromObject(arrayKeyDictionary) as KtdMapInstance;
+            Dictionary<object, object> mapInstance
+                = ktdMap.AssignValuesFromObject(arrayKeyDictionary) as Dictionary<object, object>;
 
-            Assert.AreEqual(typeof(KtdArrayInstance), mapInstance.Values.Values.ElementAt(0).GetType());
-            Assert.AreEqual(1, ((KtdArrayInstance)mapInstance.Values.Values.ElementAt(0)).Values.Length);
-            Assert.AreEqual(1, ((KtdArrayInstance)mapInstance.Values.Values.ElementAt(0)).Values[0].Value);
+            Assert.AreEqual(typeof(object[]), mapInstance.Values.ElementAt(0).GetType());
+            Assert.AreEqual(1, ((object[])mapInstance.Values.ElementAt(0)).Length);
+            Assert.AreEqual(1, ((object[])mapInstance.Values.ElementAt(0))[0]);
         }
 
         [Test()]
@@ -313,7 +522,8 @@ namespace KIARAUnitTests
             ktdMap.elementType = KTD.Instance.GetKtdType("i32");
 
             Assert.Throws<TypeCastException>(
-                () => { var mapInstance = ktdMap.AssignValuesFromObject(baseTypeDictionary) as KtdMapInstance; });
+                () => { var mapInstance
+                    = ktdMap.AssignValuesFromObject(baseTypeDictionary) as Dictionary<object, object>; });
         }
 
         [Test()]
@@ -328,7 +538,8 @@ namespace KIARAUnitTests
             ktdMap.elementType = KTD.Instance.GetKtdType("string");
 
             Assert.Throws<TypeCastException>(
-                () => { var mapInstance = ktdMap.AssignValuesFromObject(baseTypeDictionary) as KtdMapInstance; });
+                () => { var mapInstance
+                    = ktdMap.AssignValuesFromObject(baseTypeDictionary) as Dictionary<object, object>; });
         }
 
         [Test()]
@@ -339,9 +550,26 @@ namespace KIARAUnitTests
                 y = 2
             };
 
-            KtdStructInstance inst = intStruct.AssignValuesFromObject(structInstance) as KtdStructInstance;
-            Assert.AreEqual(1, inst.Fields["x"].Value);
-            Assert.AreEqual(2, inst.Fields["y"].Value);
+            Dictionary<string, object> inst
+                = intStruct.AssignValuesFromObject(structInstance) as Dictionary<string, object>;
+            Assert.AreEqual(1, inst["x"]);
+            Assert.AreEqual(2, inst["y"]);
+        }
+
+        [Test()]
+        public void ShouldAssignStructToNativeStruct()
+        {
+            var structInstance = new testStruct
+            {
+                x = 1,
+                y = 2
+            };
+
+            Dictionary<string, object> inst
+                = intStruct.AssignValuesFromObject(structInstance) as Dictionary<string, object>;
+            testStruct nativeStruct = (testStruct)intStruct.AssignValuesToNativeType(inst, typeof(testStruct));
+            Assert.AreEqual(1, nativeStruct.x);
+            Assert.AreEqual(2, nativeStruct.y);
         }
 
         [Test()]
@@ -351,11 +579,26 @@ namespace KIARAUnitTests
                 arr = new int[] {1}
             };
 
-            KtdStructInstance inst = aStruct.AssignValuesFromObject(aStructInstance) as KtdStructInstance;
-            KtdArrayInstance arrayInst = inst.Fields["arr"] as KtdArrayInstance;
-            KtdTypeInstance[] instancedValues = arrayInst.Values;
-            Assert.AreEqual(1, instancedValues.Length);
-            Assert.AreEqual(1, instancedValues[0].Value);
+            Dictionary<string, object> inst
+                = aStruct.AssignValuesFromObject(aStructInstance) as Dictionary<string, object>;
+            object[] arrayInst = inst["arr"] as object[];
+            Assert.AreEqual(1, arrayInst.Length);
+            Assert.AreEqual(1, arrayInst[0]);
+        }
+
+        [Test()]
+        public void ShouldAssignArrayStructInstanceToNativeArrayStruct()
+        {
+            var aStructInstance = new arrayStruct
+            {
+                arr = new int[] { 1 }
+            };
+
+            Dictionary<string, object> inst
+                = aStruct.AssignValuesFromObject(aStructInstance) as Dictionary<string, object>;
+            arrayStruct nativeStruct = (arrayStruct)aStruct.AssignValuesToNativeType(inst, typeof(arrayStruct));
+            Assert.AreEqual(1, nativeStruct.arr.Length);
+            Assert.AreEqual(1, nativeStruct.arr[0]);
         }
 
         [Test()]
@@ -368,10 +611,11 @@ namespace KIARAUnitTests
                 }
             };
 
-            KtdStructInstance inst = mStruct.AssignValuesFromObject(mStructInstance) as KtdStructInstance;
-            KtdMapInstance m = inst.Fields["map"] as KtdMapInstance;
-            Assert.AreEqual("value", m.Values.Keys.ElementAt(0).Value);
-            Assert.AreEqual(true, m.Values.Values.ElementAt(0).Value);
+            Dictionary<string, object> inst
+                = mStruct.AssignValuesFromObject(mStructInstance) as Dictionary<string, object>;
+            Dictionary<object, object> m = inst["map"] as Dictionary<object, object>;
+            Assert.AreEqual("value", m.Keys.ElementAt(0));
+            Assert.AreEqual(true, m.Values.ElementAt(0));
         }
 
         [Test()]
@@ -386,10 +630,12 @@ namespace KIARAUnitTests
                 }
             };
 
-            KtdStructInstance inst = sStruct.AssignValuesFromObject(structStructInstance) as KtdStructInstance;
-            KtdStructInstance childInst = inst.Fields["child"] as KtdStructInstance;
-            Assert.AreEqual(1, childInst.Fields["x"].Value);
-            Assert.AreEqual(2, childInst.Fields["y"].Value);
+            Dictionary<string, object> inst
+                = sStruct.AssignValuesFromObject(structStructInstance) as Dictionary<string, object>;
+
+            Dictionary<string, object> childInst = inst["child"] as Dictionary<string, object>;
+            Assert.AreEqual(1, childInst["x"]);
+            Assert.AreEqual(2, childInst["y"]);
         }
 
         [Test()]
@@ -401,9 +647,11 @@ namespace KIARAUnitTests
                 y = 2
             };
 
-            KtdStructInstance inst = intStruct.AssignValuesFromObject(fieldClassInstance) as KtdStructInstance;
-            Assert.AreEqual(1, inst.Fields["x"].Value);
-            Assert.AreEqual(2, inst.Fields["y"].Value);
+            Dictionary<string, object> inst
+                = intStruct.AssignValuesFromObject(fieldClassInstance) as Dictionary<string, object>;
+
+            Assert.AreEqual(1, inst["x"]);
+            Assert.AreEqual(2, inst["y"]);
         }
 
         [Test()]
@@ -415,9 +663,11 @@ namespace KIARAUnitTests
                 y = 2
             };
 
-            KtdStructInstance inst = intStruct.AssignValuesFromObject(propsClassInstance) as KtdStructInstance;
-            Assert.AreEqual(1, inst.Fields["x"].Value);
-            Assert.AreEqual(2, inst.Fields["y"].Value);
+            Dictionary<string, object> inst
+                = intStruct.AssignValuesFromObject(propsClassInstance) as Dictionary<string, object>;
+
+            Assert.AreEqual(1, inst["x"]);
+            Assert.AreEqual(2, inst["y"]);
         }
 
         [Test()]
@@ -429,9 +679,26 @@ namespace KIARAUnitTests
                 y = 2
             };
 
-            KtdStructInstance inst = intStruct.AssignValuesFromObject(bothClassInstance) as KtdStructInstance;
-            Assert.AreEqual(1, inst.Fields["x"].Value);
-            Assert.AreEqual(2, inst.Fields["y"].Value);
+            Dictionary<string, object> inst
+                = intStruct.AssignValuesFromObject(bothClassInstance) as Dictionary<string, object>;
+            Assert.AreEqual(1, inst["x"]);
+            Assert.AreEqual(2, inst["y"]);
+        }
+
+        [Test()]
+        public void ShouldAssignStructInstanceToNativeClassWithBoth()
+        {
+            var bothClassInstance = new testClassBoth
+            {
+                x = 1,
+                y = 2
+            };
+
+            Dictionary<string, object> inst
+                = intStruct.AssignValuesFromObject(bothClassInstance) as Dictionary<string, object>;
+            testClassBoth nativeClass = (testClassBoth)intStruct.AssignValuesToNativeType(inst, typeof(testClassBoth));
+            Assert.AreEqual(1, nativeClass.x);
+            Assert.AreEqual(2, nativeClass.y);
         }
     }
 }
