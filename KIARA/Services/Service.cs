@@ -18,7 +18,7 @@ using KIARA;
 
 namespace KIARA
 {
-    abstract class Service : IService
+    public abstract class Service : IService
     {
         /// <summary>
         /// Returns the associated context for this service.
