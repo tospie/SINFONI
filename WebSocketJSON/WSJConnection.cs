@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using WebSocket4Net;
 using KIARA;
+using System.Runtime.Serialization.Formatters;
 
 namespace WebSocketJSON
 {
@@ -136,6 +137,7 @@ namespace WebSocketJSON
         internal WSJConnection()
         {
             settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            settings.FloatParseHandling = FloatParseHandling.Double;
             settings.Converters.Add(new StandardFloatConverter());
             settings.ContractResolver = new PrivateSetterResolver();
             serializer = JsonSerializer.Create(settings);
@@ -235,18 +237,6 @@ namespace WebSocketJSON
             }
         }
 
-        private KtdTypeInstance DeserializeParameterToKtdInstance(string methodName, int parameterNumber, JToken parameter)
-        {
-            string[] serviceDefinition = methodName.Split('.');
-            ServiceFunctionDescription calledFunction =
-            ServiceRegistry.Instance.GetService(serviceDefinition[0]).GetServiceFunction(serviceDefinition[1]);
-
-            KtdType parameterType = calledFunction.Parameters.ElementAt(parameterNumber).Value;
-            Type instanceType = parameterType.InstanceType;
-            KtdTypeInstance instanceParameter = parameter.ToObject(instanceType, serializer) as KtdTypeInstance;
-            return instanceParameter;
-        }
-
         private object[] ConvertParameters(string methodName, List<JToken> args, List<int> callbacks, List<ParameterInfo> paramInfo)
         {
             object[] parameters = new object[paramInfo.Count];
@@ -293,8 +283,11 @@ namespace WebSocketJSON
                     }
                     else
                     {
-                        var receivedTypeInstance = DeserializeParameterToKtdInstance(methodName, i, args[i]);
-                        parameters[i] = receivedTypeInstance.AssignToLocalType(paramInfo[i].ParameterType);
+                        IDictionary<string, object> c = args[i].ToObject<Dictionary<string, object>>(serializer);
+                        string[] service = methodName.Split('.');
+                        KtdType idlParameter = ServiceRegistry.Instance.GetService(service[0])
+                            .GetServiceFunction(service[1]).Parameters.ElementAt(i).Value;
+                        parameters[i] = idlParameter.AssignValuesToNativeType(c, paramInfo[i].ParameterType);
                     }
 
                 }
