@@ -31,7 +31,7 @@ namespace KIARA
         /// <param name="name">Name of the type</param>
         public KtdType(string name)
         {
-            Name = name;
+            Name = name;            
         }
 
         internal KtdType(string name, Type baseType)
@@ -70,7 +70,7 @@ namespace KIARA
         /// <returns>The KTD instance casted to Native C# type</returns>
         public virtual object AssignValuesToNativeType(object value, Type localType)
         {
-            return value;
+            return Convert.ChangeType(value, localType);
         }
 
         /// <summary>
