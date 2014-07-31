@@ -202,8 +202,8 @@ namespace KIARA
         /// </summary>
         protected object cachedResult = null;
 
-        private string ServiceName;
-        private string FunctionName;
+        protected string ServiceName;
+        protected string FunctionName;
     }
 }
 
