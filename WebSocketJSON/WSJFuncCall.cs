@@ -50,7 +50,14 @@ namespace WebSocketJSON
         /// <param name="retValue">Ret value returned from the call.</param>
         public void HandleSuccess(JToken retValue)
         {
-            base.HandleSuccess((object)retValue);
+            try
+            {
+                base.HandleSuccess(retValue.ToObject<Dictionary<string, object>>(serializer));
+            }
+            catch (Exception e)
+            {
+
+            }
         }
 
         /// <summary>
