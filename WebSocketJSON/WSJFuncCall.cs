@@ -35,9 +35,12 @@ namespace WebSocketJSON
 
         protected override object ConvertResult(object result, Type type)
         {
-            if (type == typeof(JToken))
-                return result;
-            var convertedResult = ((JToken)result).ToObject(type, serializer);
+            KtdType idlReturnType = ServiceRegistry.Instance
+                        .GetService(ServiceName)
+                        .GetServiceFunction(FunctionName)
+                        .ReturnType;
+
+            var convertedResult = idlReturnType.AssignValuesToNativeType(result, type);
             return convertedResult;
         }
 
