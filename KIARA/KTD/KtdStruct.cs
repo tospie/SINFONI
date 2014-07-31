@@ -10,7 +10,6 @@ namespace KIARA
     public class KtdStruct : KtdType
     {
         public KtdStruct(string name) : base(name) {
-            InstanceType = typeof(KtdStructInstance);
         }
 
         public override object AssignValuesFromObject(object other)

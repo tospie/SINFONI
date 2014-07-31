@@ -21,7 +21,6 @@ namespace KIARA
         {
             keyType = key;
             elementType = element;
-            InstanceType = typeof(KtdMapInstance);
         }
 
         internal override bool canBeAssignedFromType(Type type)

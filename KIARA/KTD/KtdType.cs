@@ -32,7 +32,6 @@ namespace KIARA
         public KtdType(string name)
         {
             Name = name;
-            InstanceType = typeof(KtdTypeInstance);
         }
 
         internal KtdType(string name, Type baseType)
