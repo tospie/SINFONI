@@ -66,7 +66,7 @@ namespace HttpJSONProtocol
 
             CallObject callObject = (CallObject)JsonSerializer.Deserialize(data_as_text, typeof(CallObject));
             var functionResult = serverConnection.HandleRequest(callObject);
-            Console.WriteLine("Received a request, sending Hello World");
+            Console.WriteLine("Received a request");
             context.Response.StatusCode = 200;
             context.Response.StatusDescription = "OK";
 
