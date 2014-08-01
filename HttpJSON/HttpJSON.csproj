@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CallObject.cs" />
     <Compile Include="HttpJSONConnection.cs" />
     <Compile Include="HttpJSONConnectionFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
