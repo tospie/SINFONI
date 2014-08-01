@@ -80,6 +80,10 @@
     <Compile Include="SimpleServer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\HttpJSON\HttpJSON.csproj">
+      <Project>{d93428e9-e2db-42dc-9540-02877973ef62}</Project>
+      <Name>HttpJSON</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\KIARA\KIARA.csproj">
       <Project>{b43693ef-8534-4491-93b9-d9e4702dc0f3}</Project>
       <Name>KIARA</Name>
@@ -90,7 +94,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="server.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
