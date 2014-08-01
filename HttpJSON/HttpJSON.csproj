@@ -43,6 +43,7 @@
     <Compile Include="CallObject.cs" />
     <Compile Include="HttpJSONConnection.cs" />
     <Compile Include="HttpJSONConnectionFactory.cs" />
+    <Compile Include="HttpJSONFunctionCall.cs" />
     <Compile Include="HttpJSONServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
