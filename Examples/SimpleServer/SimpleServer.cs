@@ -28,8 +28,6 @@ namespace SimpleServer
             service.OnNewClient += new NewClient(HandleNewClient);
 
             service["example.addVectors"] = (Func<Vector, Vector, Vector>)addVectors;
-
-            ServiceRegistry.Instance.ContainsService("dummy");
             Console.Read();
        }
 
