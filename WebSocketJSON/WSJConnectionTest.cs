@@ -55,7 +55,7 @@ namespace WebSocketJSON
         }
 
         WSJConnectionWrapper connection;
-        Mock<IWSJFuncCall> mockWSJFuncCall;
+        Mock<FuncCallBase> mockWSJFuncCall;
         Mock<IWSJFuncCallFactory> mockWSJFuncCallFactory;
         Mock<IHandlers> mockHandlers;
 
@@ -63,7 +63,7 @@ namespace WebSocketJSON
         public void Init()
         {
             mockWSJFuncCallFactory = new Mock<IWSJFuncCallFactory>();
-            mockWSJFuncCall = new Mock<IWSJFuncCall>();
+            mockWSJFuncCall = new Mock<FuncCallBase>();
             mockWSJFuncCallFactory.Setup(f => f.Construct("foo", "bar")).Returns(mockWSJFuncCall.Object);
             mockHandlers = new Mock<IHandlers>();
 
@@ -111,7 +111,7 @@ namespace WebSocketJSON
         {
             connection.CallFunc("testService.testFunc", 42, "test-string");
             connection.HandleMessage("['call-reply',0,false,'oops!']");
-            mockWSJFuncCall.Verify(c => c.HandleException(It.IsAny<JToken>()), Times.Once());
+            mockWSJFuncCall.Verify(c => c.HandleException(It.IsAny<Exception>()), Times.Once());
         }
 
         [Test()]
@@ -135,7 +135,7 @@ namespace WebSocketJSON
             mockWSJFuncCall.Verify(c => c.HandleSuccess(It.IsAny<JToken>()), Times.Once());
             connection.CallFunc("testService.testFunc3");
             connection.HandleMessage("['call-reply',2,false,'oops!']");
-            mockWSJFuncCall.Verify(c => c.HandleException(It.IsAny<JToken>()), Times.Once());
+            mockWSJFuncCall.Verify(c => c.HandleException(It.IsAny<Exception>()), Times.Once());
             connection.HandleMessage("['call-reply',1,true,'ret-val-2']");
             mockWSJFuncCall.Verify(c => c.HandleSuccess(It.IsAny<JToken>()), Times.Exactly(2));
         }
