@@ -17,7 +17,7 @@ namespace WebSocketJSON
         void HandleMessageReceived(object sender, WebSocket4Net.MessageReceivedEventArgs e)
         {
             if (Message != null)
-                Message(sender, new MessageEventArgs(e.Message));
+                Message(sender, new MessageEventArgs(new WSMessage(e.Message)));
         }
 
         void HandleClosed(object sender, EventArgs e)
