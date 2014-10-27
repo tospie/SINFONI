@@ -13,7 +13,7 @@ namespace HttpJSONProtocol
             : base(serviceName, methodName)
         { }
 
-        protected override object ConvertResult(object result, Type type)
+        new protected object ConvertResult(object result, Type type)
         {
             var service = ServiceRegistry.Instance.GetService(this.ServiceName);
             var function = service.GetServiceFunction(this.FunctionName);
