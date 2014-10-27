@@ -9,6 +9,6 @@ namespace KIARA
     {
         string MimeType { get; }
         IMessage SerializeMessage(List<object> messageParameters);
-        List<object> DeserializeMessage(IMessage message);
+        IMessage DeserializeMessage(object message);
     }
 }

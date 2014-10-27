@@ -44,7 +44,7 @@ namespace WebSocketJSON
             // unclear, but to be safe we ignore messages that have parsing errors.
             try
             {
-                data = Protocol.DeserializeMessage(e.Message);
+                receivedMessage = Protocol.DeserializeMessage(e.Message);
             }
             catch (JsonException)
             {
