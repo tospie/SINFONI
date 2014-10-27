@@ -96,6 +96,7 @@
     <Compile Include="TestingWrappers.cs" />
     <Compile Include="StandardFloatConverter.cs" />
     <Compile Include="SocketErrorEventArgs.cs" />
+    <Compile Include="WSMessage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
