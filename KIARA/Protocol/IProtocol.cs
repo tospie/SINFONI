@@ -7,18 +7,8 @@ namespace KIARA
 {
     public interface IProtocol
     {
-        void WriteStructBegin(string structName);
-        void WriteStructEnd();
-
-        void WriteFieldBegin(string fieldName);
-        void WriteFieldEnd();
-
-        void WriteArrayBegin();
-        void WriteArrayEnd();
-
-        void WriteMapBegin();
-        void WriteMapEnd();
-
-        void WriteMessageValue<T>(object value);
+        string MimeType { get; }
+        IMessage SerializeMessage(List<object> messageParameters);
+        List<object> DeserializeMessage(IMessage message);
     }
 }
