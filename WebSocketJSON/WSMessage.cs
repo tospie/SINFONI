@@ -6,7 +6,7 @@ using KIARA;
 
 namespace WebSocketJSON
 {
-    public class WSMessage : IMessage
+    public class WSMessage : MessageBase
     {
         public object Payload {
             get { return payload;}
