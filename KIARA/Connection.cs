@@ -152,5 +152,7 @@ namespace KIARA
         protected abstract void RegisterHandler(string funcName, Delegate handler);
 
         internal IWebClient webClient = new WebClientWrapper();
+
+        internal ITransport Transport;
     }
 }

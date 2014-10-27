@@ -89,6 +89,8 @@
     <Compile Include="TestingWrappers.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Transport\ITransportAddress.cs" />
+    <Compile Include="Transport\ITransport.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
