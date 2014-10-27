@@ -153,6 +153,7 @@ namespace KIARA
 
         internal IWebClient webClient = new WebClientWrapper();
 
-        internal ITransport Transport;
+        protected ITransport Transport;
+        protected IProtocol Protocol;
     }
 }
