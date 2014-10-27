@@ -39,7 +39,7 @@ namespace WebSocketJSON
         /// <param name="message">The incoming message.</param>
         public void HandleMessage(object sender, MessageEventArgs e)
         {
-            List<object> data = null;
+            IMessage receivedMessage = null;
             // FIXME: Occasionally we receive JSON with some random bytes appended. The reason is
             // unclear, but to be safe we ignore messages that have parsing errors.
             try
@@ -51,13 +51,13 @@ namespace WebSocketJSON
                 return;
             }
 
-            string msgType = (string)data[0];
-            if (msgType == "call-reply")
-                HandleCallReply(data);
-            else if (msgType == "call-error")
-                HandleCallError(data);
-            else if (msgType == "call")
-                HandleCall(data);
+            MessageType msgType = receivedMessage.Type;
+            if (msgType == MessageType.RESPONSE)
+                HandleCallResponse(receivedMessage);
+            else if (msgType == MessageType.EXCEPTION)
+                HandleCallError(receivedMessage);
+            else if (msgType == MessageType.REQUEST)
+                HandleCall(receivedMessage);
             else
                 SendCallError(-1, "Unknown message type: " + msgType);
         }
@@ -170,10 +170,10 @@ namespace WebSocketJSON
             SendSerializedMessage(serializedMessage);
         }
 
-        private void HandleCall(List<object> data)
+        private void HandleCall(IMessage callMessage)
         {
-            int callID = (int)data[1];
-            string methodName = (string)data[2];
+            int callID = callMessage.ID;
+            string methodName = callMessage.MethodName;
             string[] serviceDescription = methodName.Split('.');
 
             Delegate nativeMethod = null;
@@ -188,8 +188,8 @@ namespace WebSocketJSON
                 object[] parameters;
                 try
                 {
-                    var args = data.GetRange(4, data.Count - 4);
-                    var callbacks = (List<int>)data[3];
+                    var args = callMessage.Parameters;
+                    var callbacks = callMessage.Callbacks;
                     var paramInfo = new List<ParameterInfo>(nativeMethod.Method.GetParameters());
                     parameters = ConvertParameters(methodName, args, callbacks, paramInfo);
                 }
@@ -349,6 +349,7 @@ namespace WebSocketJSON
 
         private void SendCallError(int callID, string reason)
         {
+            IMessage messageObject = new MessageBase();
             List<object> errorReplyMessage = new List<object>();
             errorReplyMessage.Add("call-error");
             errorReplyMessage.Add(callID);
@@ -356,10 +357,10 @@ namespace WebSocketJSON
             SendMessage(errorReplyMessage);
         }
 
-        private void HandleCallError(List<object> data)
+        private void HandleCallError(IMessage errorMessage)
         {
-            int callID = (int)data[1];
-            string reason = (string)data[2];
+            int callID = errorMessage.ID;
+            string reason = (string)errorMessage.Result;
 
             // Call error with callID = -1 means we've sent something that was not understood by other side or was
             // malformed. This probably means that protocols aren't incompatible or incorrectly implemented on either
@@ -383,9 +384,9 @@ namespace WebSocketJSON
                 SendCallError(-1, "Invalid callID: " + callID);
         }
 
-        private void HandleCallReply(List<object> data)
+        private void HandleCallResponse(IMessage responseMessage)
         {
-            int callID = (int)data[1];
+            int callID = responseMessage.ID;
 
             FuncCallBase completedCall = null;
             lock (activeCalls)
@@ -399,8 +400,8 @@ namespace WebSocketJSON
 
             if (completedCall != null)
             {
-                bool success = (bool)data[2];
-                object result = data.Count == 4 ? data[3] : new JValue((object)null);
+                bool success = !responseMessage.IsException;
+                object result = responseMessage.Result;
                 if (success)
                     completedCall.HandleSuccess(result);
                 else
