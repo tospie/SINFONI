@@ -7,7 +7,7 @@ namespace KIARA
 {
     public interface ITransport
     {
-        public string Name { public get; private set; }
-        public ITransportAddress CreateAddress(string uri);
+        string Name { get; }
+        ITransportAddress CreateAddress(string uri);
     }
 }
