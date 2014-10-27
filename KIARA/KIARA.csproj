@@ -68,6 +68,7 @@
     <Compile Include="IClientFunctionCall.cs" />
     <Compile Include="Protocol\IMessage.cs" />
     <Compile Include="Protocol\IProtocol.cs" />
+    <Compile Include="Protocol\MessageBase.cs" />
     <Compile Include="Protocol\ProtocolUtils.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Services\IServiceImpl.cs" />
