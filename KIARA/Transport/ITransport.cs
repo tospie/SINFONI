@@ -9,5 +9,6 @@ namespace KIARA
     {
         string Name { get; }
         ITransportAddress CreateAddress(string uri);
+        void Send(IMessage message);
     }
 }
