@@ -33,17 +33,6 @@ namespace WebSocketJSON
             serializer = JsonSerializer.Create(settings);
         }
 
-        protected override object ConvertResult(object result, Type type)
-        {
-            KtdType idlReturnType = ServiceRegistry.Instance
-                        .GetService(ServiceName)
-                        .GetServiceFunction(FunctionName)
-                        .ReturnType;
-
-            var convertedResult = idlReturnType.AssignValuesToNativeType(result, type);
-            return convertedResult;
-        }
-
         /// <summary>
         /// Handles the successful completion of the call.
         /// </summary>

@@ -8,7 +8,7 @@ namespace KIARA
     /// <summary>
     /// An base implementation of the <see cref="IClientFunctionCall"/>, which allows many protocols to reuse the same code.
     /// </summary>
-    public abstract class FuncCallBase : IClientFunctionCall
+    public class FuncCallBase : IClientFunctionCall
     {
         #region IFuncCall implementation
 
@@ -92,6 +92,8 @@ namespace KIARA
             ServiceName = serviceName;
             FunctionName = functionName;
         }
+
+
         /// <summary>
         /// Notifies the clients of this call that the call was completed successfully. The <paramref name="retValue"/>
         /// is passed into success handlers.
@@ -157,7 +159,16 @@ namespace KIARA
         /// <returns>The converted result.</returns>
         /// <param name="result">Result.</param>
         /// <param name="type">Type to which the result must be converted.</param>
-        protected abstract object ConvertResult(object result, Type type);
+        protected object ConvertResult(object result, Type type)
+        {
+            KtdType idlReturnType = ServiceRegistry.Instance
+                        .GetService(ServiceName)
+                        .GetServiceFunction(FunctionName)
+                        .ReturnType;
+
+            var convertedResult = idlReturnType.AssignValuesToNativeType(result, type);
+            return convertedResult;
+        }
 
         /// <summary>
         /// The registered success handlers.
