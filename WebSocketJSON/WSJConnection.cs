@@ -76,7 +76,7 @@ namespace WebSocketJSON
             List<object> convertedArgs = convertCallbackArguments(args, out callbacks);
             List<object> callMessage = createCallMessage(callID, funcName, callbacks, convertedArgs);
 
-            IWSJFuncCall callObj = null;
+            FuncCallBase callObj = null;
             if (!IsOneWay(funcName))
             {
                 string[] serviceDescription = funcName.Split('.');
@@ -145,7 +145,7 @@ namespace WebSocketJSON
 
         internal void HandleClosed(object sender, EventArgs e)
         {
-            IWSJFuncCall[] removedCalls = new IWSJFuncCall[activeCalls.Count];
+            FuncCallBase[] removedCalls = new FuncCallBase[activeCalls.Count];
             lock (activeCalls)
             {
                 activeCalls.Values.CopyTo(removedCalls, 0);
@@ -367,7 +367,7 @@ namespace WebSocketJSON
             if (callID == -1)
                 throw new Exception(reason);
 
-            IWSJFuncCall failedCall = null;
+            FuncCallBase failedCall = null;
             lock (activeCalls)
             {
                 if (activeCalls.ContainsKey(callID))
@@ -387,7 +387,7 @@ namespace WebSocketJSON
         {
             int callID = (int)data[1];
 
-            IWSJFuncCall completedCall = null;
+            FuncCallBase completedCall = null;
             lock (activeCalls)
             {
                 if (activeCalls.ContainsKey(callID))
@@ -404,7 +404,7 @@ namespace WebSocketJSON
                 if (success)
                     completedCall.HandleSuccess(result);
                 else
-                    completedCall.HandleException(result);
+                    completedCall.HandleException(new Exception(result as string));
             }
             else
             {
@@ -502,7 +502,7 @@ namespace WebSocketJSON
         private object nextCallIDLock = new object();
         private int nextCallID = 0;
 
-        private Dictionary<int, IWSJFuncCall> activeCalls = new Dictionary<int, IWSJFuncCall>();
+        private Dictionary<int, FuncCallBase> activeCalls = new Dictionary<int, FuncCallBase>();
         private Dictionary<string, Delegate> registeredFunctions = new Dictionary<string, Delegate>();
         private Dictionary<Delegate, string> registeredCallbacks = new Dictionary<Delegate, string>();
         private JsonSerializerSettings settings = new JsonSerializerSettings();
