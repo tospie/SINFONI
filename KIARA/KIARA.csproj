@@ -67,6 +67,7 @@
     <Compile Include="IDLParser\ServiceParser.cs" />
     <Compile Include="IClientFunctionCall.cs" />
     <Compile Include="Protocol\IMessage.cs" />
+    <Compile Include="Protocol\IMessageFactory.cs" />
     <Compile Include="Protocol\IProtocol.cs" />
     <Compile Include="Protocol\MessageBase.cs" />
     <Compile Include="Protocol\ProtocolUtils.cs" />
