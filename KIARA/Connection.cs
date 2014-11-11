@@ -251,6 +251,35 @@ namespace KIARA
             };
         }
 
+        private void HandleCallResponse(IMessage responseMessage)
+        {
+            int callID = responseMessage.ID;
+
+            FuncCallBase completedCall = null;
+            lock (activeCalls)
+            {
+                if (activeCalls.ContainsKey(callID))
+                {
+                    completedCall = activeCalls[callID];
+                    activeCalls.Remove(callID);
+                }
+            }
+
+            if (completedCall != null)
+            {
+                bool success = !responseMessage.IsException;
+                object result = responseMessage.Result;
+                if (success)
+                    completedCall.HandleSuccess(result);
+                else
+                    completedCall.HandleException(new Exception(result as string));
+            }
+            else
+            {
+                SendCallError(-1, "Invalid callID: " + callID);
+            }
+        }
+
         /// Generates a func wrapper for the <paramref name="funcName"/>. Optional <paramref name="typeMapping"/> string
         /// may be used to specify data omission and reordering options.
         /// </summary>
