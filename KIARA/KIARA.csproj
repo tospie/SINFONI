@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="Transport\ITransportAddress.cs" />
     <Compile Include="Transport\ITransport.cs" />
+    <Compile Include="Transport\ITransportConnection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
