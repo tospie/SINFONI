@@ -86,6 +86,74 @@ namespace KIARA
                 SendCallError(-1, "Unknown message type: " + msgType);
         }
 
+
+        private void HandleCall(IMessage callMessage)
+        {
+            int callID = callMessage.ID;
+            string methodName = callMessage.MethodName;
+            string[] serviceDescription = methodName.Split('.');
+
+            Delegate nativeMethod = null;
+            lock (registeredFunctions)
+            {
+                if (registeredFunctions.ContainsKey(methodName))
+                    nativeMethod = registeredFunctions[methodName];
+            }
+
+            if (nativeMethod != null)
+            {
+                object[] parameters;
+                try
+                {
+                    var args = callMessage.Parameters;
+                    var callbacks = callMessage.Callbacks;
+                    var paramInfo = new List<ParameterInfo>(nativeMethod.Method.GetParameters());
+                    parameters = ConvertParameters(methodName, args, callbacks, paramInfo);
+                }
+                catch (Exception e)
+                {
+                    SendCallError(callID, e.Message);
+                    return;
+                }
+
+                object returnValue = null;
+                object exception = null;
+                bool success = true;
+                try
+                {
+                    // Super Evil Hack Here! Existing unit tests assume that WSJON serializes in a fixed format that
+                    // originates from serializing the native types correctly. Also, the tests do not take into account
+                    // any KTD from any IDL. To make them work, we have to pretend that there is no ServiceRegistry
+                    // maintaining any service description, but bypass type check and automatic KTD Conversion
+                    // by setting service Registry to null
+                    if (ServiceRegistry.Instance == null)
+                    {
+                        returnValue = nativeMethod.DynamicInvoke(parameters);
+                    }
+                    else
+                    {
+                        ServiceFunctionDescription service = ServiceRegistry.Instance
+                            .GetService(serviceDescription[0])
+                            .GetServiceFunction(serviceDescription[1]);
+                        returnValue = service.ReturnType.AssignValuesFromObject(nativeMethod.DynamicInvoke(parameters));
+                    }
+                }
+                catch (Exception e)
+                {
+                    exception = e;
+                    success = false;
+                }
+
+                if (!IsOneWay(methodName))
+                    SendCallReply(callID, nativeMethod, success, returnValue, exception);
+            }
+            else
+            {
+                SendCallError(callID, "Method " + methodName + " is not registered");
+                return;
+            }
+        }
+
         /// Generates a func wrapper for the <paramref name="funcName"/>. Optional <paramref name="typeMapping"/> string
         /// may be used to specify data omission and reordering options.
         /// </summary>
