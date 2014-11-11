@@ -25,12 +25,15 @@ namespace KIARA
         /// <summary>
         /// Raised when a connection is closed.
         /// </summary>
-        public abstract event EventHandler Closed;
+        public event EventHandler Closed;
 
         /// <summary>
         /// Closes the connection.
         /// </summary>
-        public abstract void Disconnect();
+        public void Disconnect()
+        {
+            Transport.CloseConnection();
+        }
 
         /// <summary>
         /// Convenient wrapper around GenerateFuncWrapper. Can be used to quickly create function wrapper and call it
@@ -51,7 +54,7 @@ namespace KIARA
         /// Loads an IDL definition file at <paramref name="uri"/> into the connection.
         /// </summary>
         /// <param name="uri">URI of the IDL definition file.</param>
-        public virtual void LoadIDL(string uri)
+        public void LoadIDL(string uri)
         {
             string contents = webClient.DownloadString(uri);
             IDLParser.Instance.parseIDL(contents);
@@ -330,6 +333,7 @@ namespace KIARA
             //SendMessage(errorReplyMessage);
         }
 
+        /// <summary>
         /// Generates a func wrapper for the <paramref name="funcName"/>. Optional <paramref name="typeMapping"/> string
         /// may be used to specify data omission and reordering options.
         /// </summary>
@@ -375,7 +379,7 @@ namespace KIARA
         /// <param name="funcName">Name of the implemented function.</param>
         /// <param name="handler">Handler to be invoked upon remote call.</param>
         /// <param name="typeMapping">Type mapping string.</param>
-        public virtual void RegisterFuncImplementation(string funcName, Delegate handler, string typeMapping = "")
+        public void RegisterFuncImplementation(string funcName, Delegate handler, string typeMapping = "")
         {
             // TODO: implement type mapping and add respective tests
             RegisterHandler(funcName, handler);
@@ -399,7 +403,7 @@ namespace KIARA
         /// <returns><c>true</c>, if property is supported, <c>false</c> otherwise.</returns>
         /// <param name="name">Name of the property.</param>
         /// <param name="value">Value to be returned.</param>
-        public virtual bool GetProperty(string name, out object value)
+        public  bool GetProperty(string name, out object value)
         {
             value = null;
             return false;
