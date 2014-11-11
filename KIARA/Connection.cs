@@ -133,12 +133,6 @@ namespace KIARA
         }
 
         /// <summary>
-        /// Processes the parsed IDL.
-        /// </summary>
-        /// <param name="parsedIDL">Plain IDL as string (parsing is not implemented yet).</param>
-        protected abstract void ProcessIDL(string parsedIDL);
-
-        /// <summary>
         /// Calls a function with a given name and arguments on the remote end.
         /// </summary>
         /// <param name="funcName">Function name.</param>

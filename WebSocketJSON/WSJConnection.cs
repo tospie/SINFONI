@@ -62,10 +62,6 @@ namespace WebSocketJSON
                 SendCallError(-1, "Unknown message type: " + msgType);
         }
 
-        protected override void ProcessIDL(string parsedIDL)
-        {
-            // TODO
-        }
 
         protected override IClientFunctionCall CallClientFunction(string funcName, params object[] args)
         {
