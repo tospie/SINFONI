@@ -280,6 +280,33 @@ namespace KIARA
             }
         }
 
+        private void HandleCallError(IMessage errorMessage)
+        {
+            int callID = errorMessage.ID;
+            string reason = (string)errorMessage.Result;
+
+            // Call error with callID = -1 means we've sent something that was not understood by other side or was
+            // malformed. This probably means that protocols aren't incompatible or incorrectly implemented on either
+            // side.
+            if (callID == -1)
+                throw new Exception(reason);
+
+            FuncCallBase failedCall = null;
+            lock (activeCalls)
+            {
+                if (activeCalls.ContainsKey(callID))
+                {
+                    failedCall = activeCalls[callID];
+                    activeCalls.Remove(callID);
+                }
+            }
+
+            if (failedCall != null)
+                failedCall.HandleError(reason);
+            else
+                SendCallError(-1, "Invalid callID: " + callID);
+        }
+
         /// Generates a func wrapper for the <paramref name="funcName"/>. Optional <paramref name="typeMapping"/> string
         /// may be used to specify data omission and reordering options.
         /// </summary>
