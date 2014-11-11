@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KIARA", "KIARA\KIARA.csproj", "{B43693EF-8534-4491-93B9-D9E4702DC0F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KIARAUnitTests", "KIARAUnitTests\KIARAUnitTests.csproj", "{D0A996D3-E307-4C53-97C6-6F532C43E750}"
@@ -25,6 +27,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleClient", "Examples\SimpleClient\SimpleClient.csproj", "{D300422D-EA45-403F-A00C-10E7DBA08EAB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpJSON", "HttpJSON\HttpJSON.csproj", "{D93428E9-E2DB-42DC-9540-02877973EF62}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transports", "Transports", "{E34956AE-419F-45B4-8676-DCA11AD0BC8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocket", "Transports\WebSocket\WebSocket.csproj", "{DB36D1F8-6E17-4029-BD83-9365DF74DB53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +62,10 @@ Global
 		{D93428E9-E2DB-42DC-9540-02877973EF62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D93428E9-E2DB-42DC-9540-02877973EF62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D93428E9-E2DB-42DC-9540-02877973EF62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB36D1F8-6E17-4029-BD83-9365DF74DB53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB36D1F8-6E17-4029-BD83-9365DF74DB53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB36D1F8-6E17-4029-BD83-9365DF74DB53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB36D1F8-6E17-4029-BD83-9365DF74DB53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,5 +77,6 @@ Global
 		{D93428E9-E2DB-42DC-9540-02877973EF62} = {6AC2C9D5-7C9A-49E7-9B9A-58C10597BECD}
 		{1203B079-230D-44FB-8D1F-EA9721583521} = {76FCAEF8-ACFF-404E-827D-239879217FEE}
 		{D300422D-EA45-403F-A00C-10E7DBA08EAB} = {76FCAEF8-ACFF-404E-827D-239879217FEE}
+		{DB36D1F8-6E17-4029-BD83-9365DF74DB53} = {E34956AE-419F-45B4-8676-DCA11AD0BC8B}
 	EndGlobalSection
 EndGlobal
