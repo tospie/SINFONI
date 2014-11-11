@@ -413,6 +413,61 @@ namespace KIARA
         /// <returns>Object representing remote call.</returns>
         protected abstract IClientFunctionCall CallClientFunction(string funcName, params object[] args);
 
+        private List<object> convertCallbackArguments(object[] args, out List<int> callbacks)
+        {
+            callbacks = createCallbacksFromArguments(args);
+
+            List<object> convertedArgs = new List<object>();
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (args[i] is Delegate)
+                {
+                    var arg = args[i] as Delegate;
+                    string callbackGuid = null;
+                    lock (registeredCallbacks)
+                        callbackGuid = registeredCallbacks[arg];
+                    convertedArgs.Add(callbackGuid);
+                }
+                else
+                {
+                    convertedArgs.Add(args[i]);
+                }
+            }
+            return convertedArgs;
+        }
+
+        private List<int> createCallbacksFromArguments(object[] args)
+        {
+            List<int> callbacks = new List<int>();
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (args[i] is Delegate)
+                {
+                    var arg = args[i] as Delegate;
+
+                    string callbackGuid = null;
+                    lock (registeredCallbacks)
+                    {
+                        if (!registeredCallbacks.ContainsKey(arg))
+                        {
+                            callbackGuid = Guid.NewGuid().ToString();
+                            registeredCallbacks[arg] = callbackGuid;
+                        }
+                        else
+                        {
+                            callbackGuid = registeredCallbacks[arg];
+                        }
+                    }
+
+                    lock (registeredFunctions)
+                        registeredFunctions[callbackGuid] = arg;
+
+                    callbacks.Add(i);
+                }
+            }
+            return callbacks;
+        }
+
         /// <summary>
         /// Registers a handler to be invoked when a function with given name is invoked remotely.
         /// </summary>
