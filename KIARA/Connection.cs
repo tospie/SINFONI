@@ -477,6 +477,12 @@ namespace KIARA
 
         internal IWebClient webClient = new WebClientWrapper();
 
+        private object nextCallIDLock = new object();
+        private int nextCallID = 0;
+        private Dictionary<int, FuncCallBase> activeCalls = new Dictionary<int, FuncCallBase>();
+        private Dictionary<string, Delegate> registeredFunctions = new Dictionary<string, Delegate>();
+        private Dictionary<Delegate, string> registeredCallbacks = new Dictionary<Delegate, string>();
+
         protected ITransport Transport;
         protected IProtocol Protocol;
     }
