@@ -58,6 +58,34 @@ namespace KIARA
         }
 
         /// <summary>
+        /// Handles an incoming message.
+        /// </summary>
+        /// <param name="message">The incoming message.</param>
+        public void HandleMessage(object sender, TransportMessageEventArgs e)
+        {
+            IMessage receivedMessage = null;
+
+            try
+            {
+                // Deserializes Message according to loaded protocol. As client agreed with server on respective protocol
+                receivedMessage = Protocol.DeserializeMessage(e.Message);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+
+            MessageType msgType = receivedMessage.Type;
+            if (msgType == MessageType.RESPONSE)
+                HandleCallResponse(receivedMessage);
+            else if (msgType == MessageType.EXCEPTION)
+                HandleCallError(receivedMessage);
+            else if (msgType == MessageType.REQUEST)
+                HandleCall(receivedMessage);
+            else
+                SendCallError(-1, "Unknown message type: " + msgType);
+        }
+
         /// Generates a func wrapper for the <paramref name="funcName"/>. Optional <paramref name="typeMapping"/> string
         /// may be used to specify data omission and reordering options.
         /// </summary>
