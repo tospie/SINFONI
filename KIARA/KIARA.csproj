@@ -96,10 +96,13 @@
     <Compile Include="Transport\ITransport.cs" />
     <Compile Include="Transport\ITransportConnection.cs" />
     <Compile Include="Transport\ITransportConnectionFactory.cs" />
+    <Compile Include="Transport\TransportEvents\TransportErrorEventArgs.cs" />
+    <Compile Include="Transport\TransportEvents\TransportMessageEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
