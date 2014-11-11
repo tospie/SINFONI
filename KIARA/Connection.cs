@@ -411,7 +411,78 @@ namespace KIARA
         /// <param name="funcName">Function name.</param>
         /// <param name="args">Argunents.</param>
         /// <returns>Object representing remote call.</returns>
-        protected abstract IClientFunctionCall CallClientFunction(string funcName, params object[] args);
+        protected IClientFunctionCall CallClientFunction(string funcName, params object[] args)
+        {
+            int callID = getValidCallID();
+
+            // Register delegates as callbacks. Pass their registered names instead.
+            List<int> callbacks;
+            List<object> convertedArgs = convertCallbackArguments(args, out callbacks);
+
+            // REPLACE BY: var callMessage = Protocol.SerializeCallMessage(callID, funcName, callbacks, convertedArgs);
+            List<object> callMessage = createCallMessage(callID, funcName, callbacks, convertedArgs);
+
+            FuncCallBase callObj = null;
+            if (!IsOneWay(funcName))
+            {
+                string[] serviceDescription = funcName.Split('.');
+                // Usually, a function called via CallClientFunction is parsed from the KIARA IDL and of ther
+                // form serviceName.functionName. However, in some cases (e.g. twisted Unit Tests), functions may be
+                // created locally, only having a GUID as function name. In this case, we appen "LOCAL" as service name
+                // to mark the function as locally created
+                if (serviceDescription.Length < 2)
+                {
+                    callObj = new FuncCallBase("LOCAL", funcName);
+                }
+                else
+                {
+                    callObj = new FuncCallBase(serviceDescription[0], serviceDescription[1]);
+                }
+
+                // It is important to add an active call to the list before sending it, otherwise we may end up
+                // receiving call-reply before this happens, which will trigger unnecessary call-error and crash the
+                // other end.
+                lock (activeCalls)
+                    activeCalls.Add(callID, callObj);
+            }
+
+            var serializedMessage = Protocol.SerializeMessage(callMessage);
+            Transport.Send(serializedMessage);
+
+            return callObj;
+        }
+
+        private bool IsOneWay(string qualifiedMethodName)
+        {
+            List<string> onewayMethods = new List<string>
+            {
+                // Add new one-way calls here
+            };
+
+            return onewayMethods.Contains(qualifiedMethodName);
+        }
+
+        private int getValidCallID()
+        {
+            lock (nextCallIDLock)
+            {
+                return nextCallID++;
+            }
+        }
+
+        private List<object> createCallMessage(int callID, string name, List<int> callbacks, List<object> convertedArgs)
+        {
+            List<object> callMessage = new List<object>();
+            callMessage.Add("call");
+            callMessage.Add(callID);
+            callMessage.Add(name);
+            // Add a list of callback indicies.
+            callMessage.Add(callbacks);
+            // Add converted arguments.
+            callMessage.AddRange(convertedArgs);
+
+            return callMessage;
+        }
 
         private List<object> convertCallbackArguments(object[] args, out List<int> callbacks)
         {
