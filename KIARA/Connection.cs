@@ -307,6 +307,29 @@ namespace KIARA
                 SendCallError(-1, "Invalid callID: " + callID);
         }
 
+        private void SendCallReply(int callID, Delegate nativeMethod, bool success, object retValue, object exception)
+        {
+            List<object> callReplyMessage = new List<object>();
+            callReplyMessage.Add("call-reply");
+            callReplyMessage.Add(callID);
+            callReplyMessage.Add(success);
+            if (!success)
+                callReplyMessage.Add(exception);
+            else if (nativeMethod.Method.ReturnType != typeof(void))
+                callReplyMessage.Add(retValue);
+            //SendMessage(callReplyMessage);
+        }
+
+        private void SendCallError(int callID, string reason)
+        {
+            IMessage messageObject = new MessageBase();
+            List<object> errorReplyMessage = new List<object>();
+            errorReplyMessage.Add("call-error");
+            errorReplyMessage.Add(callID);
+            errorReplyMessage.Add(reason);
+            //SendMessage(errorReplyMessage);
+        }
+
         /// Generates a func wrapper for the <paramref name="funcName"/>. Optional <paramref name="typeMapping"/> string
         /// may be used to specify data omission and reordering options.
         /// </summary>
