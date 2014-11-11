@@ -16,11 +16,6 @@ namespace KIARAUnitTests
             throw new NotImplementedException();
         }
 
-        protected override void ProcessIDL(string parsedIDL)
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void RegisterHandler(string funcName, Delegate handler)
         {
             throw new NotImplementedException();
