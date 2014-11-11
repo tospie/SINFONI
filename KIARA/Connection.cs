@@ -154,6 +154,65 @@ namespace KIARA
             }
         }
 
+        private object[] ConvertParameters(string methodName, List<object> args, List<int> callbacks, List<ParameterInfo> paramInfo)
+        {
+            object[] parameters = new object[paramInfo.Count];
+
+            // Special handling for the first parameter if it's of type Connection.
+            if (paramInfo.Count > 0 && paramInfo[0].ParameterType.Equals(typeof(Connection)))
+            {
+                parameters[0] = this;
+                var otherParams = ConvertParameters(methodName, args, callbacks, paramInfo.GetRange(1, paramInfo.Count - 1));
+                otherParams.CopyTo(parameters, 1);
+                return parameters;
+            }
+
+            if (paramInfo.Count != args.Count)
+            {
+                throw new Exception("Incorrect number of arguments for a method. Expected: " +
+                                              paramInfo.Count + ". Received: " + args.Count);
+            }
+
+            for (int i = 0; i < args.Count; i++)
+            {
+                if (callbacks.Contains(i))
+                {
+                    if (paramInfo[i].ParameterType == typeof(ClientFunction))
+                    {
+                        parameters[i] = CreateFuncWrapperDelegate((string)args[i]);
+                    }
+                    else if (typeof(Delegate).IsAssignableFrom(paramInfo[i].ParameterType))
+                    {
+                        parameters[i] = CreateCustomDelegate((string)args[i], paramInfo[i].ParameterType);
+                    }
+                    else
+                    {
+                        throw new Exception("Parameter " + i + " is neither a delegate nor a FuncWrapper. " +
+                                            "Cannot pass callback method in its place");
+                    }
+                }
+                else
+                {
+                    // Super Evil Hack! See other super evil hack comment above
+                    if (ServiceRegistry.Instance == null)
+                    {
+                        parameters[i] = Convert.ChangeType(args[i], paramInfo[i].ParameterType);
+                    }
+                    else
+                    {
+                        IDictionary<string, object> c = (Dictionary<string, object>)args[i];
+                        string[] service = methodName.Split('.');
+                        KtdType idlParameter = ServiceRegistry.Instance.GetService(service[0])
+                            .GetServiceFunction(service[1]).Parameters.ElementAt(i).Value;
+                        parameters[i] = idlParameter.AssignValuesToNativeType(c, paramInfo[i].ParameterType);
+                    }
+
+                }
+            }
+
+            return parameters;
+        }
+
         /// Generates a func wrapper for the <paramref name="funcName"/>. Optional <paramref name="typeMapping"/> string
         /// may be used to specify data omission and reordering options.
         /// </summary>
