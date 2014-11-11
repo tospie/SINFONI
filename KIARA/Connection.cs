@@ -14,6 +14,7 @@ namespace KIARA
     /// </summary>
     /// <returns>An object representing a call.</returns>
     public delegate IClientFunctionCall ClientFunction(params object[] parameters);
+    public delegate object GenericWrapper(params object[] arguments);
 
     /// <summary>
     /// This class represenents a connection to the remote end. It may be used to load new IDL definition files,
