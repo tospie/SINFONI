@@ -86,7 +86,7 @@ namespace KIARA
             else if (msgType == MessageType.REQUEST)
                 HandleCall(receivedMessage);
             else
-                SendCallError(-1, "Unknown message type: " + msgType);
+                SendException(-1, "Unknown message type: " + msgType);
         }
 
 
@@ -115,7 +115,7 @@ namespace KIARA
                 }
                 catch (Exception e)
                 {
-                    SendCallError(callID, e.Message);
+                    SendException(callID, e.Message);
                     return;
                 }
 
@@ -148,11 +148,11 @@ namespace KIARA
                 }
 
                 if (!IsOneWay(methodName))
-                    SendCallReply(callID, nativeMethod, success, returnValue, exception);
+                    SendResponse(callID, nativeMethod, success, returnValue, exception);
             }
             else
             {
-                SendCallError(callID, "Method " + methodName + " is not registered");
+                SendException(callID, "Method " + methodName + " is not registered");
                 return;
             }
         }
@@ -279,7 +279,7 @@ namespace KIARA
             }
             else
             {
-                SendCallError(-1, "Invalid callID: " + callID);
+                SendException(-1, "Invalid callID: " + callID);
             }
         }
 
@@ -307,30 +307,30 @@ namespace KIARA
             if (failedCall != null)
                 failedCall.HandleError(reason);
             else
-                SendCallError(-1, "Invalid callID: " + callID);
+                SendException(-1, "Invalid callID: " + callID);
         }
 
-        private void SendCallReply(int callID, Delegate nativeMethod, bool success, object retValue, object exception)
+        private void SendResponse(int callID, Delegate nativeMethod, bool success, object retValue, object exception)
         {
-            List<object> callReplyMessage = new List<object>();
-            callReplyMessage.Add("call-reply");
-            callReplyMessage.Add(callID);
-            callReplyMessage.Add(success);
+            IMessage responseMessage = new MessageBase();
+            responseMessage.Type = MessageType.RESPONSE;
+            responseMessage.ID = callID;
+            responseMessage.IsException = !success;
             if (!success)
-                callReplyMessage.Add(exception);
+                responseMessage.Result = exception;
             else if (nativeMethod.Method.ReturnType != typeof(void))
-                callReplyMessage.Add(retValue);
-            //SendMessage(callReplyMessage);
+                responseMessage.Result = retValue;
+            SendMessage(responseMessage);
         }
 
-        private void SendCallError(int callID, string reason)
+        private void SendException(int callID, string reason)
         {
-            IMessage messageObject = new MessageBase();
-            List<object> errorReplyMessage = new List<object>();
-            errorReplyMessage.Add("call-error");
-            errorReplyMessage.Add(callID);
-            errorReplyMessage.Add(reason);
-            //SendMessage(errorReplyMessage);
+            IMessage errorMessage = new MessageBase();
+            errorMessage.Type = MessageType.EXCEPTION;
+            errorMessage.IsException = true;
+            errorMessage.ID = callID;
+            errorMessage.Result = reason;
+            SendMessage(errorMessage);
         }
 
         /// <summary>
@@ -424,7 +424,7 @@ namespace KIARA
             List<object> convertedArgs = convertCallbackArguments(args, out callbacks);
 
             // REPLACE BY: var callMessage = Protocol.SerializeCallMessage(callID, funcName, callbacks, convertedArgs);
-            List<object> callMessage = createCallMessage(callID, funcName, callbacks, convertedArgs);
+            IMessage callMessage = createRequestMessage(callID, funcName, callbacks, convertedArgs);
 
             FuncCallBase callObj = null;
             if (!IsOneWay(funcName))
@@ -450,8 +450,7 @@ namespace KIARA
                     activeCalls.Add(callID, callObj);
             }
 
-            var serializedMessage = Protocol.SerializeMessage(callMessage);
-            Transport.Send(serializedMessage);
+            SendMessage(callMessage);
 
             return callObj;
         }
@@ -474,18 +473,17 @@ namespace KIARA
             }
         }
 
-        private List<object> createCallMessage(int callID, string name, List<int> callbacks, List<object> convertedArgs)
+        private IMessage createRequestMessage(int callID, string name, List<int> callbacks, List<object> convertedArgs)
         {
-            List<object> callMessage = new List<object>();
-            callMessage.Add("call");
-            callMessage.Add(callID);
-            callMessage.Add(name);
-            // Add a list of callback indicies.
-            callMessage.Add(callbacks);
-            // Add converted arguments.
-            callMessage.AddRange(convertedArgs);
+            IMessage requestMessage = new MessageBase();
+            requestMessage.Type = MessageType.REQUEST;
+            requestMessage.ID = callID;
+            requestMessage.MethodName = name;
+            requestMessage.Parameters = convertedArgs;
+            requestMessage.Callbacks = callbacks;
 
-            return callMessage;
+            return requestMessage;
+        }
 
         private void SendMessage(IMessage message)
         {
