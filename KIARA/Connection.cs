@@ -551,7 +551,11 @@ namespace KIARA
         /// </summary>
         /// <param name="funcName">Function name.</param>
         /// <param name="handler">Handler delegate.</param>
-        protected abstract void RegisterHandler(string funcName, Delegate handler);
+        protected void RegisterHandler(string funcName, Delegate handler)
+        {
+            lock (registeredFunctions)
+                registeredFunctions[funcName] = handler;
+        }
 
         internal IWebClient webClient = new WebClientWrapper();
 
