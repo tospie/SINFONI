@@ -486,6 +486,11 @@ namespace KIARA
             callMessage.AddRange(convertedArgs);
 
             return callMessage;
+
+        private void SendMessage(IMessage message)
+        {
+            var serializedMessage = Protocol.SerializeMessage(message);
+            Transport.Send(serializedMessage);
         }
 
         private List<object> convertCallbackArguments(object[] args, out List<int> callbacks)
