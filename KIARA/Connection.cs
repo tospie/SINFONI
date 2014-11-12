@@ -312,7 +312,7 @@ namespace KIARA
 
         private void SendResponse(int callID, Delegate nativeMethod, bool success, object retValue, object exception)
         {
-            IMessage responseMessage = new MessageBase();
+            MessageBase responseMessage = new MessageBase();
             responseMessage.Type = MessageType.RESPONSE;
             responseMessage.ID = callID;
             responseMessage.IsException = !success;
@@ -325,7 +325,7 @@ namespace KIARA
 
         private void SendException(int callID, string reason)
         {
-            IMessage errorMessage = new MessageBase();
+            MessageBase errorMessage = new MessageBase();
             errorMessage.Type = MessageType.EXCEPTION;
             errorMessage.IsException = true;
             errorMessage.ID = callID;
@@ -475,7 +475,7 @@ namespace KIARA
 
         private IMessage createRequestMessage(int callID, string name, List<int> callbacks, List<object> convertedArgs)
         {
-            IMessage requestMessage = new MessageBase();
+            MessageBase requestMessage = new MessageBase();
             requestMessage.Type = MessageType.REQUEST;
             requestMessage.ID = callID;
             requestMessage.MethodName = name;
