@@ -7,18 +7,18 @@ namespace KIARA
 {
     public class MessageBase : IMessage
     {
-        public MessageType Type { get; private set; }
+        public MessageType Type { get; internal set; }
 
-        public int ID { get; private set; }
+        public int ID { get; internal set; }
 
-        public string MethodName { get; private set; }
+        public string MethodName { get; internal set; }
 
-        public List<object> Parameters { get; private set; }
+        public List<object> Parameters { get; internal set; }
 
-        public List<int> Callbacks { get; private set; }
+        public List<int> Callbacks { get; internal set; }
 
-        public object Result { get; private set; }
+        public object Result { get; internal set; }
 
-        public bool IsException { get; private set;}
+        public bool IsException { get; internal set; }
     }
 }
