@@ -7,6 +7,15 @@ namespace KIARA
 {
     public class TransportMessageEventArgs : EventArgs
     {
-        public IMessage Message { get;  }
+        public TransportMessageEventArgs(IMessage message)
+        {
+            this.message = message;
+        }
+
+        public IMessage Message {
+            get { return message; }
+        }
+
+        private IMessage message;
     }
 }
