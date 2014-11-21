@@ -25,7 +25,7 @@ namespace KIARA
         /// </summary>
         /// <param name="serverConfig">Server config.</param>
         /// <param name="onNewClient">Callback to be called for each new client.</param>
-        void StartServer(Server serverConfig, Context context, Action<Connection> onNewClient);
+        ITransportListener StartConnectionListener(string uri, int port);
 
         /// <summary>
         /// Returns the name of the protocol.
