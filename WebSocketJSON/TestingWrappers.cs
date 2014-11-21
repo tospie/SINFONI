@@ -33,12 +33,12 @@ namespace WebSocketJSON
 
     public interface IWebSocketFactory
     {
-        ISocket Construct(string uri);
+        ITransportConnection Construct(string uri);
     }
 
     public class WebSocketFactory : IWebSocketFactory
     {
-        public ISocket Construct(string uri)
+        public ITransportConnection Construct(string uri)
         {
             return new WebSocketSocketAdapter(uri);
         }
