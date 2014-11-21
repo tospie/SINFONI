@@ -1,20 +1,18 @@
 using System;
-using WebSocket4Net;
-using SuperSocket.ClientEngine;
 using KIARA;
 
 namespace KIARA.Transport.WebSocketTransport
 {
     public interface IWSJServerFactory
     {
-        IWSJServer Construct(Action<Connection> onNewClient);
+        IWSServer Construct(Action<Connection> onNewClient);
     }
 
     public class WSJServerFactory : IWSJServerFactory
     {
-        public IWSJServer Construct(Action<Connection> onNewClient)
+        public IWSServer Construct(Action<Connection> onNewClient)
         {
-            return new WSJServer(onNewClient);
+            return new WSServer();
         }
     }
 
