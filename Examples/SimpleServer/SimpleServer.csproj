@@ -46,23 +46,26 @@
     </Reference>
     <Reference Include="SuperSocket.Common, Version=1.5.3.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ThirdParty\SuperWebSocket\Net40\Debug\SuperSocket.Common.dll</HintPath>
+      <HintPath>..\..\ThirdParty\SuperWebSocket\Net40\Release\SuperSocket.Common.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.Facility">
-      <HintPath>..\..\ThirdParty\SuperWebSocket\Net40\Debug\SuperSocket.Facility.dll</HintPath>
+    <Reference Include="SuperSocket.Facility, Version=1.5.3.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ThirdParty\SuperWebSocket\Net40\Release\SuperSocket.Facility.dll</HintPath>
     </Reference>
     <Reference Include="SuperSocket.SocketBase, Version=1.5.3.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ThirdParty\SuperWebSocket\Net40\Debug\SuperSocket.SocketBase.dll</HintPath>
+      <HintPath>..\..\ThirdParty\SuperWebSocket\Net40\Release\SuperSocket.SocketBase.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.SocketEngine">
-      <HintPath>..\..\ThirdParty\SuperWebSocket\Net40\Debug\SuperSocket.SocketEngine.dll</HintPath>
+    <Reference Include="SuperSocket.SocketEngine, Version=1.5.3.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ThirdParty\SuperWebSocket\Net40\Release\SuperSocket.SocketEngine.dll</HintPath>
     </Reference>
     <Reference Include="SuperWebSocket, Version=0.8.0.0, Culture=neutral, PublicKeyToken=7ba53b9a7cef5d1c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ThirdParty\SuperWebSocket\Net40\Debug\SuperWebSocket.dll</HintPath>
+      <HintPath>..\..\ThirdParty\SuperWebSocket\Net40\Release\SuperWebSocket.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -80,17 +83,9 @@
     <Compile Include="SimpleServer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\HttpJSON\HttpJSON.csproj">
-      <Project>{d93428e9-e2db-42dc-9540-02877973ef62}</Project>
-      <Name>HttpJSON</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\KIARA\KIARA.csproj">
       <Project>{b43693ef-8534-4491-93b9-d9e4702dc0f3}</Project>
       <Name>KIARA</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WebSocketJSON\WebSocketJSON.csproj">
-      <Project>{7729110a-d86e-4802-a158-9be992c98f68}</Project>
-      <Name>WebSocketJSON</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
