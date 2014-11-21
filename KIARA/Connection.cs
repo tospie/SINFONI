@@ -32,7 +32,7 @@ namespace KIARA
         /// </summary>
         public void Disconnect()
         {
-            Transport.CloseConnection();
+            TransportConnection.Close();
         }
 
         /// <summary>
@@ -488,7 +488,7 @@ namespace KIARA
         private void SendMessage(IMessage message)
         {
             var serializedMessage = Protocol.SerializeMessage(message);
-            Transport.Send(serializedMessage);
+            TransportConnection.Send(serializedMessage);
         }
 
         private List<object> convertCallbackArguments(object[] args, out List<int> callbacks)
@@ -565,7 +565,7 @@ namespace KIARA
         private Dictionary<string, Delegate> registeredFunctions = new Dictionary<string, Delegate>();
         private Dictionary<Delegate, string> registeredCallbacks = new Dictionary<Delegate, string>();
 
-        protected ITransport Transport;
+        protected ITransportConnection TransportConnection;
         protected IProtocol Protocol;
     }
 }
