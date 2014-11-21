@@ -79,6 +79,15 @@ namespace KIARA
             IDLParser.Instance.ParseIDLFromUri(config.idlURL);
             Server server = SelectServer(fragment, config);
             string protocolName = server.protocol["name"].ToString();
+            // ConnectionFactory -> TransportConnectionFactory
+            // Somewhere get Protocol from !!
+
+            // ITransportConnectionFactory transportConnectionFactory = transportRegistry.GetTransportConnectionFactory(transportName)
+            // transportConnectionListener = transportConnectionFactory.startConnectionListener(uri);
+            // transportConnectionListener.OnNewSessionConnected = (ITransportConnection transportConnection) => {
+            //      Connection newConnection = newConnection(transportConnection, protocol);
+            //      onNewClient(newConnection);
+            // }
             IConnectionFactory connectionFactory = protocolRegistry.GetConnectionFactory(protocolName);
             connectionFactory.StartServer(server, this, onNewClient);
         }
@@ -144,5 +153,9 @@ namespace KIARA
 
         internal IProtocolRegistry protocolRegistry = ProtocolRegistry.Instance;
         internal IWebClient webClient = new WebClientWrapper();
+        // TODO: Diese Liste soll alle durch StartService gestarteten SERVICES enthalten. Die CONFIG oben wird dann aus der Liste dieser
+        // SERVICES erstellt.
+        // StartService benutzt dann KEINE CONFIG mehr, sondern wird direkt durch ANGABE VON TRANSPORT, PROTOCOL und PFAD im Code definiert
+        internal List<Service> registeredServices = new List<Service>();
     }
 }
