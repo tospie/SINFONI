@@ -27,6 +27,13 @@ namespace KIARA
         /// </summary>
         public event EventHandler Closed;
 
+        public Connection() { }
+
+        public Connection(ITransportConnection transportConnection)
+        {
+            this.TransportConnection = transportConnection;
+        }
+
         /// <summary>
         /// Closes the connection.
         /// </summary>
