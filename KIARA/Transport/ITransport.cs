@@ -8,9 +8,12 @@ namespace KIARA
     public interface ITransport
     {
         string Name { get; }
+
+        ITransportConnectionFactory TransportConnectionFactory { get; }
+
         ITransportAddress CreateAddress(string uri);
-        public ITransportConnection OpenConnection(string uri);
-        public void CloseConnection();
+
+        void CloseConnection();
         void Send(object message);
     }
 }
