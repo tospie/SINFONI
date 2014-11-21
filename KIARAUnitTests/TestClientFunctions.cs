@@ -9,19 +9,19 @@ using NUnit.Framework;
 namespace KIARAUnitTests
 {
     class TestConnection : Connection {
-        public override event EventHandler Closed;
+        public event EventHandler Closed;
 
-        public override void Disconnect()
+        public void Disconnect()
         {
             throw new NotImplementedException();
         }
 
-        protected override void RegisterHandler(string funcName, Delegate handler)
+        protected void RegisterHandler(string funcName, Delegate handler)
         {
             throw new NotImplementedException();
         }
 
-        protected override IClientFunctionCall CallClientFunction(string funcName, params object[] args)
+        protected IClientFunctionCall CallClientFunction(string funcName, params object[] args)
         {
             IClientFunctionCall mockCall = null;
             return mockCall;
