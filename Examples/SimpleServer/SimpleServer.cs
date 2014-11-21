@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using HttpJSONProtocol;
 using KIARA;
-using WebSocketJSON;
+
 
 namespace SimpleServer
 {
@@ -22,16 +21,25 @@ namespace SimpleServer
         {
             string configURI = ServerSyncTools.ConvertFileNameToURI("server.json");
 
-            WSJConnectionFactory wsjConnectionFactory = new WSJConnectionFactory();
-            HttpJSONConnectionFactory httpConnectionFactory = new HttpJSONConnectionFactory();
+            // Connection Factory fliegt so raus -> Registered werden müssen Protokoll und Transport
+            // (Register Transport / Register Protocol)
 
-            ProtocolRegistry.Instance.RegisterConnectionFactory("websocket-json", wsjConnectionFactory);
-            ProtocolRegistry.Instance.RegisterConnectionFactory("http-json", httpConnectionFactory);
+            // ServiceFactory.Create -> Start new Server / KIARA Base Server
+            KIARAServer newServer = new KIARAServer("+", 8080, "/service");
+            newServer.StartService("ws://0.0.0.0:34867/", "websocket", "json-rpc");
 
             IServiceImpl service = ServiceFactory.Create(configURI);
+
+            // Service erstellen: new Service(transport, protocol, url)
+
             service.OnNewClient += new NewClient(HandleNewClient);
 
+            // Bleibt
             service["example.addVectors"] = (Func<Vector, Vector, Vector>)addVectors;
+
+            // Service muss auf server registriert werden
+            // KIARAServer.AddService(service)
+
             Console.Read();
        }
 
