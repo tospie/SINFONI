@@ -46,6 +46,6 @@ namespace KIARA
         /// Sends a message over this socket.
         /// </summary>
         /// <param name="message">Message to be sent.</param>
-        void Send(string message);
+        void Send(object message);
     }
 }
