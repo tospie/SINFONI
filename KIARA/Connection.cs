@@ -20,7 +20,7 @@ namespace KIARA
     /// This class represenents a connection to the remote end. It may be used to load new IDL definition files,
     /// generate callable remote function  wrappers and to register local functions as implementations for remote calls.
     /// </summary>
-    public abstract class Connection
+    public class Connection
     {
         /// <summary>
         /// Raised when a connection is closed.
