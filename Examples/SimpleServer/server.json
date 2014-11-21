@@ -4,8 +4,11 @@
   "servers": [{
     "services": "*",
     "protocol": {
-      "name": "http-json",
-      "port": 34580,
-    }
+      "name": "json-rpc"      
+    },
+	"transport": {
+		"port": 34580,
+		"host": "localhost"
+	}
   }]
 }
