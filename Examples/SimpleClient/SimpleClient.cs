@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using HttpJSONProtocol;
 using KIARA;
-using WebSocketJSON;
 
 namespace SimpleClient
 {
@@ -12,12 +10,6 @@ namespace SimpleClient
     {
         public SimpleClient()
         {
-            WSJConnectionFactory wsjConnectionFactory = new WSJConnectionFactory();
-            HttpJSONConnectionFactory httpConnectionFactory = new HttpJSONConnectionFactory();
-
-            ProtocolRegistry.Instance.RegisterConnectionFactory("websocket-json", wsjConnectionFactory);
-            ProtocolRegistry.Instance.RegisterConnectionFactory("http-json", httpConnectionFactory);
-
             RemoteService = ServiceFactory.Discover(ServerSyncTools.ConvertFileNameToURI("server.json"));
             RemoteService.OnConnected += new Connected(HandleConnected);
 
