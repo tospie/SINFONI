@@ -10,8 +10,8 @@ namespace KIARA
     #region Testing
     public interface IProtocolRegistry
     {
-        void RegisterConnectionFactory(string protocol, IConnectionFactory factory);
-        IConnectionFactory GetConnectionFactory(string protocol);
+        void RegisterProtocol(string protocol, IProtocol factory);
+        IProtocol GetProtocol(string protocol);
         bool IsRegistered(string protocol);
     }
     #endregion
@@ -27,31 +27,31 @@ namespace KIARA
         public readonly static ProtocolRegistry Instance = new ProtocolRegistry();
 
         /// <summary>
-        /// Registers a connection <paramref name="factory"/> for the <paramref name="protocol"/>.
+        /// Registers a connection <paramref name="factory"/> for the <paramref name="protocolName"/>.
         /// </summary>
-        /// <param name="protocol">Protocol name.</param>
+        /// <param name="protocolName">Protocol name.</param>
         /// <param name="factory">Connection factory.</param>
-        public void RegisterConnectionFactory(string protocol, IConnectionFactory factory)
+        public void RegisterProtocol(string protocolName, IProtocol protocol)
         {
-            if (protocol == null)
+            if (protocolName == null)
                 throw new Error(ErrorCode.INVALID_VALUE, "Protocol name must not be null.");
 
-            if (IsRegistered(protocol))
-                throw new Error(ErrorCode.INVALID_VALUE, "Protocol " + protocol + " is already registered.");
+            if (IsRegistered(protocolName))
+                throw new Error(ErrorCode.INVALID_VALUE, "Protocol " + protocolName + " is already registered.");
 
-            registeredProtocols[protocol] = factory;
+            registeredProtocols[protocolName] = protocol;
         }
 
         /// <summary>
-        /// Returns connection factory for <paramref name="protocol"/>. If protocol is not registered, an exception is
+        /// Returns connection factory for <paramref name="protocolName"/>. If protocol is not registered, an exception is
         /// thrown.
         /// </summary>
         /// <returns>The protocol factory.</returns>
-        /// <param name="protocol">Connection name.</param>
-        public IConnectionFactory GetConnectionFactory(string protocol) {
-            if (IsRegistered(protocol))
-                return registeredProtocols[protocol];
-            throw new Error(ErrorCode.GENERIC_ERROR, "Protocol " + protocol + " is not registered.");
+        /// <param name="protocolName">Connection name.</param>
+        public IProtocol GetProtocol(string protocolName) {
+            if (IsRegistered(protocolName))
+                return registeredProtocols[protocolName];
+            throw new Error(ErrorCode.GENERIC_ERROR, "Protocol " + protocolName + " is not registered.");
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace KIARA
 
                 // Find connection factory (class implementing IConnectionFactory).
                 List<Type> types = new List<Type>(assembly.GetTypes());
-                Type interfaceType = typeof(IConnectionFactory);
+                Type interfaceType = typeof(IProtocol);
                 Type connectionFactoryType = types.Find(t => interfaceType.IsAssignableFrom(t));
                 if (connectionFactoryType == null || connectionFactoryType.Equals(interfaceType)) {
                     logger.Info("Assembly in file " + filename +
@@ -99,25 +99,25 @@ namespace KIARA
                 }
 
                 // Instantiate and register protocol factory.
-                IConnectionFactory connectionFactory;
+                IProtocol protocol;
                 try {
-                    connectionFactory = (IConnectionFactory)Activator.CreateInstance(connectionFactoryType);
+                    protocol = (IProtocol)Activator.CreateInstance(connectionFactoryType);
                 } catch (Exception ex) {
-                    logger.WarnException("Exception occured during construction of protocol factory for " + filename + ".", ex);
+                    logger.Warn("Exception occured during construction of protocol factory for " + filename + ".", ex);
                     return;
                 }
-                RegisterConnectionFactory(connectionFactory.Name, connectionFactory);
-                logger.Info("Registered protocol {0}", connectionFactory.Name);
+                RegisterProtocol(protocol.Name, protocol);
+                logger.Info("Registered protocol {0}", protocol.Name);
             } catch (BadImageFormatException e) {
-                logger.InfoException(filename + " is not a valid assembly and thus cannot be loaded as a protocol.", e);
+                logger.Info(filename + " is not a valid assembly and thus cannot be loaded as a protocol.", e);
                 return;
             } catch (Exception e) {
-                logger.WarnException("Failed to load file " + filename + " as a protocol", e);
+                logger.Warn("Failed to load file " + filename + " as a protocol", e);
                 return;
             }
         }
 
-        Dictionary<string, IConnectionFactory> registeredProtocols = new Dictionary<string, IConnectionFactory>();
+        Dictionary<string, IProtocol> registeredProtocols = new Dictionary<string, IProtocol>();
 
         private static Logger logger = LogManager.GetCurrentClassLogger();
     }
