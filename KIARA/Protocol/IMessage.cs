@@ -14,12 +14,12 @@ namespace KIARA
 
     public interface IMessage
     {
-        MessageType Type { get; }
-        int ID { get; }
-        string MethodName { get; }
-        List<object> Parameters { get; }
-        List<int> Callbacks { get; }
-        object Result { get; }
-        bool IsException { get; }
+        MessageType Type { get; set; }
+        int ID { get; set; }
+        string MethodName { get; set; }
+        List<object> Parameters { get; set; }
+        List<int> Callbacks { get; set;}
+        object Result { get; set; }
+        bool IsException { get; set; }
     }
 }
