@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using KIARA;
+using KIARA.Protocols.JsonRPC;
+using KIARA.Transport.WebSocketTransport;
 
 namespace SimpleClient
 {
@@ -10,6 +12,11 @@ namespace SimpleClient
     {
         public SimpleClient()
         {
+            IProtocol jsonRpcProtocol = new JsonRpcProtocol();
+            ITransport webSocketTransport = new WebSocketTransport();
+
+            ProtocolRegistry.Instance.RegisterProtocol("json-rpc", jsonRpcProtocol);
+            TransportRegistry.Instance.RegisterTransport("websocket", webSocketTransport);
             RemoteService = ServiceFactory.Discover(ServerSyncTools.ConvertFileNameToURI("server.json"));
             RemoteService.OnConnected += new Connected(HandleConnected);
 
