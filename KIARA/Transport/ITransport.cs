@@ -12,8 +12,5 @@ namespace KIARA
         ITransportConnectionFactory TransportConnectionFactory { get; }
 
         ITransportAddress CreateAddress(string uri);
-
-        void CloseConnection();
-        void Send(object message);
     }
 }
