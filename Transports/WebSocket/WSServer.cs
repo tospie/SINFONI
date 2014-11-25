@@ -41,11 +41,10 @@ namespace KIARA.Transport.WebSocketTransport
             {
                 session.SocketSession.Closed += (genericSession, reason) => session.HandleClosed(reason.ToString());
                 var socketAdapter = new WSSessionSocketAdapter(session);
-                Connection newConnection = new Connection(socketAdapter);
 
                 if (NewClientConnected != null)
                 {
-                    NewClientConnected(this, new NewConnectionEventArgs(newConnection));
+                    NewClientConnected(this, new NewConnectionEventArgs(socketAdapter));
                 }
             };
             NewMessageReceived += (session, value) => session.HandleMessageReceived(value);
