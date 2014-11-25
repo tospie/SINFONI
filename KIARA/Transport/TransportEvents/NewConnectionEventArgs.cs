@@ -7,11 +7,11 @@ namespace KIARA
 {
     public class NewConnectionEventArgs : EventArgs
     {
-        public NewConnectionEventArgs(Connection connection)
+        public NewConnectionEventArgs(ITransportConnection connection)
         {
             Connection = connection;
         }
 
-        public Connection Connection { get; private set; }
+        public ITransportConnection Connection { get; private set; }
     }
 }
