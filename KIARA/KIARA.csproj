@@ -104,6 +104,7 @@
     <Compile Include="Transport\TransportEvents\NewConnectionEventArgs.cs" />
     <Compile Include="Transport\TransportEvents\TransportErrorEventArgs.cs" />
     <Compile Include="Transport\TransportEvents\TransportMessageEventArgs.cs" />
+    <Compile Include="Transport\TransportRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
