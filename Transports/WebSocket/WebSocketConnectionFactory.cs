@@ -52,14 +52,6 @@ namespace KIARA.Transport.WebSocketTransport
             return server as ITransportListener;
         }
 
-        public string Name
-        {
-            get
-            {
-                return "websocket-json";
-            }
-        }
-
         #endregion
 
         internal IWSJServerFactory wsjServerFactory = new WSJServerFactory();
