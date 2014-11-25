@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using KIARA;
+using KIARA.Transport.WebSocketTransport;
+using KIARA.Protocols.JsonRPC;
 
 
 namespace SimpleServer
@@ -19,16 +21,19 @@ namespace SimpleServer
 
         public SimpleServer()
         {
-            string configURI = ServerSyncTools.ConvertFileNameToURI("server.json");
+            // string configURI = ServerSyncTools.ConvertFileNameToURI("server.json");
 
+            ITransport websocketTransport = new WebSocketTransport();
+            TransportRegistry.Instance.RegisterTransport("websocket", websocketTransport);
+
+            IProtocol jsonRpc = new JsonRpcProtocol();
+            ProtocolRegistry.Instance.RegisterProtocol("json-rpc", jsonRpc);
             // Connection Factory fliegt so raus -> Registered werden müssen Protokoll und Transport
             // (Register Transport / Register Protocol)
 
             // ServiceFactory.Create -> Start new Server / KIARA Base Server
-            KIARAServer newServer = new KIARAServer("+", 8080, "/service");
-            newServer.StartService("ws://0.0.0.0:34867/", "websocket", "json-rpc");
-
-            IServiceImpl service = ServiceFactory.Create(configURI);
+            KIARAServer newServer = new KIARAServer("+", 8080, "/service", "server.kiara");
+            var service = newServer.StartService("127.0.0.1", 34867, "/", "websocket", "json-rpc");
 
             // Service erstellen: new Service(transport, protocol, url)
 
