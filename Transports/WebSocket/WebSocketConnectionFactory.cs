@@ -15,17 +15,17 @@ namespace KIARA.Transport.WebSocketTransport
     {
         #region IConnectionFactory implementation
 
-        public void OpenConnection(string host, int port, Context context, Action<Connection> onConnected)
+        public ITransportConnection OpenConnection(string host, int port, Context context, Action<Connection> onConnected)
         {
             if (port == -1 || host == null)
                 throw new Error(ErrorCode.CONNECTION_ERROR, "No port and/or IP address is present in configuration.");
 
             ITransportConnection transportConnection = webSocketFactory.Construct("ws://" + host + ":" + port + "/");
-            transportConnection.Opened += (sender, e) => onConnected(new Connection(transportConnection));
             transportConnection.Error += (sender, e) => {
                 logger.WarnException("Error in connection to " + host + ":" + port, e.Exception);
             };
             transportConnection.Open();
+            return transportConnection;
         }
 
         public ITransportListener StartConnectionListener(string uri, int port)

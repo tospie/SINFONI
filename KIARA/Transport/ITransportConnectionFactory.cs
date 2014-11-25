@@ -17,7 +17,7 @@ namespace KIARA
         /// </summary>
         /// <param name="serverConfig">Server config.</param>
         /// <param name="onConnected">Callback to be called when the connection is established.</param>
-        void OpenConnection(string host, int port, Context context, Action<Connection> onConnected);
+        ITransportConnection OpenConnection(string host, int port, Context context, Action<Connection> onConnected);
 
         /// <summary>
         /// Starts the server listening for new clients according to the configuration in the

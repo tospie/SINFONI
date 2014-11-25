@@ -54,8 +54,19 @@ namespace KIARA
             Server server = SelectServer(fragment, this.ServerConfiguarion);
 
             string protocolName = server.protocol["name"].ToString();
-            IConnectionFactory connectionFactory = protocolRegistry.GetConnectionFactory(protocolName);
-            connectionFactory.OpenConnection(server, this, onConnected);
+            string transportName = server.transport["name"].ToString();
+            string host = server.transport["host"].ToString();
+            int port;
+            int.TryParse(server.transport["port"].ToString(), out port);
+            ITransportConnectionFactory transportConnectionFactory = TransportRegistry.Instance
+                .GetTransport(transportName)
+                .TransportConnectionFactory;
+            IProtocol protocol = protocolRegistry.GetProtocol(protocolName);
+            ITransportConnection transportConnection = transportConnectionFactory.OpenConnection(host, port, this, onConnected);
+            transportConnection.Opened += (sender, e) =>
+            {
+                onConnected(new Connection(transportConnection, protocol));
+            };
         }
 
         /// <summary>
