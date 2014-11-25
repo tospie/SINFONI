@@ -73,24 +73,18 @@ namespace KIARA
         /// URI where config is to be found. Data URIs starting with <c>"data:text/json;base64,"</c> are supported.
         /// </param>
         /// <param name="onNewClient">Handler to be invoked for each new client.</param>
-        public void StartServer(string configURI, Action<Connection> onNewClient)
+        public void StartServer(string uri, int port, string transportName, string protocolName, Action<Connection> onNewClient)
         {
-            string fragment = "";
-            Config config = RetrieveConfig(configURI, out fragment);
-            IDLParser.Instance.ParseIDLFromUri(config.idlURL);
-            Server server = SelectServer(fragment, config);
-            string protocolName = server.protocol["name"].ToString();
-            // ConnectionFactory -> TransportConnectionFactory
-            // Somewhere get Protocol from !!
-
-            // ITransportConnectionFactory transportConnectionFactory = transportRegistry.GetTransportConnectionFactory(transportName)
-            // transportConnectionListener = transportConnectionFactory.startConnectionListener(uri);
-            // transportConnectionListener.OnNewSessionConnected = (ITransportConnection transportConnection) => {
-            //      Connection newConnection = newConnection(transportConnection, protocol);
-            //      onNewClient(newConnection);
-            // }
-            IConnectionFactory connectionFactory = protocolRegistry.GetConnectionFactory(protocolName);
-            connectionFactory.StartServer(server, this, onNewClient);
+            IProtocol protocol = protocolRegistry.GetProtocol(protocolName);
+            ITransportConnectionFactory transportConnectionFactory = TransportRegistry.Instance
+                .GetTransport(transportName)
+                .TransportConnectionFactory;
+            ITransportListener transportListener = transportConnectionFactory.StartConnectionListener(uri, port);
+            transportListener.NewClientConnected += (object sender, NewConnectionEventArgs e) =>
+            {
+                Connection newConnection = new Connection(e.Connection, protocol);
+                onNewClient(newConnection);
+            };
         }
 
         /// <summary>
