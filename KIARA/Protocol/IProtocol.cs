@@ -8,6 +8,7 @@ namespace KIARA
     public interface IProtocol
     {
         string MimeType { get; }
+        string Name { get; }
         object SerializeMessage(IMessage message);
         IMessage DeserializeMessage(object message);
     }
