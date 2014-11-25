@@ -4,9 +4,12 @@
   "servers": [{
 	"services": "*",
 	"protocol": {
-	  "name": "http-json",
-	  "port": 34580,
-	  "host": "127.0.0.1"
+	  "name": "json-rpc"
+	  },
+	  "transport": {
+	  "port": 34867,
+	  "host": "127.0.0.1",
+	  "name": "websocket"
 	}
   }]
 }
