@@ -8,13 +8,23 @@ using KIARA;
 
 namespace KIARA.Transport.WebSocketTransport
 {
-    public class WebSocketSocketAdapter :  ITransportConnection
+    public class WebSocketSocketAdapter : ITransportConnection
     {
         public WebSocketSocketAdapter(string uri)
         {
             this.WebSocket = new WebSocket(uri);
             WebSocket.MessageReceived += HandleMessageReceived;
             WebSocket.Error += HandleError;
+            this.WebSocket.Opened += (o, e) =>
+            {
+                if (this.Opened != null)
+                    this.Opened(this, e);
+            };
+            WebSocket.Closed += (o, e) =>
+            {
+                if (this.Closed != null)
+                    this.Closed(this, e);
+            };
         }
 
         private void HandleError(object sender, ErrorEventArgs e)
@@ -43,31 +53,19 @@ namespace KIARA.Transport.WebSocketTransport
 
         public event EventHandler Closed;
 
-        event EventHandler<TransportErrorEventArgs> ITransportConnection.Error
+        public void Send(object message)
         {
-            add { throw new NotImplementedException(); }
-            remove { throw new NotImplementedException(); }
-        }
-
-        event EventHandler<TransportMessageEventArgs> ITransportConnection.Message
-        {
-            add { throw new NotImplementedException(); }
-            remove { throw new NotImplementedException(); }
+            this.WebSocket.Send((string)message);
         }
 
         public void Open()
         {
-            throw new NotImplementedException();
+            this.WebSocket.Open();
         }
 
         public void Close()
         {
-            throw new NotImplementedException();
-        }
-
-        public void Send(object message)
-        {
-            throw new NotImplementedException();
+            this.WebSocket.Close();
         }
     }
 }
