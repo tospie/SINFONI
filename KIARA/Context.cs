@@ -13,6 +13,7 @@ namespace KIARA
     {
         public string services;
         public JToken protocol;
+        public JToken transport;
     }
 
     public struct Config
