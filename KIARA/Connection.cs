@@ -187,7 +187,9 @@ namespace KIARA
 
             for (int i = 0; i < args.Count; i++)
             {
-                if (callbacks.Contains(i))
+                // TODO: Handling of callbacks will change in the future and callbacks should be derived from the IDL.
+                // Callbacks should not be transmitted as extra list, as it is unclear how list is treated in some protocols
+                if (callbacks != null  && callbacks.Contains(i))
                 {
                     if (paramInfo[i].ParameterType == typeof(ClientFunction))
                     {
