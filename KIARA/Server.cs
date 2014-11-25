@@ -9,11 +9,13 @@ namespace KIARA
 {
     public class KIARAServer
     {
-        public KIARAServer(string host, int port, string path)
+        public KIARAServer(string host, int port, string path, string idlURI)
         {
             ConfigHost = host;
             ConfigPort = port;
             ConfigPath = path;
+
+            IDLParser.Instance.ParseIDLFromUri(idlURI);
 
             ConfigURI = "http://" + host + ":" + port + "/" + path;
         }
