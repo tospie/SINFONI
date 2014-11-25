@@ -29,9 +29,11 @@ namespace KIARA
 
         public Connection() { }
 
-        public Connection(ITransportConnection transportConnection)
+        public Connection(ITransportConnection transportConnection, IProtocol protocol)
         {
             this.TransportConnection = transportConnection;
+            this.Protocol = protocol;
+            this.TransportConnection.Message += new EventHandler<TransportMessageEventArgs>(HandleMessage);
         }
 
         /// <summary>
