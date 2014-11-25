@@ -48,11 +48,11 @@ namespace KIARA
         {
         }
 
-        public IServiceImpl StartService(string path, string transportName, string protocolName)
-        {            
+        public IServiceImpl StartService(string host, int port, string path, string transportName, string protocolName)
+        {
             ServiceImpl service = new ServiceImpl(Context.DefaultContext);
-            Context.DefaultContext.StartServer("TODO: Specify how to define transport and protocol", service.HandleNewClient);
-            return new ServiceImpl(Context.DefaultContext);
+            Context.DefaultContext.StartServer(host, port, transportName, protocolName, service.HandleNewClient);
+            return service;
         }
 
         private string ConfigHost;
