@@ -17,9 +17,22 @@ namespace KIARA
             ConfigPort = port;
             ConfigPath = path;
 
-            IDLParser.Instance.ParseIDLFromUri(idlURI);
+            WebClient webClient = new WebClient();
+            IdlContent = webClient.DownloadString(idlURI);
 
-            ConfigURI = "http://" + host + ":" + port + "/" + path;
+            IDLParser.Instance.ParseIDL(IdlContent);
+            ServerConfigDocument = new Config();
+            ServerConfigDocument.info = "TODO";
+            ServerConfigDocument.idlURL = idlURI;
+            ServerConfigDocument.servers = new List<Server>();
+
+            ConfigURI = "http://" + host + ":" + port + path;
+            if(!idlURI.Contains("http://"))
+            {
+
+                ServerConfigDocument.idlURL = ConfigURI + idlURI + "/";
+                IdlPath = path + idlURI + "/";
+            }
         }
 
         private void startListener()
