@@ -95,7 +95,7 @@ namespace KIARA
         /// URI where config is to be found. Data URIs starting with <c>"data:text/json;base64,"</c> are supported.
         /// </param>
         /// <param name="onNewClient">Handler to be invoked for each new client.</param>
-        public void StartServer(string uri, int port, string transportName, string protocolName, Action<Connection> onNewClient)
+        public Server StartServer(string uri, int port, string transportName, string protocolName, Action<Connection> onNewClient)
         {
             IProtocol protocol = protocolRegistry.GetProtocol(protocolName);
             ITransportConnectionFactory transportConnectionFactory = TransportRegistry.Instance
@@ -107,6 +107,20 @@ namespace KIARA
                 Connection newConnection = new Connection(e.Connection, protocol);
                 onNewClient(newConnection);
             };
+
+            var server = new Server();
+            server.protocol = new ProtocolConfig
+            {
+                name = protocolName
+            };
+            server.transport = new TransportConfig
+            {
+                name = transportName,
+                host = uri,
+                port =port
+            };
+            server.services = "*";
+            return server;
         }
 
         /// <summary>
