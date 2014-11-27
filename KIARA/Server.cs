@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
+using System.Web.Script.Serialization;
 
 namespace KIARA
 {
@@ -59,9 +61,16 @@ namespace KIARA
         private int ConfigPort;
         private string ConfigPath;
 
+        private string IdlPath;
+        private string IdlContent;
+
         private string ConfigURI;
 
+        private Config ServerConfigDocument;
+
         HttpListener Listener;
+
+        private JavaScriptSerializer JsonSerializer = new JavaScriptSerializer();
 
         Thread ListenerThread;
     }
