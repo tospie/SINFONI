@@ -12,8 +12,8 @@ namespace KIARA
     public struct Server
     {
         public string services;
-        public JToken protocol;
-        public JToken transport;
+        public ProtocolConfig protocol;
+        public TransportConfig transport;
     }
 
     public struct Config
@@ -21,6 +21,18 @@ namespace KIARA
         public string info;
         public string idlURL;        
         public List<Server> servers;
+    }
+
+    public class ProtocolConfig
+    {
+        public string name;
+    }
+
+    public class TransportConfig
+    {
+        public string name;
+        public string host;
+        public int port;
     }
     #endregion
 
