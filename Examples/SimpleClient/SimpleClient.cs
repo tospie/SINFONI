@@ -17,7 +17,7 @@ namespace SimpleClient
 
             ProtocolRegistry.Instance.RegisterProtocol("json-rpc", jsonRpcProtocol);
             TransportRegistry.Instance.RegisterTransport("websocket", webSocketTransport);
-            RemoteService = ServiceFactory.Discover(ServerSyncTools.ConvertFileNameToURI("server.json"));
+            RemoteService = ServiceFactory.Discover("http://localhost:8080/service/");
             RemoteService.OnConnected += new Connected(HandleConnected);
 
             Console.ReadKey();
@@ -25,7 +25,7 @@ namespace SimpleClient
 
         private void HandleConnected(Connection connection)
         {
-            string idlURI = ServerSyncTools.ConvertFileNameToURI(RemoteService.Context.ServerConfiguarion.idlURL);
+            string idlURI = RemoteService.Context.ServerConfiguarion.idlURL;
             connection.LoadIDL(idlURI);
             AddVectors = connection["example.addVectors"];
             callAddVectors();
