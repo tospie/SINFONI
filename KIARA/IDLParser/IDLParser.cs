@@ -30,14 +30,14 @@ namespace KIARA
         {
             WebClient webClient = new WebClient();
             string idlContent = webClient.DownloadString(idlUri);
-            parseIDL(idlContent);
+            ParseIDL(idlContent);
         }
 
         /// <summary>
         /// Parses a complete IDL
         /// </summary>
         /// <param name="idlString">Complete IDL</param>
-        public void parseIDL(string idlString)
+        public void ParseIDL(string idlString)
         {
             lineNumberParsed = 0;
             currentlyParsing = ParseMode.NONE;

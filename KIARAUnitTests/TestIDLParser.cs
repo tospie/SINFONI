@@ -138,7 +138,7 @@ namespace KIARAUnitTests
                             string name;
                          }";
 
-            IDLParser.Instance.parseIDL(idl);
+            IDLParser.Instance.ParseIDL(idl);
             Assert.IsTrue(KTD.Instance.ContainsType("BaseStruct"));
             KtdStruct baseStruct = KTD.Instance.GetKtdType("BaseStruct") as KtdStruct;
             Assert.Contains("intValue", baseStruct.members.Keys);
@@ -152,7 +152,7 @@ namespace KIARAUnitTests
                             map<string, i16> testMap;
                          }";
 
-            IDLParser.Instance.parseIDL(idl);
+            IDLParser.Instance.ParseIDL(idl);
             Assert.IsTrue(KTD.Instance.ContainsType("MapStruct"));
             KtdStruct mapStruct = KTD.Instance.GetKtdType("MapStruct") as KtdStruct;
             Assert.Contains("testMap", mapStruct.members.Keys);
@@ -167,7 +167,7 @@ namespace KIARAUnitTests
             string idl = @"struct ArrayStruct {
                             array<i16> testArray;
                          }";
-            IDLParser.Instance.parseIDL(idl);
+            IDLParser.Instance.ParseIDL(idl);
             Assert.IsTrue(KTD.Instance.ContainsType("ArrayStruct"));
             KtdStruct arrayStruct = KTD.Instance.GetKtdType("ArrayStruct") as KtdStruct;
             Assert.Contains("testArray", arrayStruct.members.Keys);
@@ -183,7 +183,7 @@ namespace KIARAUnitTests
                             struct another struct {};
                             array<i16> testArray;
                          }";
-            Assert.Throws<IDLParseException>(() => IDLParser.Instance.parseIDL(idl));
+            Assert.Throws<IDLParseException>(() => IDLParser.Instance.ParseIDL(idl));
         }
 
         [Test()]
@@ -194,7 +194,7 @@ namespace KIARAUnitTests
                          }
 
                          i32 MisplacedBasetype;";
-            Assert.Throws<IDLParseException>(() => IDLParser.Instance.parseIDL(idl));
+            Assert.Throws<IDLParseException>(() => IDLParser.Instance.ParseIDL(idl));
         }
 
         [Test()]
@@ -203,7 +203,7 @@ namespace KIARAUnitTests
             string idl = @"service serverSync
                             {
                             }";
-            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+            Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
             Assert.Contains("serverSync", ServiceRegistry.Instance.services.Keys);
         }
 
@@ -215,7 +215,7 @@ namespace KIARAUnitTests
                                 // Returns this server's sync ID.
                                 void getSyncID();
                             }";
-            Assert.DoesNotThrow(()=>IDLParser.Instance.parseIDL(idl));
+            Assert.DoesNotThrow(()=>IDLParser.Instance.ParseIDL(idl));
             Assert.IsTrue(ServiceRegistry.Instance.services["serverSync"].ContainsServiceFunction("getSyncID"));
 
             var serviceFunction = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("getSyncID");
@@ -230,7 +230,7 @@ namespace KIARAUnitTests
                             {
                                 string testFunction(i32 param);
                             }";
-            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+            Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
             Assert.IsTrue(ServiceRegistry.Instance.services["serverSync"].ContainsServiceFunction("testFunction"));
 
             var serviceFunction = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction");
@@ -249,7 +249,7 @@ namespace KIARAUnitTests
                                 array<string> testFunction1(i32 param);
                                 map<string, boolean> testFunction2(i32 param);
                             }";
-            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+            Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
             var testFunction1 = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction1");
             var testFunction2 = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction2");
 
@@ -271,7 +271,7 @@ namespace KIARAUnitTests
                                 void testFunction1(array<i32> param);
                                 void testFunction2(map<string, boolean> param);
                             }";
-            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+            Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
 
             var testFunction1 = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction1");
             var param1 = testFunction1.Parameters["param"];
@@ -293,7 +293,7 @@ namespace KIARAUnitTests
                                 void testFunction(string param1, array<i32> param2);                                
                             }";
             
-            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+            Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
             var testFunction = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction");
             var param1 = testFunction.Parameters["param1"];
             var param2 = testFunction.Parameters["param2"];
@@ -311,7 +311,7 @@ namespace KIARAUnitTests
                                 // This is a line comment
                                 void testFunction(string param1, array<i32> param2);
                             }";
-            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+            Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
         }
 
         [Test()]
@@ -322,7 +322,7 @@ namespace KIARAUnitTests
                                 void testFunction1(i32 p1 /* This is an inline comment */, string p2);
                                 void testFunction2(string param1, array<i32> param2); // This is another inline comment
                             }";
-            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+            Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
             Assert.IsTrue(ServiceRegistry.Instance.GetService("serverSync").ContainsServiceFunction("testFunction1"));
             var testFunction = ServiceRegistry.Instance.GetService("serverSync").GetServiceFunction("testFunction1");
 
@@ -339,7 +339,7 @@ namespace KIARAUnitTests
                                  * be treated correctly as well */
                                 void testFunction1();
                             }";
-            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+            Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
             Assert.IsTrue(ServiceRegistry.Instance.GetService("serverSync").ContainsServiceFunction("testFunction1"));
         }
 
@@ -351,14 +351,14 @@ namespace KIARAUnitTests
                                 /* This is a block comment. Block comments will hopefully
                                  * be treated correctly as well  */ void testFunction1();
                             }";
-            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(idl));
+            Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
             Assert.IsTrue(ServiceRegistry.Instance.GetService("serverSync").ContainsServiceFunction("testFunction1"));
         }
 
         [Test()]
         public void ShouldParseExampleIDLWithoutError()
         {
-            Assert.DoesNotThrow(() => IDLParser.Instance.parseIDL(exampleIDL));
+            Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(exampleIDL));
             var services = ServiceRegistry.Instance.services;
             var types = KTD.Instance.registeredTypes;
         }

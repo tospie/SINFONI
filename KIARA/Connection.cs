@@ -66,7 +66,7 @@ namespace KIARA
         public void LoadIDL(string uri)
         {
             string contents = webClient.DownloadString(uri);
-            IDLParser.Instance.parseIDL(contents);
+            IDLParser.Instance.ParseIDL(contents);
         }
 
         /// <summary>
