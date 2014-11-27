@@ -65,11 +65,10 @@ namespace KIARA
             this.ServerConfiguarion = RetrieveConfig(configURI, out fragment);                       
             Server server = SelectServer(fragment, this.ServerConfiguarion);
 
-            string protocolName = server.protocol["name"].ToString();
-            string transportName = server.transport["name"].ToString();
-            string host = server.transport["host"].ToString();
-            int port;
-            int.TryParse(server.transport["port"].ToString(), out port);
+            string protocolName = server.protocol.name;
+            string transportName = server.transport.name;
+            string host = server.transport.host;
+            int port = server.transport.port;
             ITransportConnectionFactory transportConnectionFactory = TransportRegistry.Instance
                 .GetTransport(transportName)
                 .TransportConnectionFactory;
@@ -145,7 +144,7 @@ namespace KIARA
             if (server.protocol == null)
                 return false;
 
-            JToken protocolName = server.protocol.SelectToken("name");
+            string  protocolName = server.protocol.name;
             if (protocolName == null)
                 return false;
 
