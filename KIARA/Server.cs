@@ -35,6 +35,15 @@ namespace KIARA
             }
         }
 
+        public IServiceImpl StartService(string host, int port, string path, string transportName, string protocolName)
+        {
+            ServiceImpl service = new ServiceImpl(Context.DefaultContext);
+            Server serviceServer =
+                Context.DefaultContext.StartServer(host, port, transportName, protocolName, service.HandleNewClient);
+            ServerConfigDocument.servers.Add(serviceServer);
+            return service;
+        }
+
         private void startListener()
         {
             Listener = new HttpListener();
@@ -63,11 +72,7 @@ namespace KIARA
         {
         }
 
-        public IServiceImpl StartService(string host, int port, string path, string transportName, string protocolName)
         {
-            ServiceImpl service = new ServiceImpl(Context.DefaultContext);
-            Context.DefaultContext.StartServer(host, port, transportName, protocolName, service.HandleNewClient);
-            return service;
         }
 
         private string ConfigHost;
