@@ -33,7 +33,7 @@ namespace SimpleServer
 
             // ServiceFactory.Create -> Start new Server / KIARA Base Server
             KIARAServer newServer = new KIARAServer("127.0.0.1", 8080, "/service/", "server.kiara");
-            var service = newServer.StartService("127.0.0.1", 44444, "/service", "websocket", "json-rpc");
+            var service = newServer.StartService("127.0.0.1", 44444, "/service", "ws", "jsonrpc");
 
             // Service erstellen: new Service(transport, protocol, url)
 
