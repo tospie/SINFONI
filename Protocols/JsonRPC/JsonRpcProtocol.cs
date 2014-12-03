@@ -43,7 +43,11 @@ namespace KIARA.Protocols.JsonRPC
 
         public IMessage DeserializeMessage(object message)
         {
-            CallObject receivedCall = JsonSerializer.Deserialize<CallObject>(message as string);
+            string receivedMessage = message as string;
+            // Small hack
+            receivedMessage = receivedMessage.Replace("params", "parameters");
+
+            CallObject receivedCall = JsonSerializer.Deserialize<CallObject>(receivedMessage);
             MessageBase deserializedMessage = new MessageBase();
             deserializedMessage.ID = receivedCall.id;
             if(receivedCall.parameters != null)
