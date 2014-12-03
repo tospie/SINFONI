@@ -24,7 +24,7 @@ namespace SimpleServer
             // string configURI = ServerSyncTools.ConvertFileNameToURI("server.json");
 
             ITransport websocketTransport = new WebSocketTransport();
-            TransportRegistry.Instance.RegisterTransport("websocket", websocketTransport);
+            TransportRegistry.Instance.RegisterTransport("ws", websocketTransport);
 
             IProtocol jsonRpc = new JsonRpcProtocol();
             ProtocolRegistry.Instance.RegisterProtocol("json-rpc", jsonRpc);

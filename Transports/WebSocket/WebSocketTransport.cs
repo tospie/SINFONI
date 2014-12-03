@@ -10,7 +10,7 @@ namespace KIARA.Transport.WebSocketTransport
     {
         public string Name
         {
-            get { return "websocket"; }
+            get { return "ws"; }
         }
 
         public ITransportConnectionFactory TransportConnectionFactory
