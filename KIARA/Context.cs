@@ -31,8 +31,9 @@ namespace KIARA
     public class TransportConfig
     {
         public string name;
-        public string host;
-        public int port;
+        // public string host;
+        // public int port;
+        public string url;
     }
     #endregion
 
@@ -67,17 +68,17 @@ namespace KIARA
 
             string protocolName = server.protocol.name;
             string transportName = server.transport.name;
-            string host = server.transport.host;
-            int port = server.transport.port;
+            //string host = server.transport.host;
+            // int port = server.transport.port;
             ITransportConnectionFactory transportConnectionFactory = TransportRegistry.Instance
                 .GetTransport(transportName)
                 .TransportConnectionFactory;
             IProtocol protocol = protocolRegistry.GetProtocol(protocolName);
-            ITransportConnection transportConnection = transportConnectionFactory.OpenConnection(host, port, this, onConnected);
+          /*  ITransportConnection transportConnection = transportConnectionFactory.OpenConnection(host, port, this, onConnected);
             transportConnection.Opened += (sender, e) =>
             {
                 onConnected(new Connection(transportConnection, protocol));
-            };
+            }; */
         }
 
         /// <summary>
@@ -116,8 +117,9 @@ namespace KIARA
             server.transport = new TransportConfig
             {
                 name = transportName,
-                host = uri,
-                port =port
+                url = transportName + "://" + uri  + ":" +port
+                // host = uri,
+                // port =port
             };
             server.services = "*";
             return server;
