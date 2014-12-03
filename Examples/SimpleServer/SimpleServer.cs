@@ -27,7 +27,7 @@ namespace SimpleServer
             TransportRegistry.Instance.RegisterTransport("ws", websocketTransport);
 
             IProtocol jsonRpc = new JsonRpcProtocol();
-            ProtocolRegistry.Instance.RegisterProtocol("json-rpc", jsonRpc);
+            ProtocolRegistry.Instance.RegisterProtocol("jsonrpc", jsonRpc);
             // Connection Factory fliegt so raus -> Registered werden müssen Protokoll und Transport
             // (Register Transport / Register Protocol)
 

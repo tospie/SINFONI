@@ -16,7 +16,7 @@ namespace KIARA.Protocols.JsonRPC
 
         public string Name
         {
-            get { return "json-rpc"; }
+            get { return "jsonrpc"; }
         }
 
         public object SerializeMessage(IMessage message)
