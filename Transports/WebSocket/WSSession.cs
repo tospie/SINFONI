@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using WebSocket4Net;
 using NLog;
 using KIARA;
+using System.Text;
 
 namespace KIARA.Transport.WebSocketTransport
 {
@@ -35,6 +36,14 @@ namespace KIARA.Transport.WebSocketTransport
                 MessageReceived(this, new MessageReceivedEventArgs(message));
         }
 
+        public void HandleDataReceived(byte[] data)
+        {
+            if (data != null)
+            {
+                var messageAsString = Encoding.UTF8.GetString(data);
+                HandleMessageReceived(messageAsString);
+            }
+        }
         private static Logger logger = LogManager.GetCurrentClassLogger();
     }
 }

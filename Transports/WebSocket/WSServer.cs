@@ -48,6 +48,7 @@ namespace KIARA.Transport.WebSocketTransport
                 }
             };
             NewMessageReceived += (session, value) => session.HandleMessageReceived(value);
+            NewDataReceived += (session, data) => session.HandleDataReceived(data);
         }
 
     }
