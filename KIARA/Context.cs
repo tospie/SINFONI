@@ -75,6 +75,14 @@ namespace KIARA
             {
                 onConnected(new Connection(transportConnection, protocol));
             }; */
+
+        private void GetHostAndPortFromUrl(string url, out string host, out int port)
+        {
+            int startIndex = url.IndexOf("://") + 3;
+            string hostAndPort = url.Substring(startIndex, url.Length - startIndex);
+            string[] split = hostAndPort.Split(':');
+            host = split[0];
+            port = int.Parse(split[1]);
         }
 
         /// <summary>
