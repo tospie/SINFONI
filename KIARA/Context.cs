@@ -66,15 +66,20 @@ namespace KIARA
 
             string protocolName = server.protocol.name;
             string transportName = server.transport.name;
+            string transportUrl = server.transport.url;
+            string host;
+            int port;
+            GetHostAndPortFromUrl(transportUrl, out host, out port);
             ITransportConnectionFactory transportConnectionFactory = TransportRegistry.Instance
                 .GetTransport(transportName)
                 .TransportConnectionFactory;
             IProtocol protocol = protocolRegistry.GetProtocol(protocolName);
-          /*  ITransportConnection transportConnection = transportConnectionFactory.OpenConnection(host, port, this, onConnected);
+            ITransportConnection transportConnection = transportConnectionFactory.OpenConnection(host, port, this, onConnected);
             transportConnection.Opened += (sender, e) =>
             {
                 onConnected(new Connection(transportConnection, protocol));
-            }; */
+            };
+        }
 
         private void GetHostAndPortFromUrl(string url, out string host, out int port)
         {
