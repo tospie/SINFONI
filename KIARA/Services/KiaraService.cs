@@ -12,10 +12,6 @@ namespace KIARA
 
         public Context Context { get; private set; }
 
-        public Delegate this[string name]
-        {
-            set { throw new NotImplementedException(); }
-        }
 
         internal KiaraService(string name)
         {
