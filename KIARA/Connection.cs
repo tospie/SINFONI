@@ -63,9 +63,15 @@ namespace KIARA
         /// Loads an IDL definition file at <paramref name="uri"/> into the connection.
         /// </summary>
         /// <param name="uri">URI of the IDL definition file.</param>
-        public void LoadIDL(string uri)
+        public void LoadIDL(Config serverConfiguration)
         {
-            string contents = webClient.DownloadString(uri);
+            string contents = "";
+            if (serverConfiguration.idlURL != null)
+                contents = webClient.DownloadString(serverConfiguration.idlURL);
+            else if (serverConfiguration.idlContents != null)
+                contents = serverConfiguration.idlContents as string;
+            else
+                throw new MissingIDLException();
             IDLParser.Instance.ParseIDL(contents);
         }
 

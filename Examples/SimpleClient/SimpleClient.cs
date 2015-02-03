@@ -25,8 +25,7 @@ namespace SimpleClient
 
         private void HandleConnected(Connection connection)
         {
-            string idlURI = RemoteService.Context.ServerConfiguarion.idlURL;
-            connection.LoadIDL(idlURI);
+            connection.LoadIDL(RemoteService.Context.ServerConfiguarion);
             AddVectors = connection["example.addVectors"];
             callAddVectors();
         }

@@ -21,6 +21,7 @@ namespace KIARA
         public string info;
         public string idlURL;        
         public List<Server> servers;
+        public object idlContents;
     }
 
     public class ProtocolConfig
