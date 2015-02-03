@@ -40,7 +40,7 @@ namespace KIARA.Transport.WebSocketTransport
         }
 
         public event EventHandler<TransportMessageEventArgs> Message;
-        public new event EventHandler<TransportErrorEventArgs> Error;
+        public event EventHandler<TransportErrorEventArgs> Error;
 
         public bool IsConnected
         {

@@ -22,7 +22,7 @@ namespace KIARA.Transport.WebSocketTransport
 
             ITransportConnection transportConnection = webSocketFactory.Construct("ws://" + host + ":" + port + "/");
             transportConnection.Error += (sender, e) => {
-                logger.WarnException("Error in connection to " + host + ":" + port, e.Exception);
+                logger.Warn("Error in connection to " + host + ":" + port, e.Exception);
             };
             transportConnection.Open();
             return transportConnection;
