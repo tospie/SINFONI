@@ -26,7 +26,7 @@ namespace KIARA
             ServerConfigDocument = new Config();
             ServerConfigDocument.info = "TODO";
             ServerConfigDocument.idlURL = idlURI;
-            ServerConfigDocument.servers = new List<Server>();
+            ServerConfigDocument.servers = new List<ServiceDescription>();
 
             ConfigURI = "http://" + host + ":" + port + path;
             if(!idlURI.Contains("http://"))
@@ -41,7 +41,7 @@ namespace KIARA
         public IServiceImpl StartService(string host, int port, string path, string transportName, string protocolName)
         {
             ServiceImpl service = new ServiceImpl(Context.DefaultContext);
-            Server serviceServer =
+            ServiceDescription serviceServer =
                 Context.DefaultContext.StartServer(host, port, transportName, protocolName, service.HandleNewClient);
             ServerConfigDocument.servers.Add(serviceServer);
             return service;

@@ -18,7 +18,7 @@ namespace KIARA
         /// <param name="name">The setting name.</param>
         /// <param name="defValue">The default setting value.</param>
         /// <typeparam name="T">The type to which the setting value should be casted.</typeparam>
-        public static object retrieveProtocolSetting<T>(Server config, string name, object defValue) {
+        public static object retrieveProtocolSetting<T>(ServiceDescription config, string name, object defValue) {
             object value = config.protocol.name;
             return value != null ? value : defValue;
         }

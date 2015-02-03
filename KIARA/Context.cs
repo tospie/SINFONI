@@ -9,9 +9,9 @@ using Newtonsoft.Json.Linq;
 namespace KIARA
 {
     #region JSON Config structure
-    public struct Server
+    public struct ServiceDescription
     {
-        public string services;
+        public string implementedServices;
         public ProtocolConfig protocol;
         public TransportConfig transport;
     }
@@ -19,9 +19,9 @@ namespace KIARA
     public struct Config
     {
         public string info;
-        public string idlURL;        
-        public List<Server> servers;
+        public string idlURL;
         public object idlContents;
+        public List<ServiceDescription> servers;
     }
 
     public class ProtocolConfig
@@ -63,7 +63,7 @@ namespace KIARA
         {
             string fragment = "";
             this.ServerConfiguarion = RetrieveConfig(configURI, out fragment);                       
-            Server server = SelectServer(fragment, this.ServerConfiguarion);
+            ServiceDescription server = SelectServer(fragment, this.ServerConfiguarion);
 
             string protocolName = server.protocol.name;
             string transportName = server.transport.name;
@@ -106,7 +106,7 @@ namespace KIARA
         /// URI where config is to be found. Data URIs starting with <c>"data:text/json;base64,"</c> are supported.
         /// </param>
         /// <param name="onNewClient">Handler to be invoked for each new client.</param>
-        public Server StartServer(string uri, int port, string transportName, string protocolName, Action<Connection> onNewClient)
+        public ServiceDescription StartServer(string uri, int port, string transportName, string protocolName, Action<Connection> onNewClient)
         {
             IProtocol protocol = protocolRegistry.GetProtocol(protocolName);
             ITransportConnectionFactory transportConnectionFactory = TransportRegistry.Instance
@@ -119,7 +119,7 @@ namespace KIARA
                 onNewClient(newConnection);
             };
 
-            var server = new Server();
+            var server = new ServiceDescription();
             server.protocol = new ProtocolConfig
             {
                 name = protocolName
@@ -129,7 +129,7 @@ namespace KIARA
                 name = transportName,
                 url = transportName + "://" + uri  + ":" +port
             };
-            server.services = "*";
+            server.implementedServices = "*";
             return server;
         }
 
@@ -164,7 +164,7 @@ namespace KIARA
             return JsonConvert.DeserializeObject<Config>(configContent);
         }
 
-        private bool IsServerProtocolSupported(Server server) {
+        private bool IsServerProtocolSupported(ServiceDescription server) {
             if (server.protocol == null)
                 return false;
 
@@ -175,7 +175,7 @@ namespace KIARA
             return protocolRegistry.IsRegistered(protocolName.ToString());
         }
 
-        private Server SelectServer(string fragment, Config config)
+        private ServiceDescription SelectServer(string fragment, Config config)
         {
             if (config.servers == null)
                 throw new Error(ErrorCode.INIT_ERROR, "Configuration file contains no servers.");
