@@ -29,7 +29,7 @@ namespace KIARA
             return service;
         }
 
-        public static IServiceWrapper Discover(string configURI)
+        public static ServiceWrapper Discover(string configURI)
         {
             ServiceWrapper service = new ServiceWrapper(Context.DefaultContext);
             Context.DefaultContext.OpenConnection(configURI, service.HandleConnected);

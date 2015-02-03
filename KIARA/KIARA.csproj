@@ -78,7 +78,6 @@
     <Compile Include="Protocol\MessageBase.cs" />
     <Compile Include="Protocol\ProtocolUtils.cs" />
     <Compile Include="Services\IService.cs" />
-    <Compile Include="Services\IServiceWrapper.cs" />
     <Compile Include="Services\KiaraService.cs" />
     <Compile Include="KTD\Ktd.cs" />
     <Compile Include="KTD\KtdArray.cs" />

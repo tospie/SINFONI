@@ -17,7 +17,9 @@ using KIARA;
 
 namespace KIARA
 {
-    public class ServiceWrapper : Service, IServiceWrapper
+    public delegate void Connected(Connection connection);
+
+    public class ServiceWrapper : Service
     {
         /// <summary>
         /// Occurs when connection is established. New handlers are also invoked, even if connection have been

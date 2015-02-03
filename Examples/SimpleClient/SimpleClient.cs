@@ -52,7 +52,7 @@ namespace SimpleClient
             Console.WriteLine("Error");
         }
 
-        IServiceWrapper RemoteService;
+        ServiceWrapper RemoteService;
         ClientFunction AddVectors;
     }
 }
