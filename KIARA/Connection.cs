@@ -431,7 +431,7 @@ namespace KIARA
         /// <param name="funcName">Function name.</param>
         /// <param name="args">Argunents.</param>
         /// <returns>Object representing remote call.</returns>
-        protected IClientFunctionCall CallClientFunction(string funcName, params object[] args)
+        protected virtual IClientFunctionCall CallClientFunction(string funcName, params object[] args)
         {
             int callID = getValidCallID();
 

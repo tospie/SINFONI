@@ -21,7 +21,7 @@ namespace KIARAUnitTests
             throw new NotImplementedException();
         }
 
-        public new IClientFunctionCall CallClientFunction(string funcName, params object[] args)
+        protected override IClientFunctionCall CallClientFunction(string funcName, params object[] args)
         {
             IClientFunctionCall mockCall = null;
             return mockCall;
