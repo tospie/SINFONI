@@ -92,7 +92,7 @@
     <Compile Include="Services\Service.cs" />
     <Compile Include="Services\ServiceFactory.cs" />
     <Compile Include="Services\ServiceFunctionDescription.cs" />
-    <Compile Include="Services\ServiceImpl.cs" />
+    <Compile Include="Services\ServiceImplementation.cs" />
     <Compile Include="Services\ServiceRegistry.cs" />
     <Compile Include="Services\ServiceWrapper.cs" />
     <Compile Include="TestingWrappers.cs">

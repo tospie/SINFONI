@@ -23,9 +23,9 @@ namespace KIARA
         /// Creates a new service with description at <paramref name="configURI"/> using the default context.
         /// </summary>
         /// <returns>Created service.</returns>
-        public static ServiceImpl Create()
+        public static ServiceImplementation Create()
         {
-            ServiceImpl service = new ServiceImpl(Context.DefaultContext);
+            ServiceImplementation service = new ServiceImplementation(Context.DefaultContext);
             return service;
         }
 

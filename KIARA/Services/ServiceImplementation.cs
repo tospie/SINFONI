@@ -20,7 +20,7 @@ namespace KIARA
 {
     public delegate void NewClient(Connection connection);
 
-    public class ServiceImpl : Service
+    public class ServiceImplementation : Service
     {
         // FIXME: What do we do if we've had new clients before a handler is added? Should we keep the list of all
         // opened connections to invoke a new handler on each of them? What if some of these connection are closed
@@ -35,7 +35,7 @@ namespace KIARA
                 OnNewClient(connection);
         }
 
-        internal ServiceImpl(Context context) : base(context) {}
+        internal ServiceImplementation(Context context) : base(context) {}
     }
 }
 

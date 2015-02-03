@@ -38,9 +38,9 @@ namespace KIARA
             startHttpListener();
         }
 
-        public ServiceImpl StartService(string host, int port, string path, string transportName, string protocolName)
+        public ServiceImplementation StartService(string host, int port, string path, string transportName, string protocolName)
         {
-            ServiceImpl service = new ServiceImpl(Context.DefaultContext);
+            ServiceImplementation service = new ServiceImplementation(Context.DefaultContext);
             ServiceDescription serviceServer =
                 Context.DefaultContext.StartServer(host, port, transportName, protocolName, service.HandleNewClient);
             ServerConfigDocument.servers.Add(serviceServer);
