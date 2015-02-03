@@ -384,7 +384,6 @@ namespace KIARA
                     KtdType expectedParameterType = registeredServiceFunction.Parameters.ElementAt(i).Value;
                     callParameters[i] = expectedParameterType.AssignValuesFromObject(parameters[i]);
                 }
-                // TODO: Implement Calling remote functions
                 return CallClientFunction(serviceName + "." + functionName, callParameters);
             };
         }
