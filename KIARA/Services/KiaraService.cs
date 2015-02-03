@@ -6,7 +6,7 @@ using KIARA.Exceptions;
 
 namespace KIARA
 {
-    public class KiaraService : IService
+    public class KiaraService
     {
         public string Name { get; internal set; }
 
