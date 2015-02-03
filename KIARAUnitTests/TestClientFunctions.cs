@@ -9,7 +9,6 @@ using NUnit.Framework;
 namespace KIARAUnitTests
 {
     class TestConnection : Connection {
-        public new event EventHandler Closed;
 
         public new void Disconnect()
         {
