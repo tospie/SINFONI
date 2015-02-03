@@ -10,7 +10,9 @@ using Dynamitey;
 namespace KIARA
 {
     /// <summary>
-    /// Represents a generated function wrapper. It allows calling the function with arbitrary arguments.
+    /// Represents a generated function wrapper. It allows calling the function with arbitrary arguments. The returned
+    /// call object is then used to wait for the performed call to return and to receive the result value from the
+    /// remote service.
     /// </summary>
     /// <returns>An object representing a call.</returns>
     public delegate IClientFunctionCall ClientFunction(params object[] parameters);
@@ -42,6 +44,8 @@ namespace KIARA
         public void Disconnect()
         {
             TransportConnection.Close();
+            if (Closed != null)
+                Closed(this, new EventArgs());
         }
 
         /// <summary>
@@ -104,7 +108,13 @@ namespace KIARA
                 SendException(-1, "Unknown message type: " + msgType);
         }
 
-
+        /// <summary>
+        /// Is called when Connection receives a message that is identified as service call. Upon receiving a call,
+        /// KIARA will check whether the called service exists, what parameters it expects and which local function
+        /// implements the service. If the service exists and the parameter types match, the local function called
+        /// and a call-reply object with the result is sent back to the client
+        /// </summary>
+        /// <param name="callMessage">The deserialized message object that was received by the connection</param>
         private void HandleCall(IMessage callMessage)
         {
             int callID = callMessage.ID;
