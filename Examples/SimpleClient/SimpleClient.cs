@@ -15,9 +15,9 @@ namespace SimpleClient
             IProtocol jsonRpcProtocol = new JsonRpcProtocol();
             ITransport webSocketTransport = new WebSocketTransport();
 
-            ProtocolRegistry.Instance.RegisterProtocol("jsonrpc", jsonRpcProtocol);
-            TransportRegistry.Instance.RegisterTransport("ws", webSocketTransport);
-            RemoteService = ServiceFactory.Discover("http://localhost:8080/service/");
+            ProtocolRegistry.Instance.RegisterProtocol(jsonRpcProtocol);
+            TransportRegistry.Instance.RegisterTransport(webSocketTransport);
+            RemoteService = ServiceFactory.Discover("http://localhost:8080/service");
             RemoteService.OnConnected += new Connected(HandleConnected);
 
             Console.ReadKey();

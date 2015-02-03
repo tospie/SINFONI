@@ -24,10 +24,10 @@ namespace SimpleServer
             // string configURI = ServerSyncTools.ConvertFileNameToURI("server.json");
 
             ITransport websocketTransport = new WebSocketTransport();
-            TransportRegistry.Instance.RegisterTransport("ws", websocketTransport);
+            TransportRegistry.Instance.RegisterTransport(websocketTransport);
 
             IProtocol jsonRpc = new JsonRpcProtocol();
-            ProtocolRegistry.Instance.RegisterProtocol("jsonrpc", jsonRpc);
+            ProtocolRegistry.Instance.RegisterProtocol(jsonRpc);
             // Connection Factory fliegt so raus -> Registered werden müssen Protokoll und Transport
             // (Register Transport / Register Protocol)
 

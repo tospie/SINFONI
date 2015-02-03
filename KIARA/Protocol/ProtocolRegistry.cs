@@ -10,7 +10,7 @@ namespace KIARA
     #region Testing
     public interface IProtocolRegistry
     {
-        void RegisterProtocol(string protocol, IProtocol factory);
+        void RegisterProtocol(IProtocol protocol);
         IProtocol GetProtocol(string protocol);
         bool IsRegistered(string protocol);
     }
@@ -31,15 +31,15 @@ namespace KIARA
         /// </summary>
         /// <param name="protocolName">Protocol name.</param>
         /// <param name="factory">Connection factory.</param>
-        public void RegisterProtocol(string protocolName, IProtocol protocol)
+        public void RegisterProtocol(IProtocol protocol)
         {
-            if (protocolName == null)
+            if (protocol.Name == null)
                 throw new Error(ErrorCode.INVALID_VALUE, "Protocol name must not be null.");
 
-            if (IsRegistered(protocolName))
-                throw new Error(ErrorCode.INVALID_VALUE, "Protocol " + protocolName + " is already registered.");
+            if (IsRegistered(protocol.Name))
+                throw new Error(ErrorCode.INVALID_VALUE, "Protocol " + protocol.Name + " is already registered.");
 
-            registeredProtocols[protocolName] = protocol;
+            registeredProtocols[protocol.Name] = protocol;
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace KIARA
                     logger.Warn("Exception occured during construction of protocol factory for " + filename + ".", ex);
                     return;
                 }
-                RegisterProtocol(protocol.Name, protocol);
+                RegisterProtocol(protocol);
                 logger.Info("Registered protocol {0}", protocol.Name);
             } catch (BadImageFormatException e) {
                 logger.Info(filename + " is not a valid assembly and thus cannot be loaded as a protocol.", e);

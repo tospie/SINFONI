@@ -9,15 +9,15 @@ namespace KIARA
     {
         public readonly static TransportRegistry Instance = new TransportRegistry();
 
-        public void RegisterTransport(string transportName, ITransport transport)
+        public void RegisterTransport(ITransport transport)
         {
-            if (transportName == null)
+            if (transport.Name == null)
                 throw new Error(ErrorCode.INVALID_VALUE, "Transport name must not be null.");
 
-            if (IsRegistered(transportName))
-                throw new Error(ErrorCode.INVALID_VALUE, "Protocol " + transportName + " is already registered.");
+            if (IsRegistered(transport.Name))
+                throw new Error(ErrorCode.INVALID_VALUE, "Protocol " + transport.Name + " is already registered.");
 
-            registeredTransports[transportName] = transport;
+            registeredTransports[transport.Name] = transport;
         }
 
         public ITransport GetTransport(string transportName)
