@@ -60,6 +60,7 @@
     <Compile Include="Error.cs" />
     <Compile Include="Exceptions\IDLParseException.cs" />
     <Compile Include="Exceptions\InvalidTypeNameException.cs" />
+    <Compile Include="Exceptions\MissingIDLException.cs" />
     <Compile Include="Exceptions\ParameterMismatchException.cs" />
     <Compile Include="Exceptions\ServiceNotRegisteredException.cs" />
     <Compile Include="Exceptions\TypeCastException.cs" />
