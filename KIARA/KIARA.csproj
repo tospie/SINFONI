@@ -67,7 +67,6 @@
     <Compile Include="Exceptions\TypeNameConflictException.cs" />
     <Compile Include="Exceptions\TypeNotRegisteredException.cs" />
     <Compile Include="FuncCallBase.cs" />
-    <Compile Include="IConnectionFactory.cs" />
     <Compile Include="IDLParser\ArrayParser.cs" />
     <Compile Include="IDLParser\IDLParser.cs" />
     <Compile Include="IDLParser\MapParser.cs" />
