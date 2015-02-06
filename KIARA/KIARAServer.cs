@@ -47,6 +47,20 @@ namespace KIARA
             return service;
         }
 
+        public void AmendIDL(string idlAmendment)
+        {
+            try
+            {
+                IDLParser.Instance.ParseIDL(idlAmendment);
+                IdlContent += idlAmendment;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Could not amend IDL by additional contents, reason : " + e.Message);
+            }
+
+        }
+
         private void startHttpListener()
         {
             Listener = new HttpListener();
