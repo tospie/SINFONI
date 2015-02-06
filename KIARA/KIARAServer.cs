@@ -11,8 +11,24 @@ using System.Web.Script.Serialization;
 
 namespace KIARA
 {
+    /// <summary>
+    /// KIARA Server provides the high level server object in which scope services are started. A KIARA server can
+    /// consist of several services each running their own transport and protocol and which thus can be queried
+    /// individually. They all share the IDL that is provided by the KIARA server and may implement all services or
+    /// just a subset of services that are defined in the IDL
+    /// </summary>
     public class KIARAServer
     {
+        /// <summary>
+        /// Starts a new KIARA server. This server provides its configuration document under the address that is
+        /// provided in the constructor. When starting the server, the IDL given under the specified URL is parsed.
+        /// Applications that access the server on its listening port will receive the config document that contains
+        /// the implemented services as well as the IDL that is used by the server
+        /// </summary>
+        /// <param name="host">Host URL under which the server will be accessible</param>
+        /// <param name="port">Specific port on which server is listening for incoming connections</param>
+        /// <param name="path">Sub-Path on the server where the listener is running</param>
+        /// <param name="idlURI">URI from where the IDL can be accessed</param>
         public KIARAServer(string host, int port, string path, string idlURI)
         {
             ConfigHost = host;
@@ -38,6 +54,16 @@ namespace KIARA
             startHttpListener();
         }
 
+        /// <summary>
+        /// Starts a new service under a given host, port and sub-path, using a transport and protocol that were previously
+        /// Registered under a certain name
+        /// </summary>
+        /// <param name="host">Host where the service is running</param>
+        /// <param name="port">Port where the service is running</param>
+        /// <param name="path">Sub-Path on the host where the service is accessed</param>
+        /// <param name="transportName">Name of the transport that should be used for communication with this service</param>
+        /// <param name="protocolName">Name of the protocol that should be used for communication with this service</param>
+        /// <returns></returns>
         public ServiceImplementation StartService(string host, int port, string path, string transportName, string protocolName)
         {
             ServiceImplementation service = new ServiceImplementation(Context.DefaultContext);
@@ -47,6 +73,12 @@ namespace KIARA
             return service;
         }
 
+        /// <summary>
+        /// Adds new content to the IDL of the server during run time. Parses the content of the IDL immediately to have it
+        /// available in KTD and Service Descriptions, and appends the new content to the IDL document that is transmitted to
+        /// the clients.
+        /// </summary>
+        /// <param name="idlAmendment">The part which should be added to the existing IDL</param>
         public void AmendIDL(string idlAmendment)
         {
             try
