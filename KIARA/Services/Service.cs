@@ -26,6 +26,8 @@ namespace KIARA
         /// <value>The associated context.</value>
         public Context Context { get; private set; }
 
+        public Service() { }
+
         public Delegate this[string name]
         {
             set

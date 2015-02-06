@@ -367,7 +367,7 @@ namespace KIARA
         /// <returns>The generated func wrapper.</returns>
         /// <param name="funcName">Name of the function to be wrapped.</param>
         /// <param name="typeMapping">Type mapping string.</param>
-        public ClientFunction GenerateClientFunction(string serviceName, string functionName)
+        public virtual ClientFunction GenerateClientFunction(string serviceName, string functionName)
         {
             if (!ServiceRegistry.Instance.ContainsService(serviceName))
                 throw new ServiceNotRegisteredException(serviceName);
@@ -429,7 +429,7 @@ namespace KIARA
         /// <returns><c>true</c>, if property is supported, <c>false</c> otherwise.</returns>
         /// <param name="name">Name of the property.</param>
         /// <param name="value">Value to be returned.</param>
-        public  bool GetProperty(string name, out object value)
+        public virtual bool GetProperty(string name, out object value)
         {
             value = null;
             return false;
