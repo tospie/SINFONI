@@ -74,6 +74,15 @@ namespace KIARA
         }
 
         /// <summary>
+        /// Shuts down the KIARA Server and clears all registered services.
+        /// </summary>
+        public void ShutDown() {
+            Listener.Stop();
+            //TODO: We need to iterate over all services and check for transport connections that are still open and need to be closed!!
+
+        }
+
+        /// <summary>
         /// Adds new content to the IDL of the server during run time. Parses the content of the IDL immediately to have it
         /// available in KTD and Service Descriptions, and appends the new content to the IDL document that is transmitted to
         /// the clients.
@@ -105,7 +114,7 @@ namespace KIARA
 
         private void startListener(object s)
         {
-            while (true)
+            while (Listener.IsListening)
             {
                 ProcessRequest();
             }
