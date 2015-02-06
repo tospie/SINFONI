@@ -94,10 +94,6 @@ namespace KIARA
             }
         }
 
-        private void CreateConfig()
-        {
-        }
-
         private string ConfigHost;
         private int ConfigPort;
         private string ConfigPath;
