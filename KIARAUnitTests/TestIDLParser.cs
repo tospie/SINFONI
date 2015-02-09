@@ -131,6 +131,13 @@ namespace KIARAUnitTests
         }
 
         [Test()]
+        public void ShouldParseArraysOfMaps()
+        {
+            var arrayOfMaps = ArrayParser.Instance.ParseArray("array<map<string, i32>>");
+            Assert.AreEqual(arrayOfMaps.elementType.GetType(), typeof(KtdMap));
+        }
+
+        [Test()]
         public void ShouldParseStructOfBaseTypes()
         {
             string idl = @"struct BaseStruct {
