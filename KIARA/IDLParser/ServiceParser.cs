@@ -147,11 +147,11 @@ namespace KIARA
             if (declaration.Contains("array<") || declaration.Contains("map<"))
             {
                 declaration = Regex.Replace(declaration, @"\s+", "");
-                values = declaration.Split('>');
+                values = new string[2];
 
-                // Splitting removes the closing bracket, but it is still expected by the map parser, so
-                // we add it here again
-                values[0] = values[0] + '>';
+                int lastClosingBracket = declaration.LastIndexOf('>');
+                values[0] = declaration.Substring(0, lastClosingBracket + 1);
+                values[1] = declaration.Substring(lastClosingBracket + 1, declaration.Length - (lastClosingBracket+1));
             }
             else
             {

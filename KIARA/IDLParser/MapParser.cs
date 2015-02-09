@@ -13,7 +13,7 @@ namespace KIARA
         {
             int openingBracket = mapDefinition.IndexOf('<');
             int comma = mapDefinition.IndexOf(',');
-            int closingBracket = mapDefinition.IndexOf('>');
+            int closingBracket = mapDefinition.LastIndexOf('>');
 
             string keyType = mapDefinition.Substring(openingBracket + 1, comma - openingBracket - 1);
             string valueType = mapDefinition.Substring(comma + 1, closingBracket - comma - 1);
