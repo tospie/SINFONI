@@ -47,7 +47,30 @@ namespace FiVESJson
 
         public IMessage DeserializeMessage(object message)
         {
-            throw new NotImplementedException();
+            MessageBase deserializedMessage = new MessageBase();
+            var data = JsonSerializer.Deserialize<List<object>>(message as string);
+
+            deserializedMessage.Type = getMessageType(data[0] as string);
+            deserializedMessage.IsException = deserializedMessage.Type == MessageType.EXCEPTION;
+            deserializedMessage.ID = (int)data[1];
+
+            if (deserializedMessage.Type == MessageType.REQUEST)
+            {
+                deserializedMessage.MethodName = data[2] as string;
+                deserializedMessage.Parameters = data.GetRange(4, data.Count - 4);
+            }
+
+            if (deserializedMessage.Type == MessageType.RESPONSE)
+            {
+                deserializedMessage.IsException = (bool)data[2];
+                deserializedMessage.Result = data[3];
+            }
+
+            else if (deserializedMessage.Type == MessageType.EXCEPTION)
+            {
+                deserializedMessage.Result = data[2] as string;
+            }
+            return deserializedMessage;
         }
 
         private string messageTypeAsString(MessageType messageType)
@@ -59,6 +82,18 @@ namespace FiVESJson
                 case MessageType.EXCEPTION: return "call-error";
                 default: return "call-error";
             }
+        }
+
+        private MessageType getMessageType(string typeAsString)
+        {
+            if (typeAsString == "call")
+                return MessageType.REQUEST;
+            else if (typeAsString == "call-reply")
+                return MessageType.RESPONSE;
+            else if (typeAsString == "call-error")
+                return MessageType.EXCEPTION;
+
+            throw new InvalidMessageTypeException(typeAsString);
         }
 
         private JavaScriptSerializer JsonSerializer = new JavaScriptSerializer();
