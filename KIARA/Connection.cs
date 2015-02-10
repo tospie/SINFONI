@@ -480,14 +480,26 @@ namespace KIARA
             return callObj;
         }
 
-        private bool IsOneWay(string qualifiedMethodName)
+        private bool IsOneWay(string methodName)
         {
-            List<string> onewayMethods = new List<string>
+            if(oneWayFunctions.ContainsKey(methodName))
             {
-                // Add new one-way calls here
-            };
+                return oneWayFunctions[methodName];
+            }
+            else
+            {
+                return CheckIfOneWay(methodName);
+            }
+        }
 
-            return onewayMethods.Contains(qualifiedMethodName);
+        private bool CheckIfOneWay(string methodName)
+        {
+            var serviceDescription = methodName.Split('.');
+            oneWayFunctions[methodName] = ServiceRegistry.Instance
+                .GetService(serviceDescription[0])
+                .GetServiceFunction(serviceDescription[1])
+                .ReturnType.Name == "void";
+            return oneWayFunctions[methodName];
         }
 
         private int getValidCallID()
@@ -589,7 +601,7 @@ namespace KIARA
         private Dictionary<int, FuncCallBase> activeCalls = new Dictionary<int, FuncCallBase>();
         private Dictionary<string, Delegate> registeredFunctions = new Dictionary<string, Delegate>();
         private Dictionary<Delegate, string> registeredCallbacks = new Dictionary<Delegate, string>();
-
+        private Dictionary<string, bool> oneWayFunctions = new Dictionary<string, bool>();
         protected ITransportConnection TransportConnection;
         protected IProtocol Protocol;
     }
