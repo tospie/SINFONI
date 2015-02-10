@@ -230,11 +230,10 @@ namespace KIARA
                     }
                     else
                     {
-                        IDictionary<string, object> c = (Dictionary<string, object>)args[i];
                         string[] service = methodName.Split('.');
                         KtdType idlParameter = ServiceRegistry.Instance.GetService(service[0])
                             .GetServiceFunction(service[1]).Parameters.ElementAt(i).Value;
-                        parameters[i] = idlParameter.AssignValuesToNativeType(c, paramInfo[i].ParameterType);
+                        parameters[i] = idlParameter.AssignValuesToNativeType(args[i], paramInfo[i].ParameterType);
                     }
 
                 }
