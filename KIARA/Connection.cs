@@ -36,6 +36,11 @@ namespace KIARA
             this.TransportConnection = transportConnection;
             this.Protocol = protocol;
             this.TransportConnection.Message += new EventHandler<TransportMessageEventArgs>(HandleMessage);
+            this.TransportConnection.Closed += new EventHandler((o, e) =>
+            {
+                if (this.Closed != null)
+                    this.Closed(this, new EventArgs());
+            });
         }
 
         /// <summary>
