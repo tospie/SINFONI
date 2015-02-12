@@ -338,7 +338,7 @@ namespace KIARA
             if (failedCall != null)
                 failedCall.HandleError(reason);
             else
-                SendException(-1, "Invalid callID: " + callID);
+                Console.WriteLine("One Way Call returned Exception: " + errorMessage.Result);
         }
 
         private void SendResponse(int callID, Delegate nativeMethod, bool success, object retValue, object exception)
