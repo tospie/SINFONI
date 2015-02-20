@@ -28,7 +28,7 @@ namespace KIARA
 
         public Service() { }
 
-        public Delegate this[string name]
+        public virtual Delegate this[string name]
         {
             set
             {
