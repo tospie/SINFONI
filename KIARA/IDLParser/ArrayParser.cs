@@ -23,7 +23,7 @@ namespace KIARA
             else if (elementType.Contains("array"))
                 result.elementType = ArrayParser.Instance.ParseArray(elementType);
             else
-                result.elementType = KTD.Instance.GetKtdType(elementType.Trim());
+                result.elementType = IDLParser.Instance.CurrentlyParsedKTD.GetKtdType(elementType.Trim());
 
             return result;
         }

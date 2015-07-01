@@ -203,7 +203,7 @@ namespace KIARA
             else if (typeDefinition.Contains("map<"))
                 paramType = MapParser.Instance.ParseMap(typeDefinition);
             else
-                paramType = KTD.Instance.GetKtdType(typeDefinition);
+                paramType = IDLParser.Instance.CurrentlyParsedKTD.GetKtdType(typeDefinition);
 
             return paramType;
         }
@@ -223,7 +223,8 @@ namespace KIARA
                 parseLineOfService(lastLine.Split()[0].Trim(), lineNumber);
 
             // Add the service that was parsed to the service registry.
-            ServiceRegistry.Instance.services.Add(currentlyParsedService.Name, currentlyParsedService);
+            IDLParser.Instance.CurrentlyParsedKTD
+                .KiaraServices.services.Add(currentlyParsedService.Name, currentlyParsedService);
 
             // End service parsing in main IDL parser. If there is still content following, treat it as new
             // line in the IDL

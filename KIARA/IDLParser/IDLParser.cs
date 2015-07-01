@@ -24,33 +24,42 @@ namespace KIARA
             NONE
         }
 
+        public KTD CurrentlyParsedKTD { get; internal set; }
+
         public static IDLParser Instance = new IDLParser();
 
-        public void ParseIDLFromUri(string idlUri)
+        public KTD ParseIDLFromUri(string idlUri)
         {
             WebClient webClient = new WebClient();
             string idlContent = webClient.DownloadString(idlUri);
-            ParseIDL(idlContent);
+            return ParseIDL(idlContent);
         }
 
-        /// <summary>
-        /// Parses a complete IDL
-        /// </summary>
-        /// <param name="idlString">Complete IDL</param>
-        public void ParseIDL(string idlString)
+        public KTD ParseIDL(string idlString, KTD targetKTD)
         {
+            CurrentlyParsedKTD = targetKTD;
             lineNumberParsed = 0;
             currentlyParsing = ParseMode.NONE;
             wasParsingBeforeComment = ParseMode.NONE;
 
             string[] idlLines =
-                idlString.Split(new string[] { Environment.NewLine },StringSplitOptions.RemoveEmptyEntries);
+                idlString.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
-            foreach(string line in idlLines)
+            foreach (string line in idlLines)
             {
                 ++lineNumberParsed;
                 parseLine(line.Trim());
             }
+
+            return CurrentlyParsedKTD;
+        }
+        /// <summary>
+        /// Parses a complete IDL
+        /// </summary>
+        /// <param name="idlString">Complete IDL</param>
+        public KTD ParseIDL(string idlString)
+        {
+            return ParseIDL(idlString, new KTD());
         }
 
         /// <summary>

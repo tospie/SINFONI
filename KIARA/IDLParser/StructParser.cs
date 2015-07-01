@@ -83,7 +83,7 @@ namespace KIARA
         internal void finalizeStructParsing()
         {
             IDLParser.Instance.currentlyParsing = KIARA.IDLParser.ParseMode.NONE;
-            KTD.Instance.RegisterType(currentlyParsedStruct);
+            IDLParser.Instance.CurrentlyParsedKTD.RegisterType(currentlyParsedStruct);
         }
 
 
@@ -147,7 +147,7 @@ namespace KIARA
             }
             else
             {
-                typeObject = KTD.Instance.GetKtdType(memberType);
+                typeObject = IDLParser.Instance.CurrentlyParsedKTD.GetKtdType(memberType);
             }
 
             return typeObject;
