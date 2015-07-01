@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using KIARA;
-using KIARA.Exceptions;
+using SINFONI;
+using SINFONI.Exceptions;
 using NUnit.Framework;
 
 namespace KIARAUnitTests

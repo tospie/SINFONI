@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json.Linq;
 
-namespace KIARA
+namespace SINFONI
 {
     /// <summary>
     /// Various utils to be used by protocol implementations.

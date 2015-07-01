@@ -4,9 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using KIARA.Exceptions;
+using SINFONI.Exceptions;
 
-namespace KIARA
+namespace SINFONI
 {
     /// <summary>
     /// Takes an IDL that is provided locally or at some remote place and translates its contents to an abstract

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
-namespace KIARA.Protocols.JsonRPC
+namespace SINFONI.Protocols.JsonRPC
 {
     public class JsonRpcProtocol : IProtocol
     {

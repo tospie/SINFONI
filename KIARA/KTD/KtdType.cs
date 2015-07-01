@@ -5,11 +5,11 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using KIARA.Exceptions;
+using SINFONI.Exceptions;
 
 [assembly: InternalsVisibleTo("KIARAUnitTests")]
 
-namespace KIARA
+namespace SINFONI
 {
     /// <summary>
     /// Represents a KIARA Type. A KIARA Type is usually defined in an IDL file. KIARA Types include the base types

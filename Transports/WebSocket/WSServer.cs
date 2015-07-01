@@ -9,9 +9,9 @@ using SuperSocket.SocketBase.Command;
 using SuperSocket.SocketBase.Logging;
 using SuperWebSocket.Protocol;
 using SuperSocket.SocketBase.Config;
-using KIARA;
+using SINFONI;
 
-namespace KIARA.Transport.WebSocketTransport
+namespace SINFONI.Transport.WebSocketTransport
 {
     #region Testing
     public interface IWSServer

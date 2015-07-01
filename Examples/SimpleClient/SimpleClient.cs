@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using KIARA;
-using KIARA.Protocols.JsonRPC;
-using KIARA.Transport.WebSocketTransport;
+using SINFONI;
+using SINFONI.Protocols.JsonRPC;
+using SINFONI.Transport.WebSocketTransport;
 
 namespace SimpleClient
 {

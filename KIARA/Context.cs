@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using System.Net;
 using Newtonsoft.Json.Linq;
 
-namespace KIARA
+namespace SINFONI
 {
     #region JSON Config structure
     public struct ServiceDescription

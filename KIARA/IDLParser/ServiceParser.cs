@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using KIARA.Exceptions;
+using SINFONI.Exceptions;
 
-namespace KIARA
+namespace SINFONI
 {
     /// <summary>
     /// Implements methods to parse service definitions from a KIARA IDL. Creates service objects that are stored in

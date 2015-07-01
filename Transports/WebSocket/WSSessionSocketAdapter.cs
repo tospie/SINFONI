@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using KIARA;
+using SINFONI;
 
-namespace KIARA.Transport.WebSocketTransport
+namespace SINFONI.Transport.WebSocketTransport
 {
     class WSSessionSocketAdapter : ITransportConnection
     {

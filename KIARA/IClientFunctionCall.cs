@@ -1,6 +1,6 @@
 using System;
 
-namespace KIARA
+namespace SINFONI
 {
     /// <summary>
     /// Exception that is thrown when waiting for the completion of the call has exceeded the timeout value.

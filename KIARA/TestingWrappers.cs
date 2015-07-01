@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 
-namespace KIARA
+namespace SINFONI
 {
     public interface IWebClient
     {

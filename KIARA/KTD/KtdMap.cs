@@ -7,7 +7,7 @@ using System.Text;
 
 [assembly: InternalsVisibleTo("KIARAUnitTests")]
 
-namespace KIARA
+namespace SINFONI
 {
     /// <summary>
     /// Represents a map from KTD Types to KtdTypes. KtdMap does not need a name and is not registered to the KTD,
@@ -53,7 +53,7 @@ namespace KIARA
         public override object AssignValuesToNativeType(object value, Type nativeType)
         {
             if(!CanBeAssignedFromType(value.GetType()))
-                throw new KIARA.Exceptions.TypeCastException("Cannot assign value of KtdMap to native object of type " + nativeType);
+                throw new SINFONI.Exceptions.TypeCastException("Cannot assign value of KtdMap to native object of type " + nativeType);
 
            // Dictionary<object, object> valueDictionary = (Dictionary<object, object>)value;
             Type[] keyAndValueTypes = nativeType.GetGenericArguments();

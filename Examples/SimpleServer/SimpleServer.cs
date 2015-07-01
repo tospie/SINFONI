@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using KIARA;
-using KIARA.Transport.WebSocketTransport;
-using KIARA.Protocols.JsonRPC;
+using SINFONI;
+using SINFONI.Transport.WebSocketTransport;
+using SINFONI.Protocols.JsonRPC;
 using FiVESJson;
 
 

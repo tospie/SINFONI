@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using KIARA.Exceptions;
+using SINFONI.Exceptions;
 
 [assembly: InternalsVisibleTo("KIARAUnitTests")]
 
-namespace KIARA
+namespace SINFONI
 {
     /// <summary>
     /// Represents an array of KTD Types. KtdArray does not need a name and is not registered to the KTD,

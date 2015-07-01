@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace KIARA
+namespace SINFONI
 {
     /// <summary>
     /// The interface that should be implemented by the connection factories in protocols. Used to initiate connections 

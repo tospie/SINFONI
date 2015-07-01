@@ -1,7 +1,7 @@
 using System;
-using KIARA;
+using SINFONI;
 
-namespace KIARA.Transport.WebSocketTransport
+namespace SINFONI.Transport.WebSocketTransport
 {
     public interface IWSJServerFactory
     {

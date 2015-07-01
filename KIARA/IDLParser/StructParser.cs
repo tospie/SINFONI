@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace KIARA
+namespace SINFONI
 {
     /// <summary>
     /// Parses struct entries of an IDL and registers them as new types to the KTD. Struct parser creates KTD objects
@@ -82,7 +82,7 @@ namespace KIARA
         /// </summary>
         internal void finalizeStructParsing()
         {
-            IDLParser.Instance.currentlyParsing = KIARA.IDLParser.ParseMode.NONE;
+            IDLParser.Instance.currentlyParsing = SINFONI.IDLParser.ParseMode.NONE;
             IDLParser.Instance.CurrentlyParsedKTD.RegisterType(currentlyParsedStruct);
         }
 

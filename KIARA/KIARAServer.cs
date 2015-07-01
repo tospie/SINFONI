@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Web.Script.Serialization;
 
-namespace KIARA
+namespace SINFONI
 {
     /// <summary>
     /// KIARA Server provides the high level server object in which scope services are started. A KIARA server can

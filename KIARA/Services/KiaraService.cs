@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using KIARA.Exceptions;
+using SINFONI.Exceptions;
 
-namespace KIARA
+namespace SINFONI
 {
     public class KiaraService
     {

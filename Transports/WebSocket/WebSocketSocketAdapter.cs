@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using WebSocket4Net;
 using SuperSocket.ClientEngine;
-using KIARA;
+using SINFONI;
 
-namespace KIARA.Transport.WebSocketTransport
+namespace SINFONI.Transport.WebSocketTransport
 {
     public class WebSocketSocketAdapter : ITransportConnection
     {

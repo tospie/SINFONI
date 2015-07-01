@@ -4,9 +4,9 @@ using WebSocket4Net;
 using System.Net;
 using NLog;
 using SuperSocket.SocketBase.Config;
-using KIARA;
+using SINFONI;
 
-namespace KIARA.Transport.WebSocketTransport
+namespace SINFONI.Transport.WebSocketTransport
 {
     /// <summary>
     /// WebSocketJSON connection factory implementation.

@@ -5,7 +5,7 @@ using System.Linq;
 using NLog;
 using System.Reflection;
 
-namespace KIARA
+namespace SINFONI
 {
     #region Testing
     public interface IProtocolRegistry

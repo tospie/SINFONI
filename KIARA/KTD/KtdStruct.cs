@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace KIARA
+namespace SINFONI
 {
     public class KtdStruct : KtdType
     {

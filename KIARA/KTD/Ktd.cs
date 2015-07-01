@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using KIARA.Exceptions;
+using SINFONI.Exceptions;
 
-namespace KIARA
+namespace SINFONI
 {
     /// <summary>
     /// KTD (KIARA Type Description) maintains all types registered fron a KIARA IDL. KTD contains all base types

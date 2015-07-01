@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace KIARA
+namespace SINFONI
 {
     /// <summary>
     /// Event arguments for Close event in Connection class.

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Diagnostics;
 
-namespace KIARA
+namespace SINFONI
 {
     /// <summary>
     /// An base implementation of the <see cref="IClientFunctionCall"/>, which allows many protocols to reuse the same code.

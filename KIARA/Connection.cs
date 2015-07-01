@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Net;
-using KIARA.Exceptions;
+using SINFONI.Exceptions;
 using System.Reflection;
 using Dynamitey;
 using System.IO;
 
-namespace KIARA
+namespace SINFONI
 {
     /// <summary>
     /// Represents a generated function wrapper. It allows calling the function with arbitrary arguments. The returned

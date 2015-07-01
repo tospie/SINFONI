@@ -8,10 +8,10 @@ using Dynamitey;
 using System.Runtime.InteropServices;
 using WebSocket4Net;
 using NLog;
-using KIARA;
+using SINFONI;
 using System.Text;
 
-namespace KIARA.Transport.WebSocketTransport
+namespace SINFONI.Transport.WebSocketTransport
 {
     /// <summary>
     /// WebSocketJSON session implementation. Contains Connection adapter for KIARA.
