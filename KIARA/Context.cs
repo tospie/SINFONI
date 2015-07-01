@@ -43,7 +43,7 @@ namespace KIARA
     {
         public static Context DefaultContext = new Context();
 
-        public Config ServerConfiguarion { get; private set; }
+        public Config ServerConfiguration { get; private set; }
         public void Initialize(string hint)
         {
         }
@@ -62,8 +62,8 @@ namespace KIARA
         public void OpenConnection(string configURI, Action<Connection> onConnected)
         {
             string fragment = "";
-            this.ServerConfiguarion = RetrieveConfig(configURI, out fragment);                       
-            ServiceDescription server = SelectServer(fragment, this.ServerConfiguarion);
+            Config ServerConfiguration = RetrieveConfig(configURI, out fragment);
+            ServiceDescription server = SelectServer(fragment, ServerConfiguration);
 
             string protocolName = server.protocol.name;
             string transportName = server.transport.name;
@@ -78,7 +78,9 @@ namespace KIARA
             ITransportConnection transportConnection = transportConnectionFactory.OpenConnection(host, port, this, onConnected);
             transportConnection.Opened += (sender, e) =>
             {
-                onConnected(new Connection(transportConnection, protocol));
+                Connection establishedConnection = new Connection(transportConnection, protocol);
+                establishedConnection.LoadIDL(ServerConfiguration);
+                onConnected(establishedConnection);
             };
         }
 
@@ -106,7 +108,8 @@ namespace KIARA
         /// URI where config is to be found. Data URIs starting with <c>"data:text/json;base64,"</c> are supported.
         /// </param>
         /// <param name="onNewClient">Handler to be invoked for each new client.</param>
-        public ServiceDescription StartServer(string uri, int port, string transportName, string protocolName, Action<Connection> onNewClient)
+        public ServiceDescription StartServer(string uri, int port, string transportName, string protocolName,
+            Config ServerConfig, Action<Connection> onNewClient)
         {
             IProtocol protocol = protocolRegistry.GetProtocol(protocolName);
             ITransportConnectionFactory transportConnectionFactory = TransportRegistry.Instance
