@@ -68,7 +68,7 @@ namespace KIARA
         {
             ServiceImplementation service = new ServiceImplementation(Context.DefaultContext);
             ServiceDescription serviceServer =
-                Context.DefaultContext.StartServer(host, port, transportName, protocolName, service.HandleNewClient);
+                Context.DefaultContext.StartServer(host, port, transportName, protocolName, ServerConfigDocument, service.HandleNewClient);
             ServerConfigDocument.servers.Add(serviceServer);
             return service;
         }
