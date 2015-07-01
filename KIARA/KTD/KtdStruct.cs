@@ -110,6 +110,13 @@ namespace KIARA
 
         private bool validMappingForTypeExists(Type type)
         {
+            if (typeof(IDictionary).IsAssignableFrom(type))
+            {
+                Type[] fieldTypes = type.GetGenericArguments();
+                return fieldTypes[0].IsAssignableFrom(typeof(string))
+                    && members.Values.All( t => t.CanBeAssignedFromType(fieldTypes[1]));
+            }
+
             var fields = type.GetFields();
             var properties = type.GetProperties();
 
