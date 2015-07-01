@@ -55,7 +55,13 @@ namespace KIARA.Transport.WebSocketTransport
 
         public void Send(object message)
         {
-            this.WebSocket.Send((string)message);
+            if (message.GetType() == typeof(string))
+                this.WebSocket.Send((string)message);
+            else
+            {
+                byte[] byteMessage = (byte[])message;
+                this.WebSocket.Send(byteMessage, 0, byteMessage.Length);
+            }
         }
 
         public void Open()

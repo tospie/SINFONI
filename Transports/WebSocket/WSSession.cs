@@ -20,6 +20,7 @@ namespace KIARA.Transport.WebSocketTransport
     {
         public event EventHandler Closed;
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
+        public event EventHandler<DataReceivedEventArgs> DataReceived;
 
         public void HandleClosed(string reason)
         {
@@ -38,12 +39,10 @@ namespace KIARA.Transport.WebSocketTransport
 
         public void HandleDataReceived(byte[] data)
         {
-            if (data != null)
-            {
-                var messageAsString = Encoding.UTF8.GetString(data);
-                HandleMessageReceived(messageAsString);
-            }
+            if (DataReceived != null)
+                DataReceived(this, new DataReceivedEventArgs(data));
         }
+
         private static Logger logger = LogManager.GetCurrentClassLogger();
     }
 }

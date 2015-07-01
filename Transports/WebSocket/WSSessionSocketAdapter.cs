@@ -13,6 +13,7 @@ namespace KIARA.Transport.WebSocketTransport
             session = aSession;
             session.Closed += HandleClosed;
             session.MessageReceived += HandleMessageReceived;
+            session.DataReceived += HandleDataReceivedReceived;
         }
 
         // This is actually another layer of message here, consider !! The message we receive here is some
@@ -23,6 +24,12 @@ namespace KIARA.Transport.WebSocketTransport
         {
             if (Message != null)
                 Message(sender, new TransportMessageEventArgs(e.Message));
+        }
+
+        void HandleDataReceivedReceived(object sender, WebSocket4Net.DataReceivedEventArgs e)
+        {
+            if (Message != null)
+                Message(sender, new TransportMessageEventArgs(e.Data));
         }
 
         void HandleClosed(object sender, EventArgs e)
@@ -47,7 +54,13 @@ namespace KIARA.Transport.WebSocketTransport
 
         public void Send(object message)
         {
-            session.Send((string)message);
+            if (message.GetType() == typeof(string))
+                session.Send((string)message);
+            else
+            {
+                byte[] byteMessage = (byte[])message;
+                session.Send(byteMessage, 0, byteMessage.Length);
+            }
         }
 
         WSSession session;
