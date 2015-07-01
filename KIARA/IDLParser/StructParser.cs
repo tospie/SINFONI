@@ -7,9 +7,9 @@ using System.Text.RegularExpressions;
 namespace SINFONI
 {
     /// <summary>
-    /// Parses struct entries of an IDL and registers them as new types to the KTD. Struct parser creates KTD objects
-    /// for every struct in the IDL, creates KTD Type Objects for the elements of a struct type and registeres the
-    /// structs to the KTD by their names
+    /// Parses struct entries of an IDL and registers them as new types to the SinTD. Struct parser creates SinTD objects
+    /// for every struct in the IDL, creates SinTD Type Objects for the elements of a struct type and registeres the
+    /// structs to the SinTD by their names
     /// </summary>
     internal class StructParser
     {
@@ -26,11 +26,11 @@ namespace SINFONI
             Regex nameRegEx = new Regex("struct ([A-Za-z0-9_]*) [{}._<,>; ]*");
             Match nameMatch = nameRegEx.Match(structDefinition);
             string name = nameMatch.Groups[1].Value;
-            currentlyParsedStruct = new KtdStruct(name);
+            currentlyParsedStruct = new SinTDStruct(name);
         }
 
         /// <summary>
-        /// Receives one line of the struct and parses it as KTD Typed member object of the struct, registering
+        /// Receives one line of the struct and parses it as SinTD Typed member object of the struct, registering
         /// it as one of the structs "members" with the Type specified in the IDL
         /// </summary>
         /// <param name="line"></param>
@@ -44,7 +44,7 @@ namespace SINFONI
             }
             else
             {
-                createKtdTypeForMember(line, currentlyParsedStruct);
+                createSinTDTypeForMember(line, currentlyParsedStruct);
             }
         }
 
@@ -61,7 +61,7 @@ namespace SINFONI
             if (line.IndexOf('}') > 0)
             {
                 string lastLine = line.Split('}')[0].Trim();
-                createKtdTypeForMember(lastLine, currentlyParsedStruct);
+                createSinTDTypeForMember(lastLine, currentlyParsedStruct);
                 // finalize parsing the struct after having parsed the last line.
                 finalizeStructParsing();
             }
@@ -78,23 +78,23 @@ namespace SINFONI
         }
 
         /// <summary>
-        /// Ends struct parsing mode of IDL parser and registers the parsed struct to the KTD
+        /// Ends struct parsing mode of IDL parser and registers the parsed struct to the SinTD
         /// </summary>
         internal void finalizeStructParsing()
         {
             IDLParser.Instance.currentlyParsing = SINFONI.IDLParser.ParseMode.NONE;
-            IDLParser.Instance.CurrentlyParsedKTD.RegisterType(currentlyParsedStruct);
+            IDLParser.Instance.CurrentlyParsedSinTD.RegisterType(currentlyParsedStruct);
         }
 
 
         /// <summary>
-        /// Creates a member entry for a member specified in the IDL. A KtdType object of respective type is
-        /// retrieved from the KTD or created for map or array typed members. Registers the member to the
+        /// Creates a member entry for a member specified in the IDL. A SinTDType object of respective type is
+        /// retrieved from the SinTD or created for map or array typed members. Registers the member to the
         /// struct's members under the name given in the IDL
         /// </summary>
         /// <param name="memberDefinition">IDL entry defining type and name of the member</param>
         /// <param name="createdStruct">Struct that is created during the currrent parsing process</param>
-        internal void createKtdTypeForMember(string memberDefinition, KtdStruct createdStruct)
+        internal void createSinTDTypeForMember(string memberDefinition, SinTDStruct createdStruct)
         {
             if (!memberDefinition.Contains(';'))
                 return;
@@ -122,20 +122,20 @@ namespace SINFONI
                 memberName = memberDefinition.Substring(closingBracket, memberDefinition.Length - closingBracket);
             }
 
-            KtdType typeObject = getTypeForMember(memberType);
+            SinTDType typeObject = getTypeForMember(memberType);
 
             createdStruct.members.Add(memberName, typeObject);
         }
 
         /// <summary>
-        /// Retrieves the respective KTD Type for a member type that is specified by its name in the IDL. Creates an
-        /// Array or Map for array or map typed objects and queries the respective type from the KTD otherwise.
+        /// Retrieves the respective SinTD Type for a member type that is specified by its name in the IDL. Creates an
+        /// Array or Map for array or map typed objects and queries the respective type from the SinTD otherwise.
         /// </summary>
         /// <param name="memberType">Name of the member type as given in the IDL</param>
-        /// <returns>KTD Type object with the given name</returns>
-        private KtdType getTypeForMember(string memberType)
+        /// <returns>SinTD Type object with the given name</returns>
+        private SinTDType getTypeForMember(string memberType)
         {
-            KtdType typeObject = new KtdType();
+            SinTDType typeObject = new SinTDType();
 
             if (memberIsArray(memberType))
             {
@@ -147,7 +147,7 @@ namespace SINFONI
             }
             else
             {
-                typeObject = IDLParser.Instance.CurrentlyParsedKTD.GetKtdType(memberType);
+                typeObject = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType(memberType);
             }
 
             return typeObject;
@@ -175,6 +175,6 @@ namespace SINFONI
             return isMap;
         }
 
-        KtdStruct currentlyParsedStruct;
+        SinTDStruct currentlyParsedStruct;
     }
 }

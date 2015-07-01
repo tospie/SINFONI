@@ -10,7 +10,7 @@ namespace SINFONI
     /// <summary>
     /// Implements methods to parse service definitions from a SINFONI IDL. Creates service objects that are stored in
     /// SINFONI's service registry, and parses service functions defined for the different services. All of them are
-    /// stored in a representation to allow lookup by name and compare their return types and parameters via KTD
+    /// stored in a representation to allow lookup by name and compare their return types and parameters via SinTD
     /// Type objects.
     /// </summary>
     internal class ServiceParser
@@ -89,11 +89,11 @@ namespace SINFONI
         {
             string[] values = splitDeclarationInNameAndType(nameAndType);
 
-            KtdType returnType;
+            SinTDType returnType;
             if (values[0].Trim() == "void")
-                returnType = new KtdType("void");
+                returnType = new SinTDType("void");
             else
-                returnType = getKtdType(values[0].Trim());
+                returnType = getSinTDType(values[0].Trim());
 
             return new ServiceFunctionDescription(values[1], returnType);
         }
@@ -120,7 +120,7 @@ namespace SINFONI
         }
 
         /// <summary>
-        /// Creates a KtdTyped object and stores it under the name specified in the IDL for the corresponding parameter.
+        /// Creates a SinTDTyped object and stores it under the name specified in the IDL for the corresponding parameter.
         /// The created Parameter is added to the list of parameters for the currently parsed service function object.
         /// </summary>
         /// <param name="param">String defining name and type of the parameter</param>
@@ -129,7 +129,7 @@ namespace SINFONI
         {
             string[] values = splitDeclarationInNameAndType(param);
 
-            KtdType paramType = getKtdType(values[0].Trim());
+            SinTDType paramType = getSinTDType(values[0].Trim());
             string paramName = values[1].Trim();
             functionDescription.Parameters.Add(paramName, paramType);
         }
@@ -190,20 +190,20 @@ namespace SINFONI
         }
 
         /// <summary>
-        /// Returns a valid KtdType-object for a type that is specified for a parameter or service function return
-        /// type. Performs a KTD-Lookup for types and creates array or map typed KtdTypes
+        /// Returns a valid SinTDType-object for a type that is specified for a parameter or service function return
+        /// type. Performs a SinTD-Lookup for types and creates array or map typed SinTDTypes
         /// </summary>
         /// <param name="typeDefinition">String defining the type of a Service Function or Parameter</param>
-        /// <returns>The respective KTD Type object</returns>
-        private KtdType getKtdType(string typeDefinition)
+        /// <returns>The respective SinTD Type object</returns>
+        private SinTDType getSinTDType(string typeDefinition)
         {
-            KtdType paramType;
+            SinTDType paramType;
             if (typeDefinition.Contains("array<"))
                 paramType = ArrayParser.Instance.ParseArray(typeDefinition);
             else if (typeDefinition.Contains("map<"))
                 paramType = MapParser.Instance.ParseMap(typeDefinition);
             else
-                paramType = IDLParser.Instance.CurrentlyParsedKTD.GetKtdType(typeDefinition);
+                paramType = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType(typeDefinition);
 
             return paramType;
         }
@@ -223,7 +223,7 @@ namespace SINFONI
                 parseLineOfService(lastLine.Split()[0].Trim(), lineNumber);
 
             // Add the service that was parsed to the service registry.
-            IDLParser.Instance.CurrentlyParsedKTD
+            IDLParser.Instance.CurrentlyParsedSinTD
                 .SINFONIServices.services.Add(currentlyParsedService.Name, currentlyParsedService);
 
             // End service parsing in main IDL parser. If there is still content following, treat it as new

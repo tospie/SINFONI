@@ -10,9 +10,9 @@ namespace SINFONI
     {
         internal static ArrayParser Instance = new ArrayParser();
 
-        internal KtdArray ParseArray(string arrayDefinition)
+        internal SinTDArray ParseArray(string arrayDefinition)
         {
-            KtdArray result = new KtdArray();
+            SinTDArray result = new SinTDArray();
 
             int indexStart = arrayDefinition.IndexOf('<') + 1;
             int indexEnd = arrayDefinition.LastIndexOf ('>');
@@ -23,7 +23,7 @@ namespace SINFONI
             else if (elementType.Contains("array"))
                 result.elementType = ArrayParser.Instance.ParseArray(elementType);
             else
-                result.elementType = IDLParser.Instance.CurrentlyParsedKTD.GetKtdType(elementType.Trim());
+                result.elementType = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType(elementType.Trim());
 
             return result;
         }

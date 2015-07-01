@@ -9,7 +9,7 @@ namespace SINFONI
     {
         internal static MapParser Instance = new MapParser();
 
-        internal KtdMap ParseMap(string mapDefinition)
+        internal SinTDMap ParseMap(string mapDefinition)
         {
             int openingBracket = mapDefinition.IndexOf('<');
             int comma = mapDefinition.IndexOf(',');
@@ -18,9 +18,9 @@ namespace SINFONI
             string keyType = mapDefinition.Substring(openingBracket + 1, comma - openingBracket - 1);
             string valueType = mapDefinition.Substring(comma + 1, closingBracket - comma - 1);
 
-            KtdMap result = new KtdMap();
-            result.keyType = IDLParser.Instance.CurrentlyParsedKTD.GetKtdType(keyType.Trim());
-            result.elementType = IDLParser.Instance.CurrentlyParsedKTD.GetKtdType(valueType.Trim());
+            SinTDMap result = new SinTDMap();
+            result.keyType = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType(keyType.Trim());
+            result.elementType = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType(valueType.Trim());
 
             return result;
         }

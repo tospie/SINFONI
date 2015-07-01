@@ -10,9 +10,9 @@ namespace SINFONI
 {
     /// <summary>
     /// Takes an IDL that is provided locally or at some remote place and translates its contents to an abstract
-    /// representation of types and services. Registeres specified types to the KTD and specified services to
+    /// representation of types and services. Registeres specified types to the SinTD and specified services to
     /// the SINFONI service registry and maps types specified in the IDL to the respective previously parsed
-    /// KTD Types
+    /// SinTD Types
     /// </summary>
     public class IDLParser
     {
@@ -24,20 +24,20 @@ namespace SINFONI
             NONE
         }
 
-        public KTD CurrentlyParsedKTD { get; internal set; }
+        public SinTD CurrentlyParsedSinTD { get; internal set; }
 
         public static IDLParser Instance = new IDLParser();
 
-        public KTD ParseIDLFromUri(string idlUri)
+        public SinTD ParseIDLFromUri(string idlUri)
         {
             WebClient webClient = new WebClient();
             string idlContent = webClient.DownloadString(idlUri);
             return ParseIDL(idlContent);
         }
 
-        public KTD ParseIDL(string idlString, KTD targetKTD)
+        public SinTD ParseIDL(string idlString, SinTD targetSinTD)
         {
-            CurrentlyParsedKTD = targetKTD;
+            CurrentlyParsedSinTD = targetSinTD;
             lineNumberParsed = 0;
             currentlyParsing = ParseMode.NONE;
             wasParsingBeforeComment = ParseMode.NONE;
@@ -51,15 +51,15 @@ namespace SINFONI
                 parseLine(line.Trim());
             }
 
-            return CurrentlyParsedKTD;
+            return CurrentlyParsedSinTD;
         }
         /// <summary>
         /// Parses a complete IDL
         /// </summary>
         /// <param name="idlString">Complete IDL</param>
-        public KTD ParseIDL(string idlString)
+        public SinTD ParseIDL(string idlString)
         {
-            return ParseIDL(idlString, new KTD());
+            return ParseIDL(idlString, new SinTD());
         }
 
         /// <summary>
