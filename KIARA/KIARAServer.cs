@@ -92,7 +92,6 @@ namespace KIARA
         {
             try
             {
-                IDLParser.Instance.ParseIDL(idlAmendment);
                 IdlContent += idlAmendment;
             }
             catch (Exception e)
