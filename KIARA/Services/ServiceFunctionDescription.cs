@@ -23,7 +23,7 @@ namespace KIARA
 
             for (int i = 0; i < parameters.Values.Count; i++ )
             {
-                if (!parameters.Values.ElementAt(i).canBeAssignedFromType(callParameters[i].GetType()))
+                if (!parameters.Values.ElementAt(i).CanBeAssignedFromType(callParameters[i].GetType()))
                     return false;
             }
             return true;
@@ -31,7 +31,7 @@ namespace KIARA
 
         internal bool CanBeCalledWithReturnType(Type callReturnType)
         {
-            return ReturnType.canBeAssignedFromType(callReturnType);
+            return ReturnType.CanBeAssignedFromType(callReturnType);
         }
 
         internal ServiceFunctionDescription(string name, KtdType returnType)
