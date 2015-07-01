@@ -11,7 +11,7 @@ namespace SINFONI
     /// <summary>
     /// Takes an IDL that is provided locally or at some remote place and translates its contents to an abstract
     /// representation of types and services. Registeres specified types to the KTD and specified services to
-    /// the KIARA service registry and maps types specified in the IDL to the respective previously parsed
+    /// the SINFONI service registry and maps types specified in the IDL to the respective previously parsed
     /// KTD Types
     /// </summary>
     public class IDLParser

@@ -8,8 +8,8 @@ using SINFONI.Exceptions;
 namespace SINFONI
 {
     /// <summary>
-    /// Implements methods to parse service definitions from a KIARA IDL. Creates service objects that are stored in
-    /// KIARA's service registry, and parses service functions defined for the different services. All of them are
+    /// Implements methods to parse service definitions from a SINFONI IDL. Creates service objects that are stored in
+    /// SINFONI's service registry, and parses service functions defined for the different services. All of them are
     /// stored in a representation to allow lookup by name and compare their return types and parameters via KTD
     /// Type objects.
     /// </summary>
@@ -28,7 +28,7 @@ namespace SINFONI
             Regex nameRegEx = new Regex("service ([A-Za-z0-9_]*)[{}._<,>; ]*");
             Match nameMatch = nameRegEx.Match(serviceDefinition);
             string name = nameMatch.Groups[1].Value;
-            currentlyParsedService = new KiaraService(name);
+            currentlyParsedService = new SINFONIService(name);
         }
 
         /// <summary>
@@ -224,7 +224,7 @@ namespace SINFONI
 
             // Add the service that was parsed to the service registry.
             IDLParser.Instance.CurrentlyParsedKTD
-                .KiaraServices.services.Add(currentlyParsedService.Name, currentlyParsedService);
+                .SINFONIServices.services.Add(currentlyParsedService.Name, currentlyParsedService);
 
             // End service parsing in main IDL parser. If there is still content following, treat it as new
             // line in the IDL
@@ -233,6 +233,6 @@ namespace SINFONI
                 IDLParser.Instance.parseLine(lastLine.Split('}')[1].Trim());
         }
 
-        KiaraService currentlyParsedService;
+        SINFONIService currentlyParsedService;
     }
 }
