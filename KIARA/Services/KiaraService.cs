@@ -6,14 +6,14 @@ using SINFONI.Exceptions;
 
 namespace SINFONI
 {
-    public class KiaraService
+    public class SINFONIService
     {
         public string Name { get; internal set; }
 
         public Context Context { get; private set; }
 
 
-        internal KiaraService(string name)
+        internal SINFONIService(string name)
         {
             Name = name;
         }

@@ -8,7 +8,7 @@ namespace SINFONI
 {
     public class ServiceRegistry
     {
-        public KiaraService GetService(string name)
+        public SINFONIService GetService(string name)
         {
             if (!services.ContainsKey(name))
                 throw new ServiceNotRegisteredException(name);
@@ -21,7 +21,7 @@ namespace SINFONI
             return services.ContainsKey(name);
         }
 
-        internal Dictionary<string, KiaraService> services =
-            new Dictionary<string, KiaraService>();
+        internal Dictionary<string, SINFONIService> services =
+            new Dictionary<string, SINFONIService>();
     }
 }
