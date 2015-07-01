@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="TestClientFunctions.cs" />
     <Compile Include="TestIDLParser.cs" />
-    <Compile Include="TestKTD.cs" />
+    <Compile Include="TestSinTD.cs" />
     <Compile Include="TestTypeInstances.cs" />
     <Compile Include="TestValidMappings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
