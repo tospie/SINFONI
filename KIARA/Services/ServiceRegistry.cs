@@ -8,8 +8,6 @@ namespace KIARA
 {
     public class ServiceRegistry
     {
-        public static ServiceRegistry Instance = new ServiceRegistry();
-
         public KiaraService GetService(string name)
         {
             if (!services.ContainsKey(name))
