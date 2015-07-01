@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using SINFONI.Exceptions;
 
-[assembly: InternalsVisibleTo("KIARAUnitTests")]
+[assembly: InternalsVisibleTo("SINFONIUnitTests")]
 
 namespace SINFONI
 {

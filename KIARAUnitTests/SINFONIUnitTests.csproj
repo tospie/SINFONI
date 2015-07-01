@@ -7,8 +7,8 @@
     <ProjectGuid>{D0A996D3-E307-4C53-97C6-6F532C43E750}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KIARAUnitTests</RootNamespace>
-    <AssemblyName>KIARAUnitTests</AssemblyName>
+    <RootNamespace>SINFONIUnitTests</RootNamespace>
+    <AssemblyName>SINFONIUnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -52,9 +52,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KIARA\KIARA.csproj">
+    <ProjectReference Include="..\KIARA\SINFONI.csproj">
       <Project>{b43693ef-8534-4491-93b9-d9e4702dc0f3}</Project>
-      <Name>KIARA</Name>
+      <Name>SINFONI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KIARA", "KIARA\KIARA.csproj", "{B43693EF-8534-4491-93B9-D9E4702DC0F3}"
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SINFONI", "KIARA\SINFONI.csproj", "{B43693EF-8534-4491-93B9-D9E4702DC0F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KIARAUnitTests", "KIARAUnitTests\KIARAUnitTests.csproj", "{D0A996D3-E307-4C53-97C6-6F532C43E750}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SINFONIUnitTests", "KIARAUnitTests\SINFONIUnitTests.csproj", "{D0A996D3-E307-4C53-97C6-6F532C43E750}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9A84E7A5-9839-488D-AC67-EA11A4760F09}"
 	ProjectSection(SolutionItems) = preProject

@@ -82,9 +82,9 @@
     <Compile Include="SimpleServer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\KIARA\KIARA.csproj">
+    <ProjectReference Include="..\..\KIARA\SINFONI.csproj">
       <Project>{b43693ef-8534-4491-93b9-d9e4702dc0f3}</Project>
-      <Name>KIARA</Name>
+      <Name>SINFONI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Protocols\FiVESJson\FiVESJson.csproj">
       <Project>{042a4fda-b1e5-4150-9467-740bbbec84a5}</Project>

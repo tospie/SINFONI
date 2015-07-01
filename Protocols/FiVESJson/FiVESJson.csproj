@@ -46,9 +46,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\KIARA\KIARA.csproj">
+    <ProjectReference Include="..\..\KIARA\SINFONI.csproj">
       <Project>{b43693ef-8534-4491-93b9-d9e4702dc0f3}</Project>
-      <Name>KIARA</Name>
+      <Name>SINFONI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
