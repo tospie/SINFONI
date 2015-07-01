@@ -19,6 +19,7 @@ namespace KIARA
     public delegate IClientFunctionCall ClientFunction(params object[] parameters);
     public delegate object GenericWrapper(params object[] arguments);
 
+
     /// <summary>
     /// This class represenents a connection to the remote end. It may be used to load new IDL definition files,
     /// generate callable remote function  wrappers and to register local functions as implementations for remote calls.
@@ -27,6 +28,8 @@ namespace KIARA
     {
 
         public KTD Ktd { get; internal set; }
+
+        public Guid SessionID { get; internal set; }
         /// <summary>
         /// Raised when a connection is closed.
         /// </summary>
@@ -36,6 +39,7 @@ namespace KIARA
 
         public Connection(ITransportConnection transportConnection, IProtocol protocol)
         {
+            this.SessionID = Guid.NewGuid();
             this.TransportConnection = transportConnection;
             this.Protocol = protocol;
             this.TransportConnection.Message += new EventHandler<TransportMessageEventArgs>(HandleMessage);
