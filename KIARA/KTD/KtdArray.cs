@@ -75,8 +75,8 @@ namespace KIARA
 
         public T[] AssignValuesToNativeArray<T>(IEnumerable enumerable)
         {
-            ISet<T> valueSet = AssignValuesToNativeSet<T>(enumerable);
-            return valueSet.ToArray();
+            List<T> valueList = AssignValuesToNativeList<T>(enumerable);
+            return valueList.ToArray();
         }
 
         public List<T> AssignValuesToNativeList<T>(IEnumerable enumerable)
