@@ -84,7 +84,7 @@ namespace SINFONI
 
         /// <summary>
         /// Adds new content to the IDL of the server during run time. Parses the content of the IDL immediately to have it
-        /// available in KTD and Service Descriptions, and appends the new content to the IDL document that is transmitted to
+        /// available in SinTD and Service Descriptions, and appends the new content to the IDL document that is transmitted to
         /// the clients.
         /// </summary>
         /// <param name="idlAmendment">The part which should be added to the existing IDL</param>

@@ -8,9 +8,9 @@ namespace SINFONI
     public class ServiceFunctionDescription
     {
         public string Name { get; internal set; }
-        public KtdType ReturnType { get; internal set; }
+        public SinTDType ReturnType { get; internal set; }
 
-        public Dictionary<string, KtdType> Parameters
+        public Dictionary<string, SinTDType> Parameters
         {
             get { return parameters; }
             internal set { parameters = value; }
@@ -34,13 +34,13 @@ namespace SINFONI
             return ReturnType.CanBeAssignedFromType(callReturnType);
         }
 
-        internal ServiceFunctionDescription(string name, KtdType returnType)
+        internal ServiceFunctionDescription(string name, SinTDType returnType)
         {
             Name = name;
             ReturnType = returnType;
         }
 
-        private Dictionary<string, KtdType> parameters =
-            new Dictionary<string,KtdType>();
+        private Dictionary<string, SinTDType> parameters =
+            new Dictionary<string,SinTDType>();
     }
 }
