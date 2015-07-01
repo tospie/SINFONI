@@ -22,7 +22,7 @@ namespace KIARA
                 });
             }
 
-            if (canBeAssignedFromType(other.GetType()))
+            if (CanBeAssignedFromType(other.GetType()))
             {
                 return MapByName(other);
             }
@@ -68,7 +68,7 @@ namespace KIARA
 
         public override object AssignValuesToNativeType(object value, Type localType)
         {
-            if (!canBeAssignedFromType(localType))
+            if (!CanBeAssignedFromType(localType))
                 throw new Exceptions.TypeCastException
                     ("Cannot assign value received for KtdStruct to native type " + localType);
 
@@ -99,7 +99,7 @@ namespace KIARA
             return localTypeInstance;
         }
 
-        internal override bool canBeAssignedFromType(Type type)
+        public override bool CanBeAssignedFromType(Type type)
         {
             if (validMappings.ContainsKey(type))
                 return validMappings[type];
@@ -144,7 +144,7 @@ namespace KIARA
 
             var field = fieldInfo[indexOfMemberInArray];
 
-            if (!member.Value.canBeAssignedFromType(field.FieldType))
+            if (!member.Value.CanBeAssignedFromType(field.FieldType))
                 return false;
 
             return true;
@@ -164,7 +164,7 @@ namespace KIARA
 
             var property = propertyInfo[indexOfMemberInArray];
 
-            if (!member.Value.canBeAssignedFromType(property.PropertyType))
+            if (!member.Value.CanBeAssignedFromType(property.PropertyType))
                 return false;
 
             return true;

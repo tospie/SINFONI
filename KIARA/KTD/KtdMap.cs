@@ -23,15 +23,15 @@ namespace KIARA
             elementType = element;
         }
 
-        internal override bool canBeAssignedFromType(Type type)
+        public override bool CanBeAssignedFromType(Type type)
         {
             if (!typeof(IDictionary).IsAssignableFrom(type))
                 return false;
 
             Type[] keyAndValueTypes = type.GetGenericArguments();
 
-            return keyType.canBeAssignedFromType(keyAndValueTypes[0])
-                && elementType.canBeAssignedFromType(keyAndValueTypes[1]);
+            return keyType.CanBeAssignedFromType(keyAndValueTypes[0])
+                && elementType.CanBeAssignedFromType(keyAndValueTypes[1]);
         }
 
         public override object AssignValuesFromObject(object other)
@@ -52,7 +52,7 @@ namespace KIARA
 
         public override object AssignValuesToNativeType(object value, Type nativeType)
         {
-            if(!canBeAssignedFromType(value.GetType()))
+            if(!CanBeAssignedFromType(value.GetType()))
                 throw new KIARA.Exceptions.TypeCastException("Cannot assign value of KtdMap to native object of type " + nativeType);
 
            // Dictionary<object, object> valueDictionary = (Dictionary<object, object>)value;

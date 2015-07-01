@@ -23,7 +23,7 @@ namespace KIARA
             elementType = type;
         }
 
-        internal override bool canBeAssignedFromType(Type type)
+        public override bool CanBeAssignedFromType(Type type)
         {
             // Type to match is no enumerable and can thus not be matched to an array
             if (!typeof(IEnumerable).IsAssignableFrom(type))
@@ -34,12 +34,12 @@ namespace KIARA
             if (itemType == null)
                 return false;
 
-            return elementType.canBeAssignedFromType(itemType);
+            return elementType.CanBeAssignedFromType(itemType);
         }
 
         public override object AssignValuesFromObject(object other)
         {
-            if(!canBeAssignedFromType(other.GetType()))
+            if(!CanBeAssignedFromType(other.GetType()))
                 throw new TypeCastException("Cannot assign value to Instance of type KtdArray<" + elementType.Name + "> : "
                     + other + " is of type " + other.GetType());
 

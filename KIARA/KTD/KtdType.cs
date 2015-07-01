@@ -55,7 +55,7 @@ namespace KIARA
         /// <returns>Object that corresponds to an instance of the KTD Type that maps to the C# object</returns>
         public virtual object AssignValuesFromObject(object other)
         {
-            if(!canBeAssignedFromType(other.GetType()))
+            if(!CanBeAssignedFromType(other.GetType()))
                 throw new TypeCastException("Cannot assign value to KtdInstance of type " + Name + ": "
                     + other + " is of Type " + other.GetType());
             return other;
@@ -70,6 +70,8 @@ namespace KIARA
         /// <returns>The KTD instance casted to Native C# type</returns>
         public virtual object AssignValuesToNativeType(object value, Type localType)
         {
+            if (localType == typeof(object))
+                return value;
             return Convert.ChangeType(value, localType);
         }
 
@@ -79,7 +81,7 @@ namespace KIARA
         /// </summary>
         /// <param name="type">Native type or datastructure that should be assigned to the KIARA type</param>
         /// <returns>true, if there exists an implicit cast from native type to KIARA type</returns>
-        internal virtual bool canBeAssignedFromType(Type type)
+        public virtual bool CanBeAssignedFromType(Type type)
         {
             switch(Name)
             {
