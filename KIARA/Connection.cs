@@ -127,7 +127,7 @@ namespace SINFONI
 
         /// <summary>
         /// Is called when Connection receives a message that is identified as service call. Upon receiving a call,
-        /// KIARA will check whether the called service exists, what parameters it expects and which local function
+        /// SINFONI will check whether the called service exists, what parameters it expects and which local function
         /// implements the service. If the service exists and the parameter types match, the local function called
         /// and a call-reply object with the result is sent back to the client
         /// </summary>
@@ -179,7 +179,7 @@ namespace SINFONI
                         }
                         else
                         {
-                            ServiceFunctionDescription service = Ktd.KiaraServices
+                            ServiceFunctionDescription service = Ktd.SINFONIServices
                                 .GetService(serviceDescription[0])
                                 .GetServiceFunction(serviceDescription[1]);
                             returnValue = service.ReturnType.AssignValuesFromObject(nativeMethod.DynamicInvoke(parameters));
@@ -253,7 +253,7 @@ namespace SINFONI
                     else
                     {
                         string[] service = methodName.Split('.');
-                        KtdType idlParameter = Ktd.KiaraServices.GetService(service[0])
+                        KtdType idlParameter = Ktd.SINFONIServices.GetService(service[0])
                             .GetServiceFunction(service[1]).Parameters.ElementAt(i).Value;
                         parameters[i] = idlParameter.AssignValuesToNativeType(args[i], paramInfo[i].ParameterType);
                     }
@@ -390,17 +390,17 @@ namespace SINFONI
         /// <param name="typeMapping">Type mapping string.</param>
         public virtual ClientFunction GenerateClientFunction(string serviceName, string functionName)
         {
-            if (!Ktd.KiaraServices.ContainsService(serviceName))
+            if (!Ktd.SINFONIServices.ContainsService(serviceName))
                 throw new ServiceNotRegisteredException(serviceName);
 
-            var service = Ktd.KiaraServices.GetService(serviceName);
+            var service = Ktd.SINFONIServices.GetService(serviceName);
 
             if (!service.ContainsServiceFunction(functionName))
                 throw new ServiceNotRegisteredException(functionName);
 
             return (ClientFunction)delegate(object[] parameters)
             {
-                KiaraService registeredService = Ktd.KiaraServices.GetService(serviceName);
+                SINFONIService registeredService = Ktd.SINFONIServices.GetService(serviceName);
                 ServiceFunctionDescription registeredServiceFunction = registeredService.GetServiceFunction(functionName);
 
                 if (!registeredServiceFunction.CanBeCalledWithParameters(parameters))
@@ -475,7 +475,7 @@ namespace SINFONI
 
             string[] serviceDescription = funcName.Split('.');
 
-            // Usually, a function called via CallClientFunction is parsed from the KIARA IDL and of ther
+            // Usually, a function called via CallClientFunction is parsed from the SINFONI IDL and of ther
             // form serviceName.functionName. However, in some cases (e.g. twisted Unit Tests), functions may be
             // created locally, only having a GUID as function name. In this case, we appen "LOCAL" as service name
             // to mark the function as locally created
@@ -520,7 +520,7 @@ namespace SINFONI
         private bool CheckIfOneWay(string methodName)
         {
             var serviceDescription = methodName.Split('.');
-            oneWayFunctions[methodName] = Ktd.KiaraServices
+            oneWayFunctions[methodName] = Ktd.SINFONIServices
                 .GetService(serviceDescription[0])
                 .GetServiceFunction(serviceDescription[1])
                 .ReturnType.Name == "void";

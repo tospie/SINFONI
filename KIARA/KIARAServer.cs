@@ -12,15 +12,15 @@ using System.Web.Script.Serialization;
 namespace SINFONI
 {
     /// <summary>
-    /// KIARA Server provides the high level server object in which scope services are started. A KIARA server can
+    /// SINFONI Server provides the high level server object in which scope services are started. A SINFONI server can
     /// consist of several services each running their own transport and protocol and which thus can be queried
-    /// individually. They all share the IDL that is provided by the KIARA server and may implement all services or
+    /// individually. They all share the IDL that is provided by the SINFONI server and may implement all services or
     /// just a subset of services that are defined in the IDL
     /// </summary>
-    public class KIARAServer
+    public class SINFONIServer
     {
         /// <summary>
-        /// Starts a new KIARA server. This server provides its configuration document under the address that is
+        /// Starts a new SINFONI server. This server provides its configuration document under the address that is
         /// provided in the constructor. When starting the server, the IDL given under the specified URL is parsed.
         /// Applications that access the server on its listening port will receive the config document that contains
         /// the implemented services as well as the IDL that is used by the server
@@ -29,7 +29,7 @@ namespace SINFONI
         /// <param name="port">Specific port on which server is listening for incoming connections</param>
         /// <param name="path">Sub-Path on the server where the listener is running</param>
         /// <param name="idlURI">URI from where the IDL can be accessed</param>
-        public KIARAServer(string host, int port, string path, string idlURI)
+        public SINFONIServer(string host, int port, string path, string idlURI)
         {
             ConfigHost = host;
             ConfigPort = port;
@@ -74,7 +74,7 @@ namespace SINFONI
         }
 
         /// <summary>
-        /// Shuts down the KIARA Server and clears all registered services.
+        /// Shuts down the SINFONI Server and clears all registered services.
         /// </summary>
         public void ShutDown() {
             Listener.Stop();

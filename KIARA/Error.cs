@@ -25,12 +25,12 @@ namespace SINFONI
     }
 
     /// <summary>
-    /// Represents an error raised by KIARA.
+    /// Represents an error raised by SINFONI.
     /// </summary>
     public class Error : Exception
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="KIARAPluginInitializer.Error"/> class.
+        /// Initializes a new instance of the <see cref="SINFONIPluginInitializer.Error"/> class.
         /// </summary>
         /// <param name="code">The error code.</param>
         /// <param name="reason">The reason.</param>

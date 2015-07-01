@@ -61,7 +61,7 @@ namespace SINFONI
 
         /// <summary>
         /// Executes the call syncrhonously. Converts a value returned from the call into type <typeparamref name="T">
-        /// and returns it. On error a <see cref="KIARA.Error"/> exception is raised. Remote exceptions are raised 
+        /// and returns it. On error a <see cref="SINFONI.Error"/> exception is raised. Remote exceptions are raised 
         /// locally. All assigned handlers for this call are executed before returning from this call. Times out after
         /// <paramref name="millisecondsTimeout"/> and throws <see cref="TimeoutException"/>. If 
         /// <paramref name="millisecondsTimeout"/> is -1 (default value), then the methods waits indefinitely.
@@ -70,7 +70,7 @@ namespace SINFONI
         /// <typeparam name="T">Type to which returned value should be converted.</typeparam>
         T Wait<T>(int millisecondsTimeout = -1);
 
-        // Executes the call syncrhonously. Return value (if any) is ignored. On error a KIARA.Error exception is
+        // Executes the call syncrhonously. Return value (if any) is ignored. On error a SINFONI.Error exception is
         // raised. Remote exceptions are raised locally. All assigned handlers for this call are executed before
         // returning from this call. Times out after |millisecondsTimeout| and throws TimeoutException or waits
         // indefinitely if the value is -1.
