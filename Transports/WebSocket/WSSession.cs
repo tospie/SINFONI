@@ -14,7 +14,7 @@ using System.Text;
 namespace SINFONI.Transport.WebSocketTransport
 {
     /// <summary>
-    /// WebSocketJSON session implementation. Contains Connection adapter for KIARA.
+    /// WebSocketJSON session implementation. Contains Connection adapter for SINFONI.
     /// </summary>
     public class WSSession : WebSocketSession<WSSession>
     {

@@ -6,7 +6,7 @@ using SINFONI;
 using SINFONI.Exceptions;
 using NUnit.Framework;
 
-namespace KIARAUnitTests
+namespace SINFONIUnitTests
 {
     class TestConnection : Connection {
 
@@ -30,7 +30,7 @@ namespace KIARAUnitTests
     [TestFixture()]
     class TestClientFunctions
     {
-        KiaraService service;
+        SINFONIService service;
         ServiceFunctionDescription serviceFunction;
 
         KtdType i32;
@@ -51,7 +51,7 @@ namespace KIARAUnitTests
         public void Setup()
         {
             ktdInstance = new KTD();
-            ktdInstance.KiaraServices = new ServiceRegistry();
+            ktdInstance.SINFONIServices = new ServiceRegistry();
 
             i32 = ktdInstance.GetKtdType("i32");
             ktd_string = ktdInstance.GetKtdType("string");
@@ -64,10 +64,10 @@ namespace KIARAUnitTests
             serviceFunction.Parameters.Add("intParameter", i32);
             serviceFunction.Parameters.Add("stringParameter", ktd_string);
 
-            service = new KiaraService("service");
+            service = new SINFONIService("service");
             service.serviceFunctions.Add("function", serviceFunction);
 
-            ktdInstance.KiaraServices.services.Add("service", service);
+            ktdInstance.SINFONIServices.services.Add("service", service);
             connection = new TestConnection();
             connection.Ktd = ktdInstance;
         }

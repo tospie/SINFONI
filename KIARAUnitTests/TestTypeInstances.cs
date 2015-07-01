@@ -6,7 +6,7 @@ using SINFONI;
 using SINFONI.Exceptions;
 using NUnit.Framework;
 
-namespace KIARAUnitTests
+namespace SINFONIUnitTests
 {
     [TestFixture()]
     public class TestTypeInstances

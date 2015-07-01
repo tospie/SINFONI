@@ -19,7 +19,7 @@ namespace SINFONI.Transport.WebSocketTransport
         // This is actually another layer of message here, consider !! The message we receive here is some
         // result of the serialized message object that we use internally. The "Message" event should thus
         // redirect the received message to the de-serializer which then de-serializes the received string
-        // to the KIARA.Message - object
+        // to the SINFONI.Message - object
         void HandleMessageReceived(object sender, WebSocket4Net.MessageReceivedEventArgs e)
         {
             if (Message != null)

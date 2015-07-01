@@ -6,7 +6,7 @@ using SINFONI;
 using SINFONI.Exceptions;
 using NUnit.Framework;
 
-namespace KIARAUnitTests
+namespace SINFONIUnitTests
 {
     [TestFixture()]
     class TestIDLParser
@@ -210,7 +210,7 @@ namespace KIARAUnitTests
                             {
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
-            Assert.Contains("serverSync", IDLParser.Instance.CurrentlyParsedKTD.KiaraServices.services.Keys);
+            Assert.Contains("serverSync", IDLParser.Instance.CurrentlyParsedKTD.SINFONIServices.services.Keys);
         }
 
         [Test()]
@@ -223,10 +223,10 @@ namespace KIARAUnitTests
                             }";
             Assert.DoesNotThrow(()=>IDLParser.Instance.ParseIDL(idl));
             Assert.IsTrue(IDLParser.Instance.CurrentlyParsedKTD
-                .KiaraServices.services["serverSync"].ContainsServiceFunction("getSyncID"));
+                .SINFONIServices.services["serverSync"].ContainsServiceFunction("getSyncID"));
 
             var serviceFunction = IDLParser.Instance.CurrentlyParsedKTD
-                .KiaraServices.GetService("serverSync").GetServiceFunction("getSyncID");
+                .SINFONIServices.GetService("serverSync").GetServiceFunction("getSyncID");
             Assert.AreEqual("void", serviceFunction.ReturnType.Name);
             Assert.IsEmpty(serviceFunction.Parameters);
         }
@@ -240,10 +240,10 @@ namespace KIARAUnitTests
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
             Assert.IsTrue(IDLParser.Instance.CurrentlyParsedKTD
-                .KiaraServices.services["serverSync"].ContainsServiceFunction("testFunction"));
+                .SINFONIServices.services["serverSync"].ContainsServiceFunction("testFunction"));
 
             var serviceFunction = IDLParser.Instance.CurrentlyParsedKTD
-                .KiaraServices.GetService("serverSync").GetServiceFunction("testFunction");
+                .SINFONIServices.GetService("serverSync").GetServiceFunction("testFunction");
             Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("string"), serviceFunction.ReturnType);
             Assert.Contains("param", serviceFunction.Parameters.Keys);
 
@@ -261,9 +261,9 @@ namespace KIARAUnitTests
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
             var testFunction1 = IDLParser.Instance.CurrentlyParsedKTD
-                .KiaraServices.GetService("serverSync").GetServiceFunction("testFunction1");
+                .SINFONIServices.GetService("serverSync").GetServiceFunction("testFunction1");
             var testFunction2 = IDLParser.Instance.CurrentlyParsedKTD
-                .KiaraServices.GetService("serverSync").GetServiceFunction("testFunction2");
+                .SINFONIServices.GetService("serverSync").GetServiceFunction("testFunction2");
 
             Assert.AreEqual(typeof(KtdArray), testFunction1.ReturnType.GetType());
             KtdArray array = (KtdArray)testFunction1.ReturnType;
@@ -286,13 +286,13 @@ namespace KIARAUnitTests
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
 
             var testFunction1 = IDLParser.Instance.CurrentlyParsedKTD
-                .KiaraServices.GetService("serverSync").GetServiceFunction("testFunction1");
+                .SINFONIServices.GetService("serverSync").GetServiceFunction("testFunction1");
             var param1 = testFunction1.Parameters["param"];
             Assert.AreEqual(typeof(KtdArray), param1.GetType());
             Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("i32"), ((KtdArray)param1).elementType);
 
             var testFunction2 = IDLParser.Instance.CurrentlyParsedKTD
-                .KiaraServices.GetService("serverSync").GetServiceFunction("testFunction2");
+                .SINFONIServices.GetService("serverSync").GetServiceFunction("testFunction2");
             var param2 = testFunction2.Parameters["param"];
             Assert.AreEqual(typeof(KtdMap), param2.GetType());
             Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("string"), ((KtdMap)param2).keyType);
@@ -309,7 +309,7 @@ namespace KIARAUnitTests
             
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
             var testFunction = IDLParser.Instance.CurrentlyParsedKTD
-                .KiaraServices.GetService("serverSync").GetServiceFunction("testFunction");
+                .SINFONIServices.GetService("serverSync").GetServiceFunction("testFunction");
             var param1 = testFunction.Parameters["param1"];
             var param2 = testFunction.Parameters["param2"];
 
@@ -339,9 +339,9 @@ namespace KIARAUnitTests
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
             Assert.IsTrue(IDLParser.Instance.CurrentlyParsedKTD
-                .KiaraServices.GetService("serverSync").ContainsServiceFunction("testFunction1"));
+                .SINFONIServices.GetService("serverSync").ContainsServiceFunction("testFunction1"));
             var testFunction = IDLParser.Instance.CurrentlyParsedKTD
-                .KiaraServices.GetService("serverSync").GetServiceFunction("testFunction1");
+                .SINFONIServices.GetService("serverSync").GetServiceFunction("testFunction1");
 
             Assert.Contains("p1", testFunction.Parameters.Keys);
             Assert.Contains("p2", testFunction.Parameters.Keys);
@@ -358,7 +358,7 @@ namespace KIARAUnitTests
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
             Assert.IsTrue(IDLParser.Instance.CurrentlyParsedKTD
-                .KiaraServices.GetService("serverSync").ContainsServiceFunction("testFunction1"));
+                .SINFONIServices.GetService("serverSync").ContainsServiceFunction("testFunction1"));
         }
 
         [Test()]
@@ -371,14 +371,14 @@ namespace KIARAUnitTests
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
             Assert.IsTrue(IDLParser.Instance.CurrentlyParsedKTD
-                .KiaraServices.GetService("serverSync").ContainsServiceFunction("testFunction1"));
+                .SINFONIServices.GetService("serverSync").ContainsServiceFunction("testFunction1"));
         }
 
         [Test()]
         public void ShouldParseExampleIDLWithoutError()
         {
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(exampleIDL));
-            var services = IDLParser.Instance.CurrentlyParsedKTD.KiaraServices.services;
+            var services = IDLParser.Instance.CurrentlyParsedKTD.SINFONIServices.services;
             var types = IDLParser.Instance.CurrentlyParsedKTD.registeredTypes;
         }
     }

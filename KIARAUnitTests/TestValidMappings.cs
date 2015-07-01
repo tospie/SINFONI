@@ -6,7 +6,7 @@ using SINFONI;
 using NUnit;
 using NUnit.Framework;
 
-namespace KIARAUnitTests
+namespace SINFONIUnitTests
 {
     [TestFixture()]
     class TestValidMappings
