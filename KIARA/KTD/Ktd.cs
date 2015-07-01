@@ -7,18 +7,18 @@ using SINFONI.Exceptions;
 namespace SINFONI
 {
     /// <summary>
-    /// KTD (KIARA Type Description) maintains all types registered fron a KIARA IDL. KTD contains all base types
-    /// supported by KIARA. During runtime, new complex types derived from these base types can be registered.
+    /// KTD (SINFONI Type Description) maintains all types registered fron a SINFONI IDL. KTD contains all base types
+    /// supported by SINFONI. During runtime, new complex types derived from these base types can be registered.
     /// </summary>
     public class KTD
     {
         internal KTD()
         {
             registerBaseTypes();
-            KiaraServices = new ServiceRegistry();
+            SINFONIServices = new ServiceRegistry();
         }
 
-        public ServiceRegistry KiaraServices { get; internal set; }
+        public ServiceRegistry SINFONIServices { get; internal set; }
         /// <summary>
         /// Checks if a type with a specific name is registered in the KTD
         /// </summary>

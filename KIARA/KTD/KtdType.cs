@@ -7,14 +7,14 @@ using System.Text;
 using System.Text.RegularExpressions;
 using SINFONI.Exceptions;
 
-[assembly: InternalsVisibleTo("KIARAUnitTests")]
+[assembly: InternalsVisibleTo("SINFONIUnitTests")]
 
 namespace SINFONI
 {
     /// <summary>
-    /// Represents a KIARA Type. A KIARA Type is usually defined in an IDL file. KIARA Types include the base types
-    /// supported by KIARA, as well as complex types array, map and string. A KIARA Type provides the necessary methods
-    /// to check if a native type or datastructure can be mapped to the respective KIARA type
+    /// Represents a SINFONI Type. A SINFONI Type is usually defined in an IDL file. SINFONI Types include the base types
+    /// supported by SINFONI, as well as complex types array, map and string. A SINFONI Type provides the necessary methods
+    /// to check if a native type or datastructure can be mapped to the respective SINFONI type
     /// </summary>
     public class KtdType
     { 
@@ -26,7 +26,7 @@ namespace SINFONI
         public KtdType() { }
 
         /// <summary>
-        /// Constructor for named types that should be registered to the KIARA Type Description (KTD)
+        /// Constructor for named types that should be registered to the SINFONI Type Description (KTD)
         /// </summary>
         /// <param name="name">Name of the type</param>
         public KtdType(string name)
@@ -62,7 +62,7 @@ namespace SINFONI
         }
 
         /// <summary>
-        /// Assigns a value from KIARA Type to a native C# type. For base types, we do not need to do much more than
+        /// Assigns a value from SINFONI Type to a native C# type. For base types, we do not need to do much more than
         /// bypassing the value to the actual native type, as C# takes care of the cast.
         /// </summary>
         /// <param name="value">Value to be assigned to base type</param>
@@ -76,11 +76,11 @@ namespace SINFONI
         }
 
         /// <summary>
-        /// Checks if the KIARA Type can be implictly casted from a native C# type or in the case of complex types
+        /// Checks if the SINFONI Type can be implictly casted from a native C# type or in the case of complex types
         /// from a native data structure.
         /// </summary>
-        /// <param name="type">Native type or datastructure that should be assigned to the KIARA type</param>
-        /// <returns>true, if there exists an implicit cast from native type to KIARA type</returns>
+        /// <param name="type">Native type or datastructure that should be assigned to the SINFONI type</param>
+        /// <returns>true, if there exists an implicit cast from native type to SINFONI type</returns>
         public virtual bool CanBeAssignedFromType(Type type)
         {
             switch(Name)
