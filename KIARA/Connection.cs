@@ -6,6 +6,7 @@ using System.Net;
 using KIARA.Exceptions;
 using System.Reflection;
 using Dynamitey;
+using System.IO;
 
 namespace KIARA
 {
@@ -86,6 +87,11 @@ namespace KIARA
             Ktd = IDLParser.Instance.ParseIDL(contents);
         }
 
+        public void LoadLocalIDL(string IdlPath)
+        {
+            string idlContents = File.ReadAllText(IdlPath);
+            Ktd = IDLParser.Instance.ParseIDL(idlContents);
+        }
         /// <summary>
         /// Handles an incoming message.
         /// </summary>
