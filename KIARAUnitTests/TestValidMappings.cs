@@ -12,30 +12,30 @@ namespace SINFONIUnitTests
     class TestValidMappings
     {
 
-        KtdType i16;
-        KtdType i32;
-        KtdType i64;
+        SinTDType i16;
+        SinTDType i32;
+        SinTDType i64;
 
-        KtdType ui16;
-        KtdType ui32;
-        KtdType ui64;
+        SinTDType ui16;
+        SinTDType ui32;
+        SinTDType ui64;
 
-        KtdType ktd_double;
-        KtdType ktd_float;
+        SinTDType SinTD_double;
+        SinTDType SinTD_float;
 
-        KtdType ktd_string;
-        KtdType ktd_bool;
+        SinTDType SinTD_string;
+        SinTDType SinTD_bool;
 
-        KtdStruct intStruct;
-        KtdStruct nestedStruct;
-        KtdStruct Vector;
+        SinTDStruct intStruct;
+        SinTDStruct nestedStruct;
+        SinTDStruct Vector;
 
-        KtdArray ktd_array;
-        KtdMap map;
+        SinTDArray SinTD_array;
+        SinTDMap map;
 
-        KtdArray ktd_arrayOfStructs;
-        KtdMap ktd_mapWithStructElements;
-        KtdMap ktd_mapWithStructKeys;
+        SinTDArray SinTD_arrayOfStructs;
+        SinTDMap SinTD_mapWithStructElements;
+        SinTDMap SinTD_mapWithStructKeys;
 
         struct testStruct
         {
@@ -68,59 +68,59 @@ namespace SINFONIUnitTests
         [SetUp()]
         public void InitTests()
         {
-            i16 = new KtdType("i16");
+            i16 = new SinTDType("i16");
 
-            i32 = new KtdType("i32");
+            i32 = new SinTDType("i32");
 
-            i64 = new KtdType("i64");
+            i64 = new SinTDType("i64");
 
-            ui16 = new KtdType("u16");
-            ui32 = new KtdType("u32");
-            ui64 = new KtdType("u64");
+            ui16 = new SinTDType("u16");
+            ui32 = new SinTDType("u32");
+            ui64 = new SinTDType("u64");
 
-            ktd_double = new KtdType("double");
+            SinTD_double = new SinTDType("double");
 
-            ktd_float = new KtdType("float");
+            SinTD_float = new SinTDType("float");
 
-            ktd_string = new KtdType();
-            ktd_string.Name = "string";
+            SinTD_string = new SinTDType();
+            SinTD_string.Name = "string";
 
-            ktd_bool = new KtdType();
-            ktd_bool.Name = "boolean";
+            SinTD_bool = new SinTDType();
+            SinTD_bool.Name = "boolean";
 
-            intStruct = new KtdStruct("intStruct");
+            intStruct = new SinTDStruct("intStruct");
             intStruct.members["x"] = i32;
             intStruct.members["y"] = i32;
 
-            nestedStruct = new KtdStruct("nestedStruct");
-            nestedStruct.members["name"] = ktd_string;
-            nestedStruct.members["b"] = ktd_bool;
+            nestedStruct = new SinTDStruct("nestedStruct");
+            nestedStruct.members["name"] = SinTD_string;
+            nestedStruct.members["b"] = SinTD_bool;
             nestedStruct.members["s"] = intStruct;
 
-            ktd_array = new KtdArray();
-            ktd_array.Name = "array<int32>";
-            ktd_array.elementType = i32;
+            SinTD_array = new SinTDArray();
+            SinTD_array.Name = "array<int32>";
+            SinTD_array.elementType = i32;
 
-            map = new KtdMap();
-            map.keyType = ktd_string;
+            map = new SinTDMap();
+            map.keyType = SinTD_string;
             map.elementType = intStruct;
 
-            ktd_arrayOfStructs = new KtdArray();
-            ktd_arrayOfStructs.Name = "array<nestedStruct>";
-            ktd_arrayOfStructs.elementType = nestedStruct;
+            SinTD_arrayOfStructs = new SinTDArray();
+            SinTD_arrayOfStructs.Name = "array<nestedStruct>";
+            SinTD_arrayOfStructs.elementType = nestedStruct;
 
-            ktd_mapWithStructElements = new KtdMap();
-            ktd_mapWithStructElements.elementType = nestedStruct;
-            ktd_mapWithStructElements.keyType = ktd_string;
+            SinTD_mapWithStructElements = new SinTDMap();
+            SinTD_mapWithStructElements.elementType = nestedStruct;
+            SinTD_mapWithStructElements.keyType = SinTD_string;
 
-            ktd_mapWithStructKeys = new KtdMap();
-            ktd_mapWithStructKeys.elementType = ktd_string;
-            ktd_mapWithStructKeys.keyType = nestedStruct;
+            SinTD_mapWithStructKeys = new SinTDMap();
+            SinTD_mapWithStructKeys.elementType = SinTD_string;
+            SinTD_mapWithStructKeys.keyType = nestedStruct;
 
-            Vector = new KtdStruct("Vector");
-            Vector.members.Add("x", ktd_float);
-            Vector.members.Add("y", ktd_float);
-            Vector.members.Add("z", ktd_float);
+            Vector = new SinTDStruct("Vector");
+            Vector.members.Add("x", SinTD_float);
+            Vector.members.Add("y", SinTD_float);
+            Vector.members.Add("z", SinTD_float);
         }
 
         [Test()]
@@ -163,13 +163,13 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldAssignToFloat()
         {
-            Assert.IsTrue(ktd_float.CanBeAssignedFromType(typeof(float)));
+            Assert.IsTrue(SinTD_float.CanBeAssignedFromType(typeof(float)));
         }
 
         [Test()]
         public void ShouldAssignToDouble()
         {
-            Assert.IsTrue(ktd_double.CanBeAssignedFromType(typeof(double)));
+            Assert.IsTrue(SinTD_double.CanBeAssignedFromType(typeof(double)));
         }
 
         [Test()]
@@ -200,9 +200,9 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldMatchArrayTypes()
         {
-            Assert.IsTrue(ktd_array.CanBeAssignedFromType(typeof(int[])));
-            Assert.IsTrue(ktd_array.CanBeAssignedFromType(typeof(List<int>)));
-            Assert.IsTrue(ktd_array.CanBeAssignedFromType(typeof(ISet<int>)));
+            Assert.IsTrue(SinTD_array.CanBeAssignedFromType(typeof(int[])));
+            Assert.IsTrue(SinTD_array.CanBeAssignedFromType(typeof(List<int>)));
+            Assert.IsTrue(SinTD_array.CanBeAssignedFromType(typeof(ISet<int>)));
         }
 
         [Test()]
@@ -214,9 +214,9 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldReturnFalseForWrongArrayType()
         {
-            Assert.IsFalse(ktd_array.CanBeAssignedFromType(typeof(float[])));
-            Assert.IsFalse(ktd_array.CanBeAssignedFromType(typeof(List<float>)));
-            Assert.IsFalse(ktd_array.CanBeAssignedFromType(typeof(ISet<float>)));
+            Assert.IsFalse(SinTD_array.CanBeAssignedFromType(typeof(float[])));
+            Assert.IsFalse(SinTD_array.CanBeAssignedFromType(typeof(List<float>)));
+            Assert.IsFalse(SinTD_array.CanBeAssignedFromType(typeof(ISet<float>)));
         }
 
         [Test()]
@@ -234,22 +234,22 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldMapArrayElementsAsClassAndStruct()
         {
-            Assert.IsTrue(ktd_arrayOfStructs.CanBeAssignedFromType(typeof(List<nestedTestClass>)));
-            Assert.IsTrue(ktd_arrayOfStructs.CanBeAssignedFromType(typeof(List<nestedTestStruct>)));
+            Assert.IsTrue(SinTD_arrayOfStructs.CanBeAssignedFromType(typeof(List<nestedTestClass>)));
+            Assert.IsTrue(SinTD_arrayOfStructs.CanBeAssignedFromType(typeof(List<nestedTestStruct>)));
         }
 
         [Test()]
         public void ShouldMapDictionaryElementsAsClassAndStruct()
         {
-            Assert.IsTrue(ktd_mapWithStructElements.CanBeAssignedFromType(typeof(Dictionary<string, nestedTestClass>)));
-            Assert.IsTrue(ktd_mapWithStructElements.CanBeAssignedFromType(typeof(Dictionary<string, nestedTestStruct>)));
+            Assert.IsTrue(SinTD_mapWithStructElements.CanBeAssignedFromType(typeof(Dictionary<string, nestedTestClass>)));
+            Assert.IsTrue(SinTD_mapWithStructElements.CanBeAssignedFromType(typeof(Dictionary<string, nestedTestStruct>)));
         }
 
         [Test()]
         public void ShouldMapDictionaryKeysAsClassAndStruct()
         {
-            Assert.IsTrue(ktd_mapWithStructKeys.CanBeAssignedFromType(typeof(Dictionary<nestedTestClass, string>)));
-            Assert.IsTrue(ktd_mapWithStructKeys.CanBeAssignedFromType(typeof(Dictionary<nestedTestStruct, string>)));
+            Assert.IsTrue(SinTD_mapWithStructKeys.CanBeAssignedFromType(typeof(Dictionary<nestedTestClass, string>)));
+            Assert.IsTrue(SinTD_mapWithStructKeys.CanBeAssignedFromType(typeof(Dictionary<nestedTestStruct, string>)));
         }
 
         [Test()]
@@ -261,18 +261,18 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldCacheValidMapping()
         {
-            var KtdType = new KtdStruct("testType");
-            KtdType.members.Add("i16", i16);
-            KtdType.CanBeAssignedFromType(typeof(List<nestedTestStruct>));
-            Assert.Contains(typeof(List<nestedTestStruct>), KtdType.validMappings.Keys);
-            Assert.IsFalse(KtdType.validMappings[typeof(List<nestedTestStruct>)]);
+            var SinTDType = new SinTDStruct("testType");
+            SinTDType.members.Add("i16", i16);
+            SinTDType.CanBeAssignedFromType(typeof(List<nestedTestStruct>));
+            Assert.Contains(typeof(List<nestedTestStruct>), SinTDType.validMappings.Keys);
+            Assert.IsFalse(SinTDType.validMappings[typeof(List<nestedTestStruct>)]);
         }
 
         [Test()]
         public void ServiceMatchParametersToEmptyService()
         {
             ServiceFunctionDescription noParameterSF =
-                new ServiceFunctionDescription("testfunction", new KtdType("void"));
+                new ServiceFunctionDescription("testfunction", new SinTDType("void"));
 
             Assert.IsTrue(noParameterSF.CanBeCalledWithParameters(new object[] {}));
         }
@@ -281,9 +281,9 @@ namespace SINFONIUnitTests
         public void ServiceShouldNotMatchCallWithWrongParameterCount()
         {
             ServiceFunctionDescription noParameterSF =
-                new ServiceFunctionDescription("testfunction", new KtdType("void"));
+                new ServiceFunctionDescription("testfunction", new SinTDType("void"));
             ServiceFunctionDescription oneParameterSF =
-                new ServiceFunctionDescription("testfunction2", new KtdType("void"));
+                new ServiceFunctionDescription("testfunction2", new SinTDType("void"));
             oneParameterSF.Parameters.Add("parameter", i32);
 
             Assert.IsFalse(noParameterSF.CanBeCalledWithParameters(new object[] {1}));
@@ -294,7 +294,7 @@ namespace SINFONIUnitTests
         public void ServiceShouldMatchCorrectTypedParameters()
         {
             ServiceFunctionDescription oneParameterSF =
-                new ServiceFunctionDescription("testfunction1", new KtdType("void"));
+                new ServiceFunctionDescription("testfunction1", new SinTDType("void"));
             oneParameterSF.Parameters.Add("parameter", i32);
             Assert.IsTrue(oneParameterSF.CanBeCalledWithParameters(new object[] { 1 }));
         }
@@ -303,7 +303,7 @@ namespace SINFONIUnitTests
         public void ServiceShouldReturnFalseForMatchingParametersWithWrongTypes()
         {
             ServiceFunctionDescription oneParameterSF =
-                new ServiceFunctionDescription("testfunction1", new KtdType("void"));
+                new ServiceFunctionDescription("testfunction1", new SinTDType("void"));
             oneParameterSF.Parameters.Add("parameter", i32);
             Assert.IsFalse(oneParameterSF.CanBeCalledWithParameters(new object[] { "Hello World" }));
         }
@@ -312,10 +312,10 @@ namespace SINFONIUnitTests
         public void ServiceShouldReturnTrueForMatchingMultipleCorrectParameters()
         {
             ServiceFunctionDescription oneParameterSF =
-                new ServiceFunctionDescription("testfunction1", new KtdType("void"));
+                new ServiceFunctionDescription("testfunction1", new SinTDType("void"));
             oneParameterSF.Parameters.Add("intParameter", i32);
-            oneParameterSF.Parameters.Add("stringParameter", ktd_string);
-            oneParameterSF.Parameters.Add("floatParameter", ktd_float);
+            oneParameterSF.Parameters.Add("stringParameter", SinTD_string);
+            oneParameterSF.Parameters.Add("floatParameter", SinTD_float);
             Assert.IsTrue(oneParameterSF.CanBeCalledWithParameters(new object[] { 1, "Hello World", 1.0f }));
         }
 
@@ -329,7 +329,7 @@ namespace SINFONIUnitTests
         [Test()]
         public void ServiceShouldReturnFalseForMatchWithWrongReturntype()
         {
-            ServiceFunctionDescription sf = new ServiceFunctionDescription("testfunction", ktd_float);
+            ServiceFunctionDescription sf = new ServiceFunctionDescription("testfunction", SinTD_float);
             Assert.False(sf.CanBeCalledWithReturnType(typeof(int)));
         }
     }

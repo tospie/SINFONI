@@ -9,94 +9,94 @@ using NUnit.Framework;
 namespace SINFONIUnitTests
 {
     [TestFixture()]
-    class TestKTD
+    class TestSinTD
     {
-        KTD ktdInstance = new KTD();
+        SinTD SinTDInstance = new SinTD();
         [Test()]
         public void ShouldContainCorrectDefinitionOfInt16()
         {
-            Assert.IsTrue(ktdInstance.ContainsType("i16")
-                && ktdInstance.GetKtdType("i16").Name == "i16"
-                && ktdInstance.GetKtdType("i16").CanBeAssignedFromType(typeof(Int16)));
+            Assert.IsTrue(SinTDInstance.ContainsType("i16")
+                && SinTDInstance.GetSinTDType("i16").Name == "i16"
+                && SinTDInstance.GetSinTDType("i16").CanBeAssignedFromType(typeof(Int16)));
         }
 
         [Test()]
         public void ShouldContainCorrectDefinitionOfInt32()
         {
-            Assert.IsTrue(ktdInstance.ContainsType("i32")
-                && ktdInstance.GetKtdType("i32").Name == "i32"
-                && ktdInstance.GetKtdType("i32").CanBeAssignedFromType(typeof(int)));
+            Assert.IsTrue(SinTDInstance.ContainsType("i32")
+                && SinTDInstance.GetSinTDType("i32").Name == "i32"
+                && SinTDInstance.GetSinTDType("i32").CanBeAssignedFromType(typeof(int)));
         }
 
         [Test()]
         public void ShouldContainCorrectDefinitionOfInt64()
         {
-            Assert.IsTrue(ktdInstance.ContainsType("i64")
-                && ktdInstance.GetKtdType("i64").Name == "i64"
-                && ktdInstance.GetKtdType("i64").CanBeAssignedFromType(typeof(Int64)));
+            Assert.IsTrue(SinTDInstance.ContainsType("i64")
+                && SinTDInstance.GetSinTDType("i64").Name == "i64"
+                && SinTDInstance.GetSinTDType("i64").CanBeAssignedFromType(typeof(Int64)));
         }
 
         [Test()]
         public void ShouldContainCorrectDefinitionOfUInt16()
         {
-            Assert.IsTrue(ktdInstance.ContainsType("u16")
-                && ktdInstance.GetKtdType("u16").Name == "u16"
-                && ktdInstance.GetKtdType("u16").CanBeAssignedFromType(typeof(UInt16)));
+            Assert.IsTrue(SinTDInstance.ContainsType("u16")
+                && SinTDInstance.GetSinTDType("u16").Name == "u16"
+                && SinTDInstance.GetSinTDType("u16").CanBeAssignedFromType(typeof(UInt16)));
         }
 
         [Test()]
         public void ShouldContainCorrectDefinitionOfUInt32()
         {
-            Assert.IsTrue(ktdInstance.ContainsType("u32")
-                && ktdInstance.GetKtdType("u32").Name == "u32"
-                && ktdInstance.GetKtdType("u32").CanBeAssignedFromType(typeof(UInt32)));
+            Assert.IsTrue(SinTDInstance.ContainsType("u32")
+                && SinTDInstance.GetSinTDType("u32").Name == "u32"
+                && SinTDInstance.GetSinTDType("u32").CanBeAssignedFromType(typeof(UInt32)));
         }
 
         [Test()]
         public void ShouldContainCorrectDefinitionOfUInt64()
         {
-            Assert.IsTrue(ktdInstance.ContainsType("u64")
-                && ktdInstance.GetKtdType("u64").Name == "u64"
-                && ktdInstance.GetKtdType("u64").CanBeAssignedFromType(typeof(UInt64)));
+            Assert.IsTrue(SinTDInstance.ContainsType("u64")
+                && SinTDInstance.GetSinTDType("u64").Name == "u64"
+                && SinTDInstance.GetSinTDType("u64").CanBeAssignedFromType(typeof(UInt64)));
         }
 
         [Test()]
         public void ShouldContainCorrectDefinitionOfBoolean()
         {
-            Assert.IsTrue(ktdInstance.ContainsType("boolean")
-                && ktdInstance.GetKtdType("boolean").Name == "boolean"
-                && ktdInstance.GetKtdType("boolean").CanBeAssignedFromType(typeof(bool)));
+            Assert.IsTrue(SinTDInstance.ContainsType("boolean")
+                && SinTDInstance.GetSinTDType("boolean").Name == "boolean"
+                && SinTDInstance.GetSinTDType("boolean").CanBeAssignedFromType(typeof(bool)));
         }
 
         [Test()]
         public void ShouldCOntainCorrectDefinitionOfFloat()
         {
-            Assert.IsTrue(ktdInstance.ContainsType("float")
-                && ktdInstance.GetKtdType("float").Name == "float"
-                && ktdInstance.GetKtdType("float").CanBeAssignedFromType(typeof(float)));
+            Assert.IsTrue(SinTDInstance.ContainsType("float")
+                && SinTDInstance.GetSinTDType("float").Name == "float"
+                && SinTDInstance.GetSinTDType("float").CanBeAssignedFromType(typeof(float)));
         }
 
         [Test()]
         public void ShouldContainCorrectDefinitionOfString()
         {
-            Assert.IsTrue(ktdInstance.ContainsType("string")
-                && ktdInstance.GetKtdType("string").Name == "string"
-                && ktdInstance.GetKtdType("string").CanBeAssignedFromType(typeof(string)));
+            Assert.IsTrue(SinTDInstance.ContainsType("string")
+                && SinTDInstance.GetSinTDType("string").Name == "string"
+                && SinTDInstance.GetSinTDType("string").CanBeAssignedFromType(typeof(string)));
         }
 
         [Test()]
         public void ShouldContainDefinitionOfAny()
         {
-            Assert.IsTrue(ktdInstance.ContainsType("any")
-                && ktdInstance.GetKtdType("any").Name == "any");
+            Assert.IsTrue(SinTDInstance.ContainsType("any")
+                && SinTDInstance.GetSinTDType("any").Name == "any");
         }
 
         [Test()]
         public void ShouldThrowExceptionOnRegisteringSameTypenameTwice()
         {
-            Assert.DoesNotThrow(() => { ktdInstance.RegisterType(new KtdType("newType")); });
+            Assert.DoesNotThrow(() => { SinTDInstance.RegisterType(new SinTDType("newType")); });
             Assert.Throws(typeof(TypeNameConflictException),
-                () => { ktdInstance.RegisterType(new KtdType("newType")); }
+                () => { SinTDInstance.RegisterType(new SinTDType("newType")); }
                 );
         }
 
@@ -104,20 +104,20 @@ namespace SINFONIUnitTests
         public void ShouldThrowExceptionOnRequestingNonExistantType()
         {
             Assert.Throws(typeof(TypeNotRegisteredException),
-                () => ktdInstance.GetKtdType("notRegistered"));
+                () => SinTDInstance.GetSinTDType("notRegistered"));
         }
 
         [Test()]
         public void ShouldThrowExceptionOnInvalidTypeName()
         {
-            Assert.Throws<InvalidTypeNameException>(() => ktdInstance.RegisterType(new KtdType()));
-            Assert.Throws<InvalidTypeNameException>(() => ktdInstance.RegisterType(new KtdType("")));
+            Assert.Throws<InvalidTypeNameException>(() => SinTDInstance.RegisterType(new SinTDType()));
+            Assert.Throws<InvalidTypeNameException>(() => SinTDInstance.RegisterType(new SinTDType("")));
         }
 
         [Test()]
         public void ShouldReturnRequestedType()
         {
-            KtdType requestedType = ktdInstance.GetKtdType("i16");
+            SinTDType requestedType = SinTDInstance.GetSinTDType("i16");
             Assert.AreEqual("i16", requestedType.Name);
         }
     }

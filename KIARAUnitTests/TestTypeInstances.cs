@@ -11,14 +11,14 @@ namespace SINFONIUnitTests
     [TestFixture()]
     public class TestTypeInstances
     {
-        KtdStruct intStruct;
-        KtdStruct aStruct;
-        KtdStruct mStruct;
-        KtdStruct sStruct;
+        SinTDStruct intStruct;
+        SinTDStruct aStruct;
+        SinTDStruct mStruct;
+        SinTDStruct sStruct;
 
-        KtdType i32;
-        KtdType ktdString;
-        KtdType ktdBool;
+        SinTDType i32;
+        SinTDType SinTDString;
+        SinTDType SinTDBool;
 
         struct testStruct
         {
@@ -59,38 +59,38 @@ namespace SINFONIUnitTests
             public int y { get; set; }
         }
 
-        KTD ktdInstance = new KTD();
+        SinTD SinTDInstance = new SinTD();
 
         [SetUp()]
         public void TestSetUp()
         {
-            i32 = ktdInstance.GetKtdType("i32");
-            ktdString = ktdInstance.GetKtdType("string");
-            ktdBool = ktdInstance.GetKtdType("boolean");
+            i32 = SinTDInstance.GetSinTDType("i32");
+            SinTDString = SinTDInstance.GetSinTDType("string");
+            SinTDBool = SinTDInstance.GetSinTDType("boolean");
 
-            intStruct = new KtdStruct("intStruct");
+            intStruct = new SinTDStruct("intStruct");
             intStruct.members["x"] = i32;
             intStruct.members["y"] = i32;
 
-            aStruct = new KtdStruct("arrayStruct");
-            aStruct.members.Add("arr", new KtdArray(i32));
-            ktdInstance.RegisterType(aStruct);
+            aStruct = new SinTDStruct("arrayStruct");
+            aStruct.members.Add("arr", new SinTDArray(i32));
+            SinTDInstance.RegisterType(aStruct);
 
-            mStruct = new KtdStruct("mapStruct");
-            mStruct.members.Add("map", new KtdMap(ktdString, ktdBool));
-            ktdInstance.RegisterType(mStruct);
+            mStruct = new SinTDStruct("mapStruct");
+            mStruct.members.Add("map", new SinTDMap(SinTDString, SinTDBool));
+            SinTDInstance.RegisterType(mStruct);
 
-            sStruct = new KtdStruct("structStruct");
+            sStruct = new SinTDStruct("structStruct");
             sStruct.members.Add("child", intStruct);
-            ktdInstance.RegisterType(sStruct);
+            SinTDInstance.RegisterType(sStruct);
 
-            ktdInstance = new KTD();
+            SinTDInstance = new SinTD();
         }
 
         [Test()]
         public void ShouldAssignValueToInt16()
         {
-            KtdType i16 = ktdInstance.GetKtdType("i16");
+            SinTDType i16 = SinTDInstance.GetSinTDType("i16");
             short shortInstance = (short)i16.AssignValuesFromObject((short)1);
             Assert.AreEqual((short)1, shortInstance);
         }
@@ -98,14 +98,14 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldAssingI16toNativeShort()
         {
-            KtdType i16 = ktdInstance.GetKtdType("i16");
+            SinTDType i16 = SinTDInstance.GetSinTDType("i16");
             Assert.AreEqual((short)1, i16.AssignValuesToNativeType(1, typeof(short)));
         }
 
         [Test()]
         public void ShouldAssignValueToUInt16()
         {
-            KtdType u16 = ktdInstance.GetKtdType("u16");
+            SinTDType u16 = SinTDInstance.GetSinTDType("u16");
             ushort ushortInstance = (ushort)u16.AssignValuesFromObject((ushort)1);
             Assert.AreEqual(1, ushortInstance);
         }
@@ -113,14 +113,14 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldAssignUInt16ValueToNativeUshort()
         {
-            KtdType u16 = ktdInstance.GetKtdType("u16");
+            SinTDType u16 = SinTDInstance.GetSinTDType("u16");
             Assert.AreEqual(1, u16.AssignValuesToNativeType(1, typeof(ushort)));
         }
 
         [Test()]
         public void ShouldAssignValueToInt32()
         {
-            KtdType i32 = ktdInstance.GetKtdType("i32");
+            SinTDType i32 = SinTDInstance.GetSinTDType("i32");
             int intInstance = (int)i32.AssignValuesFromObject(1);
             Assert.AreEqual(1, intInstance);
         }
@@ -128,14 +128,14 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldAssignInt32ToNativeInt()
         {
-            KtdType i32 = ktdInstance.GetKtdType("i32");
+            SinTDType i32 = SinTDInstance.GetSinTDType("i32");
             Assert.AreEqual(1, i32.AssignValuesToNativeType(1, typeof(int)));
         }
 
         [Test()]
         public void ShouldAssignValueToUInt32()
         {
-            KtdType u32 = ktdInstance.GetKtdType("u32");
+            SinTDType u32 = SinTDInstance.GetSinTDType("u32");
             uint uintInstance = (uint)u32.AssignValuesFromObject((uint)1);
             Assert.AreEqual(1, uintInstance);
         }
@@ -143,14 +143,14 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldAssignUInt32ToNativeUInt()
         {
-            KtdType u32 = ktdInstance.GetKtdType("u32");
+            SinTDType u32 = SinTDInstance.GetSinTDType("u32");
             Assert.AreEqual(1, u32.AssignValuesToNativeType(1, typeof(uint)));
         }
 
         [Test()]
         public void ShouldAssignValueToInt64()
         {
-            KtdType i64 = ktdInstance.GetKtdType("i64");
+            SinTDType i64 = SinTDInstance.GetSinTDType("i64");
             long int64Instance = (long)i64.AssignValuesFromObject((long)1);
             Assert.AreEqual((long)1, int64Instance);
         }
@@ -158,14 +158,14 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldAssignInt64ToNativeLong()
         {
-            KtdType i64 = ktdInstance.GetKtdType("i64");
+            SinTDType i64 = SinTDInstance.GetSinTDType("i64");
             Assert.AreEqual((long)1, i64.AssignValuesToNativeType(1, typeof(long)));
         }
 
         [Test()]
         public void ShouldAssignValueToUInt64()
         {
-            KtdType u64 = ktdInstance.GetKtdType("u64");
+            SinTDType u64 = SinTDInstance.GetSinTDType("u64");
             ulong u64Instance = (ulong)u64.AssignValuesFromObject((ulong)1);
             Assert.AreEqual((ulong)1, u64Instance);
         }
@@ -173,14 +173,14 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldAssignU64ToNativeUlong()
         {
-            KtdType u64 = ktdInstance.GetKtdType("u64");
+            SinTDType u64 = SinTDInstance.GetSinTDType("u64");
             Assert.AreEqual((ulong)1, u64.AssignValuesToNativeType(1, typeof(ulong)));
         }
 
         [Test()]
         public void ShouldAssignValueToFloat()
         {
-            KtdType f = ktdInstance.GetKtdType("float");
+            SinTDType f = SinTDInstance.GetSinTDType("float");
             float fInstance = (float)f.AssignValuesFromObject(1.0f);
             Assert.AreEqual(1.0f, fInstance);
         }
@@ -188,14 +188,14 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldAssignFloatToNativeFloat()
         {
-            KtdType f = ktdInstance.GetKtdType("float");
+            SinTDType f = SinTDInstance.GetSinTDType("float");
            Assert.AreEqual(1.0f, f.AssignValuesToNativeType(1.0, typeof(float)));
         }
 
         [Test()]
         public void ShouldAssignValueToDouble()
         {
-            KtdType d = ktdInstance.GetKtdType("double");
+            SinTDType d = SinTDInstance.GetSinTDType("double");
             double dInstance = (double)d.AssignValuesFromObject(1.0);
             Assert.AreEqual(1.0, dInstance);
         }
@@ -203,28 +203,28 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldAssignDoubleToNativeDouble()
         {
-            KtdType d = ktdInstance.GetKtdType("double");
+            SinTDType d = SinTDInstance.GetSinTDType("double");
             Assert.AreEqual(1.0, d.AssignValuesToNativeType(1.0, typeof(double)));
         }
 
         [Test()]
         public void ShouldAssignBooleanToNativeBool()
         {
-            KtdType b = ktdInstance.GetKtdType("boolean");
+            SinTDType b = SinTDInstance.GetSinTDType("boolean");
             Assert.AreEqual(true, b.AssignValuesToNativeType(true, typeof(bool)));
         }
 
         [Test()]
         public void ShouldAssignStringToNativeString()
         {
-            KtdType s = ktdInstance.GetKtdType("string");
+            SinTDType s = SinTDInstance.GetSinTDType("string");
             Assert.AreEqual("Hello World", s.AssignValuesToNativeType("Hello World", typeof(string)));
         }
 
         [Test()]
         public void ShouldAssignValueToAny()
         {
-            KtdType any = ktdInstance.GetKtdType("any");
+            SinTDType any = SinTDInstance.GetSinTDType("any");
             var anyValue = 1;
 
             var stringInstance = any.AssignValuesFromObject(anyValue);
@@ -234,7 +234,7 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldAssignAnyToNative()
         {
-            KtdType any = ktdInstance.GetKtdType("any");
+            SinTDType any = SinTDInstance.GetSinTDType("any");
             var anyValue = 1;
 
             Assert.AreEqual(anyValue, any.AssignValuesToNativeType(anyValue, anyValue.GetType()));
@@ -244,8 +244,8 @@ namespace SINFONIUnitTests
         public void ShouldAssignArrayToArray()
         {
             var intArray = new int[] { 1 };
-            KtdArray array = new KtdArray();
-            array.elementType = ktdInstance.GetKtdType("i32");
+            SinTDArray array = new SinTDArray();
+            array.elementType = SinTDInstance.GetSinTDType("i32");
 
             var arrayInstance =  array.AssignValuesFromObject(intArray) as object[];
             Assert.AreEqual(1, arrayInstance.Length);
@@ -256,8 +256,8 @@ namespace SINFONIUnitTests
         public void ShouldAssignArrayToNativeArray()
         {
             var intArray = new int[0];
-            KtdArray array = new KtdArray();
-            array.elementType = ktdInstance.GetKtdType("i32");
+            SinTDArray array = new SinTDArray();
+            array.elementType = SinTDInstance.GetSinTDType("i32");
             var test = array.AssignValuesToNativeType(new int[1]{1}, intArray.GetType());
             Assert.AreEqual(1, ((int[])test).Length);
             Assert.AreEqual(1, ((int[])test)[0]);
@@ -267,8 +267,8 @@ namespace SINFONIUnitTests
         public void ShouldAssignListToArray()
         {
             var intList = new List<int>{ 1 };
-            KtdArray array = new KtdArray();
-            array.elementType = ktdInstance.GetKtdType("i32");
+            SinTDArray array = new SinTDArray();
+            array.elementType = SinTDInstance.GetSinTDType("i32");
 
             var arrayInstance = array.AssignValuesFromObject(intList) as object[];
             Assert.AreEqual(1, arrayInstance.Length);
@@ -279,8 +279,8 @@ namespace SINFONIUnitTests
         public void ShouldAssignArrayToNativeList()
         {
             var intList = new List<int>();
-            KtdArray array = new KtdArray();
-            array.elementType = ktdInstance.GetKtdType("i32");
+            SinTDArray array = new SinTDArray();
+            array.elementType = SinTDInstance.GetSinTDType("i32");
             List<int> test = (List<int>)array.AssignValuesToNativeType(new int[1] { 1 }, intList.GetType());
             Assert.AreEqual(1, test.Count);
             Assert.AreEqual(1, test[0]);
@@ -290,8 +290,8 @@ namespace SINFONIUnitTests
         public void ShouldAssignSetToArray()
         {
             var intSet = new HashSet<int> { 1 };
-            KtdArray array = new KtdArray();
-            array.elementType = ktdInstance.GetKtdType("i32");
+            SinTDArray array = new SinTDArray();
+            array.elementType = SinTDInstance.GetSinTDType("i32");
 
             object[] arrayInstance = array.AssignValuesFromObject(intSet) as object[];
             Assert.AreEqual(1, arrayInstance.Length);
@@ -302,8 +302,8 @@ namespace SINFONIUnitTests
         public void ShouldAssignArrayToNativeSet()
         {
             var intSet = new HashSet<int>();
-            KtdArray array = new KtdArray();
-            array.elementType = ktdInstance.GetKtdType("i32");
+            SinTDArray array = new SinTDArray();
+            array.elementType = SinTDInstance.GetSinTDType("i32");
             ISet<int> test = (HashSet<int>)array.AssignValuesToNativeType(new int[1] { 1 }, intSet.GetType());
             Assert.AreEqual(1, test.Count);
             Assert.AreEqual(1, test.ElementAt(0));
@@ -314,9 +314,9 @@ namespace SINFONIUnitTests
         {
             var intArray = new int[1][];
             intArray[0] = new int[1] { 2 };
-            KtdArray innerArray = new KtdArray();
-            innerArray.elementType = ktdInstance.GetKtdType("i32");
-            KtdArray outerArray = new KtdArray();
+            SinTDArray innerArray = new SinTDArray();
+            innerArray.elementType = SinTDInstance.GetSinTDType("i32");
+            SinTDArray outerArray = new SinTDArray();
             outerArray.elementType = innerArray;
             int[][] test = (int[][])outerArray.AssignValuesToNativeType(intArray, intArray.GetType());
             Assert.AreEqual(1, test.Length);
@@ -330,9 +330,9 @@ namespace SINFONIUnitTests
             var intArray = new int[1][];
             intArray[0] = new int[1] { 2 };
             List<int>[] listArray = new List<int> [1] { new List<int> { 1 } };
-            KtdArray innerArray = new KtdArray();
-            innerArray.elementType = ktdInstance.GetKtdType("i32");
-            KtdArray outerArray = new KtdArray();
+            SinTDArray innerArray = new SinTDArray();
+            innerArray.elementType = SinTDInstance.GetSinTDType("i32");
+            SinTDArray outerArray = new SinTDArray();
             outerArray.elementType = innerArray;
             List<int>[] test = (List<int>[])outerArray.AssignValuesToNativeType(intArray, listArray.GetType());
             Assert.IsAssignableFrom<List<int>>(test[0]);
@@ -345,9 +345,9 @@ namespace SINFONIUnitTests
             var intArray = new int[1][];
             intArray[0] = new int[1] { 2 };
             List<int[]> arrayList = new List<int[]>{ new int[1] { 1 } };
-            KtdArray innerArray = new KtdArray();
-            innerArray.elementType = ktdInstance.GetKtdType("i32");
-            KtdArray outerArray = new KtdArray();
+            SinTDArray innerArray = new SinTDArray();
+            innerArray.elementType = SinTDInstance.GetSinTDType("i32");
+            SinTDArray outerArray = new SinTDArray();
             outerArray.elementType = innerArray;
             List<int[]> test = (List<int[]>)outerArray.AssignValuesToNativeType(intArray, arrayList.GetType());
             Assert.IsAssignableFrom<int[]>(test[0]);
@@ -360,9 +360,9 @@ namespace SINFONIUnitTests
             var intArray = new int[1][];
             intArray[0] = new int[1] { 2 };
             ISet<int>[] setArray = new HashSet<int>[1] { new HashSet<int> { 1 } };
-            KtdArray innerArray = new KtdArray();
-            innerArray.elementType = ktdInstance.GetKtdType("i32");
-            KtdArray outerArray = new KtdArray();
+            SinTDArray innerArray = new SinTDArray();
+            innerArray.elementType = SinTDInstance.GetSinTDType("i32");
+            SinTDArray outerArray = new SinTDArray();
             outerArray.elementType = innerArray;
             HashSet<int>[] test = (HashSet<int>[])outerArray.AssignValuesToNativeType(intArray, setArray.GetType());
             Assert.IsAssignableFrom<HashSet<int>>(test[0]);
@@ -375,9 +375,9 @@ namespace SINFONIUnitTests
             var intArray = new int[1][];
             intArray[0] = new int[1] { 2 };
             ISet<int[]> arraySet = new HashSet<int[]> { new int[1] { 1 } };
-            KtdArray innerArray = new KtdArray();
-            innerArray.elementType = ktdInstance.GetKtdType("i32");
-            KtdArray outerArray = new KtdArray();
+            SinTDArray innerArray = new SinTDArray();
+            innerArray.elementType = SinTDInstance.GetSinTDType("i32");
+            SinTDArray outerArray = new SinTDArray();
             outerArray.elementType = innerArray;
             ISet<int[]> test = (HashSet<int[]>)outerArray.AssignValuesToNativeType(intArray, arraySet.GetType());
             Assert.IsAssignableFrom<int[]>(test.ElementAt(0));
@@ -388,8 +388,8 @@ namespace SINFONIUnitTests
         public void ShouldAssignEmptyArray()
         {
             var intArray = new int[] {};
-            KtdArray array = new KtdArray();
-            array.elementType = ktdInstance.GetKtdType("i32");
+            SinTDArray array = new SinTDArray();
+            array.elementType = SinTDInstance.GetSinTDType("i32");
 
             object[] arrayInstance = array.AssignValuesFromObject(intArray) as object[];
             Assert.AreEqual(0, arrayInstance.Length);
@@ -398,8 +398,8 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldThrowExceptionWhenAssigningNonEnumerableToArray()
         {
-            KtdArray array = new KtdArray();
-            array.elementType = ktdInstance.GetKtdType("i32");
+            SinTDArray array = new SinTDArray();
+            array.elementType = SinTDInstance.GetSinTDType("i32");
 
             Assert.Throws<TypeCastException>(
                 () => { object[] arrayInstance = array.AssignValuesFromObject(1) as object[]; });
@@ -409,8 +409,8 @@ namespace SINFONIUnitTests
         public void ShouldThrowExceptionWhenAssigningArrayWithWrongElementType()
         {
             var floatArray = new float[] { 1f };
-            KtdArray array = new KtdArray();
-            array.elementType = ktdInstance.GetKtdType("i32");
+            SinTDArray array = new SinTDArray();
+            array.elementType = SinTDInstance.GetSinTDType("i32");
 
             Assert.Throws<TypeCastException>(
                 () => { var arrayInstance = array.AssignValuesFromObject(floatArray) as object[]; });
@@ -423,12 +423,12 @@ namespace SINFONIUnitTests
                 {"test", 1}
             };
 
-            KtdMap ktdMap = new KtdMap();
-            ktdMap.keyType = ktdInstance.GetKtdType("string");
-            ktdMap.elementType = ktdInstance.GetKtdType("i32");
+            SinTDMap SinTDMap = new SinTDMap();
+            SinTDMap.keyType = SinTDInstance.GetSinTDType("string");
+            SinTDMap.elementType = SinTDInstance.GetSinTDType("i32");
 
             Dictionary<object, object> mapInstance
-                = ktdMap.AssignValuesFromObject(baseTypeDictionary) as Dictionary<object, object>;
+                = SinTDMap.AssignValuesFromObject(baseTypeDictionary) as Dictionary<object, object>;
 
             Assert.AreEqual(1, mapInstance.Values.Count);
             Assert.AreEqual("test", (mapInstance.Keys.ElementAt(0)));
@@ -442,11 +442,11 @@ namespace SINFONIUnitTests
                 {"test", 1}
             };
 
-            KtdMap ktdMap = new KtdMap();
-            ktdMap.keyType = ktdInstance.GetKtdType("string");
-            ktdMap.elementType = ktdInstance.GetKtdType("i32");
+            SinTDMap SinTDMap = new SinTDMap();
+            SinTDMap.keyType = SinTDInstance.GetSinTDType("string");
+            SinTDMap.elementType = SinTDInstance.GetSinTDType("i32");
             Dictionary<string, int> nativeDictionary =
-                (Dictionary<string, int>)ktdMap.AssignValuesToNativeType(baseTypeDictionary,
+                (Dictionary<string, int>)SinTDMap.AssignValuesToNativeType(baseTypeDictionary,
                 typeof(Dictionary<string, int>));
             Assert.AreEqual(baseTypeDictionary, nativeDictionary);
         }
@@ -458,14 +458,14 @@ namespace SINFONIUnitTests
                 {new int[]{1}, "test"}
             };
 
-            KtdArray keyArray = new KtdArray();
-            keyArray.elementType = ktdInstance.GetKtdType("i32");
-            KtdMap ktdMap = new KtdMap();
+            SinTDArray keyArray = new SinTDArray();
+            keyArray.elementType = SinTDInstance.GetSinTDType("i32");
+            SinTDMap SinTDMap = new SinTDMap();
 
-            ktdMap.keyType = keyArray;
-            ktdMap.elementType = ktdInstance.GetKtdType("string");
+            SinTDMap.keyType = keyArray;
+            SinTDMap.elementType = SinTDInstance.GetSinTDType("string");
             Dictionary<object, object> mapInstance
-                = ktdMap.AssignValuesFromObject(arrayKeyDictionary) as Dictionary<object, object>;
+                = SinTDMap.AssignValuesFromObject(arrayKeyDictionary) as Dictionary<object, object>;
 
             Assert.AreEqual(typeof(object[]), mapInstance.Keys.ElementAt(0).GetType());
             Assert.AreEqual(1,  ((object[])mapInstance.Keys.ElementAt(0)).Length);
@@ -479,13 +479,13 @@ namespace SINFONIUnitTests
                 {new int[]{1}, "test"}
             };
 
-            KtdArray keyArray = new KtdArray();
-            keyArray.elementType = ktdInstance.GetKtdType("i32");
-            KtdMap ktdMap = new KtdMap();
+            SinTDArray keyArray = new SinTDArray();
+            keyArray.elementType = SinTDInstance.GetSinTDType("i32");
+            SinTDMap SinTDMap = new SinTDMap();
 
-            ktdMap.keyType = keyArray;
-            ktdMap.elementType = ktdInstance.GetKtdType("string");
-            Dictionary<int[], string> nativeDictionary = (Dictionary<int[], string>)ktdMap
+            SinTDMap.keyType = keyArray;
+            SinTDMap.elementType = SinTDInstance.GetSinTDType("string");
+            Dictionary<int[], string> nativeDictionary = (Dictionary<int[], string>)SinTDMap
                 .AssignValuesToNativeType(arrayKeyDictionary, arrayKeyDictionary.GetType());
             Assert.AreEqual(arrayKeyDictionary.Keys, nativeDictionary.Keys);
             Assert.AreEqual(arrayKeyDictionary.Values, nativeDictionary.Values);
@@ -498,14 +498,14 @@ namespace SINFONIUnitTests
                 {"test", new int[]{1} }
             };
 
-            KtdArray valueArray = new KtdArray();
-            valueArray.elementType = ktdInstance.GetKtdType("i32");
-            KtdMap ktdMap = new KtdMap();
+            SinTDArray valueArray = new SinTDArray();
+            valueArray.elementType = SinTDInstance.GetSinTDType("i32");
+            SinTDMap SinTDMap = new SinTDMap();
 
-            ktdMap.keyType =  ktdInstance.GetKtdType("string");
-            ktdMap.elementType = valueArray;
+            SinTDMap.keyType =  SinTDInstance.GetSinTDType("string");
+            SinTDMap.elementType = valueArray;
             Dictionary<object, object> mapInstance
-                = ktdMap.AssignValuesFromObject(arrayKeyDictionary) as Dictionary<object, object>;
+                = SinTDMap.AssignValuesFromObject(arrayKeyDictionary) as Dictionary<object, object>;
 
             Assert.AreEqual(typeof(object[]), mapInstance.Values.ElementAt(0).GetType());
             Assert.AreEqual(1, ((object[])mapInstance.Values.ElementAt(0)).Length);
@@ -519,13 +519,13 @@ namespace SINFONIUnitTests
                 {"test", 1}
             };
 
-            KtdMap ktdMap = new KtdMap();
-            ktdMap.keyType = ktdInstance.GetKtdType("i32");
-            ktdMap.elementType = ktdInstance.GetKtdType("i32");
+            SinTDMap SinTDMap = new SinTDMap();
+            SinTDMap.keyType = SinTDInstance.GetSinTDType("i32");
+            SinTDMap.elementType = SinTDInstance.GetSinTDType("i32");
 
             Assert.Throws<TypeCastException>(
                 () => { var mapInstance
-                    = ktdMap.AssignValuesFromObject(baseTypeDictionary) as Dictionary<object, object>; });
+                    = SinTDMap.AssignValuesFromObject(baseTypeDictionary) as Dictionary<object, object>; });
         }
 
         [Test()]
@@ -535,13 +535,13 @@ namespace SINFONIUnitTests
                 {"test", 1}
             };
 
-            KtdMap ktdMap = new KtdMap();
-            ktdMap.keyType = ktdInstance.GetKtdType("string");
-            ktdMap.elementType = ktdInstance.GetKtdType("string");
+            SinTDMap SinTDMap = new SinTDMap();
+            SinTDMap.keyType = SinTDInstance.GetSinTDType("string");
+            SinTDMap.elementType = SinTDInstance.GetSinTDType("string");
 
             Assert.Throws<TypeCastException>(
                 () => { var mapInstance
-                    = ktdMap.AssignValuesFromObject(baseTypeDictionary) as Dictionary<object, object>; });
+                    = SinTDMap.AssignValuesFromObject(baseTypeDictionary) as Dictionary<object, object>; });
         }
 
         [Test()]

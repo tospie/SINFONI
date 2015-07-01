@@ -33,13 +33,13 @@ namespace SINFONIUnitTests
         SINFONIService service;
         ServiceFunctionDescription serviceFunction;
 
-        KtdType i32;
-        KtdType ktd_string;
-        KtdStruct intStruct;
+        SinTDType i32;
+        SinTDType SinTD_string;
+        SinTDStruct intStruct;
 
         TestConnection connection;
 
-        KTD ktdInstance;
+        SinTD SinTDInstance;
         struct testStruct
         {
             public int x;
@@ -50,26 +50,26 @@ namespace SINFONIUnitTests
         [SetUp()]
         public void Setup()
         {
-            ktdInstance = new KTD();
-            ktdInstance.SINFONIServices = new ServiceRegistry();
+            SinTDInstance = new SinTD();
+            SinTDInstance.SINFONIServices = new ServiceRegistry();
 
-            i32 = ktdInstance.GetKtdType("i32");
-            ktd_string = ktdInstance.GetKtdType("string");
+            i32 = SinTDInstance.GetSinTDType("i32");
+            SinTD_string = SinTDInstance.GetSinTDType("string");
 
-            intStruct = new KtdStruct("intStruct");
+            intStruct = new SinTDStruct("intStruct");
             intStruct.members["x"] = i32;
             intStruct.members["y"] = i32;
 
-            serviceFunction = new ServiceFunctionDescription("function", new KtdType("void"));
+            serviceFunction = new ServiceFunctionDescription("function", new SinTDType("void"));
             serviceFunction.Parameters.Add("intParameter", i32);
-            serviceFunction.Parameters.Add("stringParameter", ktd_string);
+            serviceFunction.Parameters.Add("stringParameter", SinTD_string);
 
             service = new SINFONIService("service");
             service.serviceFunctions.Add("function", serviceFunction);
 
-            ktdInstance.SINFONIServices.services.Add("service", service);
+            SinTDInstance.SINFONIServices.services.Add("service", service);
             connection = new TestConnection();
-            connection.Ktd = ktdInstance;
+            connection.SinTD = SinTDInstance;
         }
         
         [Test()]
@@ -83,10 +83,10 @@ namespace SINFONIUnitTests
         [Test()]
         public void CallShouldBeValidForArrayParameters()
         {
-            KtdArray parameterArray = new KtdArray();
+            SinTDArray parameterArray = new SinTDArray();
             parameterArray.elementType = i32;
 
-            var serviceFunction = new ServiceFunctionDescription("arrayFunction", new KtdType("void"));
+            var serviceFunction = new ServiceFunctionDescription("arrayFunction", new SinTDType("void"));
             serviceFunction.Parameters.Add("arrayParam", parameterArray);
             service.serviceFunctions.Add("arrayFunction", serviceFunction);
             var clientFunction = connection.GenerateClientFunction("service", "arrayFunction");
@@ -96,11 +96,11 @@ namespace SINFONIUnitTests
         [Test()]
         public void CallShouldBeValidForMapParameters()
         {
-            KtdMap parameterMap = new KtdMap();
+            SinTDMap parameterMap = new SinTDMap();
             parameterMap.elementType = i32;
-            parameterMap.keyType = ktd_string;
+            parameterMap.keyType = SinTD_string;
 
-            var serviceFunction = new ServiceFunctionDescription("mapFunction", new KtdType("void"));
+            var serviceFunction = new ServiceFunctionDescription("mapFunction", new SinTDType("void"));
             serviceFunction.Parameters.Add("mapParam", parameterMap);
             service.serviceFunctions.Add("mapFunction", serviceFunction);
             var clientFunction = connection.GenerateClientFunction("service", "mapFunction");
@@ -113,7 +113,7 @@ namespace SINFONIUnitTests
         [Test()]
         public void CallShouldBeValidForStructParameters()
         {
-            var serviceFunction = new ServiceFunctionDescription("structFunction", new KtdType("void"));
+            var serviceFunction = new ServiceFunctionDescription("structFunction", new SinTDType("void"));
             serviceFunction.Parameters.Add("structParam", intStruct);
             service.serviceFunctions.Add("structFunction", serviceFunction);
             var clientFunction = connection.GenerateClientFunction("service", "structFunction");

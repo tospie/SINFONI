@@ -90,50 +90,50 @@ namespace SINFONIUnitTests
         [SetUp()]
         public void SetUp()
         {
-            IDLParser.Instance.CurrentlyParsedKTD = new KTD();
+            IDLParser.Instance.CurrentlyParsedSinTD = new SinTD();
         }
 
         [Test()]
         public void ShouldParseCorrectArrayType()
         {
             var intArray = ArrayParser.Instance.ParseArray("array<i16>");
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("i16"), intArray.elementType);
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("i16"), intArray.elementType);
         }
 
         [Test()]
         public void ShouldParseCorrectMapKeyType()
         {
             var stringToIntMap = MapParser.Instance.ParseMap("map<string,i16>");
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("string"), stringToIntMap.keyType);
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("string"), stringToIntMap.keyType);
         }
 
         [Test()]
         public void ShouldParseCorrectMapValueType()
         {
             var stringToIntMap = MapParser.Instance.ParseMap("map<string,i16>");
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("i16"), stringToIntMap.elementType);
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("i16"), stringToIntMap.elementType);
         }
 
         [Test()]
         public void ShouldParseArrayDefinitionWithSpaces()
         {
             var intArray = ArrayParser.Instance.ParseArray("array < i16 >");
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("i16"), intArray.elementType);
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("i16"), intArray.elementType);
         }
 
         [Test()]
         public void ShouldParseMapDefinitionsWithSpaces()
         {
             var stringToIntMap = MapParser.Instance.ParseMap("map < string, i16 >");
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("string"), stringToIntMap.keyType);
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("i16"), stringToIntMap.elementType);
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("string"), stringToIntMap.keyType);
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("i16"), stringToIntMap.elementType);
         }
 
         [Test()]
         public void ShouldParseArraysOfMaps()
         {
             var arrayOfMaps = ArrayParser.Instance.ParseArray("array<map<string, i32>>");
-            Assert.AreEqual(arrayOfMaps.elementType.GetType(), typeof(KtdMap));
+            Assert.AreEqual(arrayOfMaps.elementType.GetType(), typeof(SinTDMap));
         }
 
         [Test()]
@@ -145,10 +145,10 @@ namespace SINFONIUnitTests
                          }";
 
             IDLParser.Instance.ParseIDL(idl);
-            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedKTD.ContainsType("BaseStruct"));
-            KtdStruct baseStruct = IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("BaseStruct") as KtdStruct;
+            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedSinTD.ContainsType("BaseStruct"));
+            SinTDStruct baseStruct = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("BaseStruct") as SinTDStruct;
             Assert.Contains("intValue", baseStruct.members.Keys);
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("i32"), baseStruct.members["intValue"]);
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("i32"), baseStruct.members["intValue"]);
         }
 
         [Test()]
@@ -159,12 +159,12 @@ namespace SINFONIUnitTests
                          }";
 
             IDLParser.Instance.ParseIDL(idl);
-            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedKTD.ContainsType("MapStruct"));
-            KtdStruct mapStruct = IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("MapStruct") as KtdStruct;
+            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedSinTD.ContainsType("MapStruct"));
+            SinTDStruct mapStruct = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("MapStruct") as SinTDStruct;
             Assert.Contains("testMap", mapStruct.members.Keys);
 
             var parsedMap = mapStruct.members["testMap"];
-            Assert.AreEqual(typeof(KtdMap), parsedMap.GetType());
+            Assert.AreEqual(typeof(SinTDMap), parsedMap.GetType());
         }
 
         [Test()]
@@ -174,12 +174,12 @@ namespace SINFONIUnitTests
                             array<i16> testArray;
                          }";
             IDLParser.Instance.ParseIDL(idl);
-            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedKTD.ContainsType("ArrayStruct"));
-            KtdStruct arrayStruct = IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("ArrayStruct") as KtdStruct;
+            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedSinTD.ContainsType("ArrayStruct"));
+            SinTDStruct arrayStruct = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("ArrayStruct") as SinTDStruct;
             Assert.Contains("testArray", arrayStruct.members.Keys);
 
             var parsedArray = arrayStruct.members["testArray"];
-            Assert.AreEqual(typeof(KtdArray), parsedArray.GetType());
+            Assert.AreEqual(typeof(SinTDArray), parsedArray.GetType());
         }
 
         [Test()]
@@ -210,7 +210,7 @@ namespace SINFONIUnitTests
                             {
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
-            Assert.Contains("serverSync", IDLParser.Instance.CurrentlyParsedKTD.SINFONIServices.services.Keys);
+            Assert.Contains("serverSync", IDLParser.Instance.CurrentlyParsedSinTD.SINFONIServices.services.Keys);
         }
 
         [Test()]
@@ -222,10 +222,10 @@ namespace SINFONIUnitTests
                                 void getSyncID();
                             }";
             Assert.DoesNotThrow(()=>IDLParser.Instance.ParseIDL(idl));
-            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedKTD
+            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedSinTD
                 .SINFONIServices.services["serverSync"].ContainsServiceFunction("getSyncID"));
 
-            var serviceFunction = IDLParser.Instance.CurrentlyParsedKTD
+            var serviceFunction = IDLParser.Instance.CurrentlyParsedSinTD
                 .SINFONIServices.GetService("serverSync").GetServiceFunction("getSyncID");
             Assert.AreEqual("void", serviceFunction.ReturnType.Name);
             Assert.IsEmpty(serviceFunction.Parameters);
@@ -239,16 +239,16 @@ namespace SINFONIUnitTests
                                 string testFunction(i32 param);
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
-            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedKTD
+            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedSinTD
                 .SINFONIServices.services["serverSync"].ContainsServiceFunction("testFunction"));
 
-            var serviceFunction = IDLParser.Instance.CurrentlyParsedKTD
+            var serviceFunction = IDLParser.Instance.CurrentlyParsedSinTD
                 .SINFONIServices.GetService("serverSync").GetServiceFunction("testFunction");
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("string"), serviceFunction.ReturnType);
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("string"), serviceFunction.ReturnType);
             Assert.Contains("param", serviceFunction.Parameters.Keys);
 
             var parameter = serviceFunction.Parameters["param"];
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("i32"), parameter);
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("i32"), parameter);
         }
 
         [Test()]
@@ -260,19 +260,19 @@ namespace SINFONIUnitTests
                                 map<string, boolean> testFunction2(i32 param);
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
-            var testFunction1 = IDLParser.Instance.CurrentlyParsedKTD
+            var testFunction1 = IDLParser.Instance.CurrentlyParsedSinTD
                 .SINFONIServices.GetService("serverSync").GetServiceFunction("testFunction1");
-            var testFunction2 = IDLParser.Instance.CurrentlyParsedKTD
+            var testFunction2 = IDLParser.Instance.CurrentlyParsedSinTD
                 .SINFONIServices.GetService("serverSync").GetServiceFunction("testFunction2");
 
-            Assert.AreEqual(typeof(KtdArray), testFunction1.ReturnType.GetType());
-            KtdArray array = (KtdArray)testFunction1.ReturnType;
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("string"), array.elementType);
+            Assert.AreEqual(typeof(SinTDArray), testFunction1.ReturnType.GetType());
+            SinTDArray array = (SinTDArray)testFunction1.ReturnType;
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("string"), array.elementType);
 
-            Assert.AreEqual(typeof(KtdMap), testFunction2.ReturnType.GetType());
-            KtdMap map = (KtdMap)testFunction2.ReturnType;
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("string"), map.keyType);
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("boolean"), map.elementType);
+            Assert.AreEqual(typeof(SinTDMap), testFunction2.ReturnType.GetType());
+            SinTDMap map = (SinTDMap)testFunction2.ReturnType;
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("string"), map.keyType);
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("boolean"), map.elementType);
         }
 
         [Test()]
@@ -285,18 +285,18 @@ namespace SINFONIUnitTests
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
 
-            var testFunction1 = IDLParser.Instance.CurrentlyParsedKTD
+            var testFunction1 = IDLParser.Instance.CurrentlyParsedSinTD
                 .SINFONIServices.GetService("serverSync").GetServiceFunction("testFunction1");
             var param1 = testFunction1.Parameters["param"];
-            Assert.AreEqual(typeof(KtdArray), param1.GetType());
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("i32"), ((KtdArray)param1).elementType);
+            Assert.AreEqual(typeof(SinTDArray), param1.GetType());
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("i32"), ((SinTDArray)param1).elementType);
 
-            var testFunction2 = IDLParser.Instance.CurrentlyParsedKTD
+            var testFunction2 = IDLParser.Instance.CurrentlyParsedSinTD
                 .SINFONIServices.GetService("serverSync").GetServiceFunction("testFunction2");
             var param2 = testFunction2.Parameters["param"];
-            Assert.AreEqual(typeof(KtdMap), param2.GetType());
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("string"), ((KtdMap)param2).keyType);
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("boolean"), ((KtdMap)param2).elementType);
+            Assert.AreEqual(typeof(SinTDMap), param2.GetType());
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("string"), ((SinTDMap)param2).keyType);
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("boolean"), ((SinTDMap)param2).elementType);
         }
 
         [Test()]
@@ -308,14 +308,14 @@ namespace SINFONIUnitTests
                             }";
             
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
-            var testFunction = IDLParser.Instance.CurrentlyParsedKTD
+            var testFunction = IDLParser.Instance.CurrentlyParsedSinTD
                 .SINFONIServices.GetService("serverSync").GetServiceFunction("testFunction");
             var param1 = testFunction.Parameters["param1"];
             var param2 = testFunction.Parameters["param2"];
 
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("string"), param1);
-            Assert.AreEqual(typeof(KtdArray), param2.GetType());
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedKTD.GetKtdType("i32"), ((KtdArray)param2).elementType);
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("string"), param1);
+            Assert.AreEqual(typeof(SinTDArray), param2.GetType());
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("i32"), ((SinTDArray)param2).elementType);
         }
 
         [Test()]
@@ -338,9 +338,9 @@ namespace SINFONIUnitTests
                                 void testFunction2(string param1, array<i32> param2); // This is another inline comment
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
-            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedKTD
+            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedSinTD
                 .SINFONIServices.GetService("serverSync").ContainsServiceFunction("testFunction1"));
-            var testFunction = IDLParser.Instance.CurrentlyParsedKTD
+            var testFunction = IDLParser.Instance.CurrentlyParsedSinTD
                 .SINFONIServices.GetService("serverSync").GetServiceFunction("testFunction1");
 
             Assert.Contains("p1", testFunction.Parameters.Keys);
@@ -357,7 +357,7 @@ namespace SINFONIUnitTests
                                 void testFunction1();
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
-            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedKTD
+            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedSinTD
                 .SINFONIServices.GetService("serverSync").ContainsServiceFunction("testFunction1"));
         }
 
@@ -370,7 +370,7 @@ namespace SINFONIUnitTests
                                  * be treated correctly as well  */ void testFunction1();
                             }";
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
-            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedKTD
+            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedSinTD
                 .SINFONIServices.GetService("serverSync").ContainsServiceFunction("testFunction1"));
         }
 
@@ -378,8 +378,8 @@ namespace SINFONIUnitTests
         public void ShouldParseExampleIDLWithoutError()
         {
             Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(exampleIDL));
-            var services = IDLParser.Instance.CurrentlyParsedKTD.SINFONIServices.services;
-            var types = IDLParser.Instance.CurrentlyParsedKTD.registeredTypes;
+            var services = IDLParser.Instance.CurrentlyParsedSinTD.SINFONIServices.services;
+            var types = IDLParser.Instance.CurrentlyParsedSinTD.registeredTypes;
         }
     }
 }
