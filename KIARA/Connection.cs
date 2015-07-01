@@ -27,7 +27,7 @@ namespace SINFONI
     public class Connection
     {
 
-        public KTD Ktd { get; internal set; }
+        public SinTD SinTD { get; internal set; }
 
         public Guid SessionID { get; internal set; }
         /// <summary>
@@ -88,13 +88,13 @@ namespace SINFONI
                 contents = serverConfiguration.idlContents as string;
             else
                 throw new MissingIDLException();
-            Ktd = IDLParser.Instance.ParseIDL(contents);
+            SinTD = IDLParser.Instance.ParseIDL(contents);
         }
 
         public void LoadLocalIDL(string IdlPath)
         {
             string idlContents = File.ReadAllText(IdlPath);
-            Ktd = IDLParser.Instance.ParseIDL(idlContents);
+            SinTD = IDLParser.Instance.ParseIDL(idlContents);
         }
         /// <summary>
         /// Handles an incoming message.
@@ -170,16 +170,16 @@ namespace SINFONI
                     {
                         // Super Evil Hack Here! Existing unit tests assume that WSJON serializes in a fixed format that
                         // originates from serializing the native types correctly. Also, the tests do not take into account
-                        // any KTD from any IDL. To make them work, we have to pretend that there is no ServiceRegistry
-                        // maintaining any service description, but bypass type check and automatic KTD Conversion
+                        // any SinTD from any IDL. To make them work, we have to pretend that there is no ServiceRegistry
+                        // maintaining any service description, but bypass type check and automatic SinTD Conversion
                         // by setting service Registry to null
-                        if (Ktd == null)
+                        if (SinTD == null)
                         {
                             returnValue = nativeMethod.DynamicInvoke(parameters);
                         }
                         else
                         {
-                            ServiceFunctionDescription service = Ktd.SINFONIServices
+                            ServiceFunctionDescription service = SinTD.SINFONIServices
                                 .GetService(serviceDescription[0])
                                 .GetServiceFunction(serviceDescription[1]);
                             returnValue = service.ReturnType.AssignValuesFromObject(nativeMethod.DynamicInvoke(parameters));
@@ -246,14 +246,14 @@ namespace SINFONI
                 else
                 {
                     // Super Evil Hack! See other super evil hack comment above
-                    if (Ktd == null)
+                    if (SinTD == null)
                     {
                         parameters[i] = Convert.ChangeType(args[i], paramInfo[i].ParameterType);
                     }
                     else
                     {
                         string[] service = methodName.Split('.');
-                        KtdType idlParameter = Ktd.SINFONIServices.GetService(service[0])
+                        SinTDType idlParameter = SinTD.SINFONIServices.GetService(service[0])
                             .GetServiceFunction(service[1]).Parameters.ElementAt(i).Value;
                         parameters[i] = idlParameter.AssignValuesToNativeType(args[i], paramInfo[i].ParameterType);
                     }
@@ -390,17 +390,17 @@ namespace SINFONI
         /// <param name="typeMapping">Type mapping string.</param>
         public virtual ClientFunction GenerateClientFunction(string serviceName, string functionName)
         {
-            if (!Ktd.SINFONIServices.ContainsService(serviceName))
+            if (!SinTD.SINFONIServices.ContainsService(serviceName))
                 throw new ServiceNotRegisteredException(serviceName);
 
-            var service = Ktd.SINFONIServices.GetService(serviceName);
+            var service = SinTD.SINFONIServices.GetService(serviceName);
 
             if (!service.ContainsServiceFunction(functionName))
                 throw new ServiceNotRegisteredException(functionName);
 
             return (ClientFunction)delegate(object[] parameters)
             {
-                SINFONIService registeredService = Ktd.SINFONIServices.GetService(serviceName);
+                SINFONIService registeredService = SinTD.SINFONIServices.GetService(serviceName);
                 ServiceFunctionDescription registeredServiceFunction = registeredService.GetServiceFunction(functionName);
 
                 if (!registeredServiceFunction.CanBeCalledWithParameters(parameters))
@@ -412,7 +412,7 @@ namespace SINFONI
                 object[] callParameters = new object[parameters.Length];
                 for (var i = 0; i < parameters.Length; i++)
                 {
-                    KtdType expectedParameterType = registeredServiceFunction.Parameters.ElementAt(i).Value;
+                    SinTDType expectedParameterType = registeredServiceFunction.Parameters.ElementAt(i).Value;
                     callParameters[i] = expectedParameterType.AssignValuesFromObject(parameters[i]);
                 }
                 return CallClientFunction(serviceName + "." + functionName, callParameters);
@@ -520,7 +520,7 @@ namespace SINFONI
         private bool CheckIfOneWay(string methodName)
         {
             var serviceDescription = methodName.Split('.');
-            oneWayFunctions[methodName] = Ktd.SINFONIServices
+            oneWayFunctions[methodName] = SinTD.SINFONIServices
                 .GetService(serviceDescription[0])
                 .GetServiceFunction(serviceDescription[1])
                 .ReturnType.Name == "void";

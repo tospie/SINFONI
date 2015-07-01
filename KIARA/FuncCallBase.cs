@@ -162,7 +162,7 @@ namespace SINFONI
         /// <param name="type">Type to which the result must be converted.</param>
         protected object ConvertResult(object result, Type type)
         {
-            KtdType idlReturnType = CallingConnection.Ktd.SINFONIServices
+            SinTDType idlReturnType = CallingConnection.SinTD.SINFONIServices
                         .GetService(ServiceName)
                         .GetServiceFunction(FunctionName)
                         .ReturnType;
