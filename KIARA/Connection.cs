@@ -24,6 +24,8 @@ namespace KIARA
     /// </summary>
     public class Connection
     {
+
+        public KTD Ktd { get; internal set; }
         /// <summary>
         /// Raised when a connection is closed.
         /// </summary>
@@ -81,7 +83,7 @@ namespace KIARA
                 contents = serverConfiguration.idlContents as string;
             else
                 throw new MissingIDLException();
-            IDLParser.Instance.ParseIDL(contents);
+            Ktd = IDLParser.Instance.ParseIDL(contents);
         }
 
         /// <summary>
@@ -161,13 +163,13 @@ namespace KIARA
                         // any KTD from any IDL. To make them work, we have to pretend that there is no ServiceRegistry
                         // maintaining any service description, but bypass type check and automatic KTD Conversion
                         // by setting service Registry to null
-                        if (ServiceRegistry.Instance == null)
+                        if (Ktd == null)
                         {
                             returnValue = nativeMethod.DynamicInvoke(parameters);
                         }
                         else
                         {
-                            ServiceFunctionDescription service = ServiceRegistry.Instance
+                            ServiceFunctionDescription service = Ktd.KiaraServices
                                 .GetService(serviceDescription[0])
                                 .GetServiceFunction(serviceDescription[1]);
                             returnValue = service.ReturnType.AssignValuesFromObject(nativeMethod.DynamicInvoke(parameters));
@@ -234,14 +236,14 @@ namespace KIARA
                 else
                 {
                     // Super Evil Hack! See other super evil hack comment above
-                    if (ServiceRegistry.Instance == null)
+                    if (Ktd == null)
                     {
                         parameters[i] = Convert.ChangeType(args[i], paramInfo[i].ParameterType);
                     }
                     else
                     {
                         string[] service = methodName.Split('.');
-                        KtdType idlParameter = ServiceRegistry.Instance.GetService(service[0])
+                        KtdType idlParameter = Ktd.KiaraServices.GetService(service[0])
                             .GetServiceFunction(service[1]).Parameters.ElementAt(i).Value;
                         parameters[i] = idlParameter.AssignValuesToNativeType(args[i], paramInfo[i].ParameterType);
                     }
@@ -378,17 +380,17 @@ namespace KIARA
         /// <param name="typeMapping">Type mapping string.</param>
         public virtual ClientFunction GenerateClientFunction(string serviceName, string functionName)
         {
-            if (!ServiceRegistry.Instance.ContainsService(serviceName))
+            if (!Ktd.KiaraServices.ContainsService(serviceName))
                 throw new ServiceNotRegisteredException(serviceName);
 
-            var service = ServiceRegistry.Instance.GetService(serviceName);
+            var service = Ktd.KiaraServices.GetService(serviceName);
 
             if (!service.ContainsServiceFunction(functionName))
                 throw new ServiceNotRegisteredException(functionName);
 
             return (ClientFunction)delegate(object[] parameters)
             {
-                KiaraService registeredService = ServiceRegistry.Instance.GetService(serviceName);
+                KiaraService registeredService = Ktd.KiaraServices.GetService(serviceName);
                 ServiceFunctionDescription registeredServiceFunction = registeredService.GetServiceFunction(functionName);
 
                 if (!registeredServiceFunction.CanBeCalledWithParameters(parameters))
@@ -479,7 +481,7 @@ namespace KIARA
             FuncCallBase callObj = null;
             if (!IsOneWay(funcName))
             {
-                callObj = new FuncCallBase(serviceDescription[0], serviceDescription[1]);
+                callObj = new FuncCallBase(serviceDescription[0], serviceDescription[1], this);
 
                 // It is important to add an active call to the list before sending it, otherwise we may end up
                 // receiving call-reply before this happens, which will trigger unnecessary call-error and crash the
@@ -508,7 +510,7 @@ namespace KIARA
         private bool CheckIfOneWay(string methodName)
         {
             var serviceDescription = methodName.Split('.');
-            oneWayFunctions[methodName] = ServiceRegistry.Instance
+            oneWayFunctions[methodName] = Ktd.KiaraServices
                 .GetService(serviceDescription[0])
                 .GetServiceFunction(serviceDescription[1])
                 .ReturnType.Name == "void";
