@@ -10,14 +10,14 @@ using System.Text;
 namespace SINFONI
 {
     /// <summary>
-    /// Represents a map from KTD Types to KtdTypes. KtdMap does not need a name and is not registered to the KTD,
-    /// but is used as member object for KTD Structs.
+    /// Represents a map from SinTD Types to SinTDTypes. SinTDMap does not need a name and is not registered to the SinTD,
+    /// but is used as member object for SinTD Structs.
     /// </summary>
-    public class KtdMap : KtdType
+    public class SinTDMap : SinTDType
     {
-        public KtdMap() { }
+        public SinTDMap() { }
 
-        public KtdMap(KtdType key, KtdType element)
+        public SinTDMap(SinTDType key, SinTDType element)
         {
             keyType = key;
             elementType = element;
@@ -53,11 +53,11 @@ namespace SINFONI
         public override object AssignValuesToNativeType(object value, Type nativeType)
         {
             if(!CanBeAssignedFromType(value.GetType()))
-                throw new SINFONI.Exceptions.TypeCastException("Cannot assign value of KtdMap to native object of type " + nativeType);
+                throw new SINFONI.Exceptions.TypeCastException("Cannot assign value of SinTDMap to native object of type " + nativeType);
 
            // Dictionary<object, object> valueDictionary = (Dictionary<object, object>)value;
             Type[] keyAndValueTypes = nativeType.GetGenericArguments();
-            var genericAssignDictionary = typeof(KtdMap).GetMethod("AssignValuesToTypesDictionary");
+            var genericAssignDictionary = typeof(SinTDMap).GetMethod("AssignValuesToTypesDictionary");
             var genericCall = genericAssignDictionary.MakeGenericMethod(keyAndValueTypes[0], keyAndValueTypes[1]);
             return genericCall.Invoke(this, new object[] { value });
         }
@@ -76,7 +76,7 @@ namespace SINFONI
             return localTypeDictionary;
         }
 
-        internal KtdType keyType;
-        internal KtdType elementType;
+        internal SinTDType keyType;
+        internal SinTDType elementType;
     }
 }

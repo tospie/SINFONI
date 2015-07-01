@@ -11,14 +11,14 @@ using SINFONI.Exceptions;
 namespace SINFONI
 {
     /// <summary>
-    /// Represents an array of KTD Types. KtdArray does not need a name and is not registered to the KTD,
-    /// but is used as member object for KTD Structs.
+    /// Represents an array of SinTD Types. SinTDArray does not need a name and is not registered to the SinTD,
+    /// but is used as member object for SinTD Structs.
     /// </summary>
-    public class KtdArray : KtdType
+    public class SinTDArray : SinTDType
     {
-        public KtdArray() { }
+        public SinTDArray() { }
 
-        public KtdArray(KtdType type)
+        public SinTDArray(SinTDType type)
         {
             elementType = type;
         }
@@ -40,7 +40,7 @@ namespace SINFONI
         public override object AssignValuesFromObject(object other)
         {
             if(!CanBeAssignedFromType(other.GetType()))
-                throw new TypeCastException("Cannot assign value to Instance of type KtdArray<" + elementType.Name + "> : "
+                throw new TypeCastException("Cannot assign value to Instance of type SinTDArray<" + elementType.Name + "> : "
                     + other + " is of type " + other.GetType());
 
             return CreateArrayInstanceFrom(other);
@@ -53,21 +53,21 @@ namespace SINFONI
 
             if (typeof(Array).IsAssignableFrom(nativeType))
             {
-                var genericAssignArray = typeof(KtdArray).GetMethod("AssignValuesToNativeArray");
+                var genericAssignArray = typeof(SinTDArray).GetMethod("AssignValuesToNativeArray");
                 var genericCall = genericAssignArray.MakeGenericMethod(enumerableElementType);
                 return genericCall.Invoke(this, new object[] { enumerable });
             }
 
             else if (typeof(IList).IsAssignableFrom(nativeType))
             {
-                var genericAssignList = typeof(KtdArray).GetMethod("AssignValuesToNativeList");
+                var genericAssignList = typeof(SinTDArray).GetMethod("AssignValuesToNativeList");
                 var genericCall = genericAssignList.MakeGenericMethod(enumerableElementType);
                 return genericCall.Invoke(this, new object[] { enumerable });
             }
 
             else
             {
-                var genericAssignSet = typeof(KtdArray).GetMethod("AssignValuesToNativeSet");
+                var genericAssignSet = typeof(SinTDArray).GetMethod("AssignValuesToNativeSet");
                 var genericCall = genericAssignSet.MakeGenericMethod(enumerableElementType);
                 return genericCall.Invoke(this, new object[] { enumerable });
             }
@@ -133,6 +133,6 @@ namespace SINFONI
             return null;
         }
 
-        internal KtdType elementType;
+        internal SinTDType elementType;
     }    
 }

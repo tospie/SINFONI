@@ -16,25 +16,25 @@ namespace SINFONI
     /// supported by SINFONI, as well as complex types array, map and string. A SINFONI Type provides the necessary methods
     /// to check if a native type or datastructure can be mapped to the respective SINFONI type
     /// </summary>
-    public class KtdType
+    public class SinTDType
     { 
         public delegate object MappingFunction(object other);
 
         /// <summary>
         /// Standard Constructor
         /// </summary>
-        public KtdType() { }
+        public SinTDType() { }
 
         /// <summary>
-        /// Constructor for named types that should be registered to the SINFONI Type Description (KTD)
+        /// Constructor for named types that should be registered to the SINFONI Type Description (SinTD)
         /// </summary>
         /// <param name="name">Name of the type</param>
-        public KtdType(string name)
+        public SinTDType(string name)
         {
             Name = name;            
         }
 
-        internal KtdType(string name, Type baseType)
+        internal SinTDType(string name, Type baseType)
         {
             this.BaseType = baseType;
         }
@@ -47,16 +47,16 @@ namespace SINFONI
         public Type InstanceType { get; internal set; }
 
         /// <summary>
-        /// Assign values from a native C# object to a KTD Type. Values are mapped by implicit cast for base types,
+        /// Assign values from a native C# object to a SinTD Type. Values are mapped by implicit cast for base types,
         /// arrays, and maps. For structs, values are mapped by name and type, or by a provided mapping function.
         /// Will throw exception when value cannot be assigned.
         /// </summary>
-        /// <param name="other">C# object the values of which should be assigned to the KTD type</param>
-        /// <returns>Object that corresponds to an instance of the KTD Type that maps to the C# object</returns>
+        /// <param name="other">C# object the values of which should be assigned to the SinTD type</param>
+        /// <returns>Object that corresponds to an instance of the SinTD Type that maps to the C# object</returns>
         public virtual object AssignValuesFromObject(object other)
         {
             if(!CanBeAssignedFromType(other.GetType()))
-                throw new TypeCastException("Cannot assign value to KtdInstance of type " + Name + ": "
+                throw new TypeCastException("Cannot assign value to SinTDInstance of type " + Name + ": "
                     + other + " is of Type " + other.GetType());
             return other;
         }
@@ -67,7 +67,7 @@ namespace SINFONI
         /// </summary>
         /// <param name="value">Value to be assigned to base type</param>
         /// <param name="localType">Native C# type to which the value should be assigned</param>
-        /// <returns>The KTD instance casted to Native C# type</returns>
+        /// <returns>The SinTD instance casted to Native C# type</returns>
         public virtual object AssignValuesToNativeType(object value, Type localType)
         {
             if (localType == typeof(object))

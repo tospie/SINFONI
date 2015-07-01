@@ -7,12 +7,12 @@ using SINFONI.Exceptions;
 namespace SINFONI
 {
     /// <summary>
-    /// KTD (SINFONI Type Description) maintains all types registered fron a SINFONI IDL. KTD contains all base types
+    /// SinTD (SINFONI Type Description) maintains all types registered fron a SINFONI IDL. SinTD contains all base types
     /// supported by SINFONI. During runtime, new complex types derived from these base types can be registered.
     /// </summary>
-    public class KTD
+    public class SinTD
     {
-        internal KTD()
+        internal SinTD()
         {
             registerBaseTypes();
             SINFONIServices = new ServiceRegistry();
@@ -20,7 +20,7 @@ namespace SINFONI
 
         public ServiceRegistry SINFONIServices { get; internal set; }
         /// <summary>
-        /// Checks if a type with a specific name is registered in the KTD
+        /// Checks if a type with a specific name is registered in the SinTD
         /// </summary>
         /// <param name="name">Name of the type that should be checked</param>
         /// <returns>true, if type was registered before</returns>
@@ -30,12 +30,12 @@ namespace SINFONI
         }
 
         /// <summary>
-        /// Returns a <see cref="KtdType"/> object that is registered in the KTD under the specified name.
+        /// Returns a <see cref="SinTDType"/> object that is registered in the SinTD under the specified name.
         /// Throws a <see cref="TypeNotRegisteredException"/>, if a type with given name is not registered.
         /// </summary>
         /// <param name="name">Name of the type that should be returned</param>
         /// <returns></returns>
-        public KtdType GetKtdType(string name)
+        public SinTDType GetSinTDType(string name)
         {
             if (!ContainsType(name))
             {
@@ -46,11 +46,11 @@ namespace SINFONI
         }
 
         /// <summary>
-        /// Registers a new Type to the Ktd. The type object that is used for registration must contain a
-        /// valid name (not null, not registered before). Otherwise, KTD will throw an exception.
+        /// Registers a new Type to the SinTD. The type object that is used for registration must contain a
+        /// valid name (not null, not registered before). Otherwise, SinTD will throw an exception.
         /// </summary>
-        /// <param name="type">New type that should be registered to the KTD</param>
-        public void RegisterType(KtdType type)
+        /// <param name="type">New type that should be registered to the SinTD</param>
+        public void RegisterType(SinTDType type)
         {
             if(type.Name == null
                 || type.Name.Length == 0)
@@ -64,25 +64,25 @@ namespace SINFONI
 
         private void registerBaseTypes()
         {
-            RegisterType(new KtdType("boolean"));
-            RegisterType(new KtdType("byte"));
+            RegisterType(new SinTDType("boolean"));
+            RegisterType(new SinTDType("byte"));
 
-            RegisterType(new KtdType("i16"));
-            RegisterType(new KtdType("i32"));
-            RegisterType(new KtdType("i64"));
+            RegisterType(new SinTDType("i16"));
+            RegisterType(new SinTDType("i32"));
+            RegisterType(new SinTDType("i64"));
 
-            RegisterType(new KtdType("u16"));
-            RegisterType(new KtdType("u32"));
-            RegisterType(new KtdType("u64"));
+            RegisterType(new SinTDType("u16"));
+            RegisterType(new SinTDType("u32"));
+            RegisterType(new SinTDType("u64"));
 
-            RegisterType(new KtdType("float"));
-            RegisterType(new KtdType("double"));
+            RegisterType(new SinTDType("float"));
+            RegisterType(new SinTDType("double"));
 
-            RegisterType(new KtdType("string"));
+            RegisterType(new SinTDType("string"));
 
-            RegisterType(new KtdType("any"));
+            RegisterType(new SinTDType("any"));
         }
 
-        internal Dictionary<string, KtdType> registeredTypes = new Dictionary<string,KtdType>();
+        internal Dictionary<string, SinTDType> registeredTypes = new Dictionary<string,SinTDType>();
     }
 }

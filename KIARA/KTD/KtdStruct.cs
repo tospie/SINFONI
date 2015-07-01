@@ -7,9 +7,9 @@ using System.Text;
 
 namespace SINFONI
 {
-    public class KtdStruct : KtdType
+    public class SinTDStruct : SinTDType
     {
-        public KtdStruct(string name) : base(name) {
+        public SinTDStruct(string name) : base(name) {
         }
 
         public override object AssignValuesFromObject(object other)
@@ -41,15 +41,15 @@ namespace SINFONI
         {
             var assignedMembers = new Dictionary<string, object>();
 
-            foreach (KeyValuePair<string, KtdType> field in members)
+            foreach (KeyValuePair<string, SinTDType> field in members)
             {
-                var ktdValue = getFieldValueForKtdInstance(other, field.Key, field.Value);
-                assignedMembers.Add(field.Key, ktdValue);
+                var SinTDValue = getFieldValueForSinTDInstance(other, field.Key, field.Value);
+                assignedMembers.Add(field.Key, SinTDValue);
             }
             return  assignedMembers;
         }
 
-        private object getFieldValueForKtdInstance(object other, string fieldName, KtdType ktdType)
+        private object getFieldValueForSinTDInstance(object other, string fieldName, SinTDType SinTDType)
         {
             var assignedValue = other;
             var otherField = other.GetType().GetField(fieldName);
@@ -57,11 +57,11 @@ namespace SINFONI
             if (otherField == null)
             {
                 var property = other.GetType().GetProperty(fieldName);
-                assignedValue = ktdType.AssignValuesFromObject(property.GetValue(other, null));
+                assignedValue = SinTDType.AssignValuesFromObject(property.GetValue(other, null));
             }
             else
             {
-                assignedValue = ktdType.AssignValuesFromObject(otherField.GetValue(other));
+                assignedValue = SinTDType.AssignValuesFromObject(otherField.GetValue(other));
             }
             return assignedValue;
         }
@@ -70,7 +70,7 @@ namespace SINFONI
         {
             if (!CanBeAssignedFromType(localType))
                 throw new Exceptions.TypeCastException
-                    ("Cannot assign value received for KtdStruct to native type " + localType);
+                    ("Cannot assign value received for SinTDStruct to native type " + localType);
 
             var dic = value as IDictionary;
 
@@ -120,7 +120,7 @@ namespace SINFONI
             var fields = type.GetFields();
             var properties = type.GetProperties();
 
-            foreach (KeyValuePair<string, KtdType> member in members)
+            foreach (KeyValuePair<string, SinTDType> member in members)
             {
                 bool memberCanBeAssigned =
                     memberCanBeAssignedFromProperties(member, properties)
@@ -137,7 +137,7 @@ namespace SINFONI
             return true;
         }
 
-        private bool memberCanBeAssignedFromFields(KeyValuePair<string, KtdType> member, FieldInfo[] fieldInfo)
+        private bool memberCanBeAssignedFromFields(KeyValuePair<string, SinTDType> member, FieldInfo[] fieldInfo)
         {
             int indexOfMemberInArray = Array.FindIndex(fieldInfo,
                 delegate(FieldInfo element)
@@ -157,7 +157,7 @@ namespace SINFONI
             return true;
         }
 
-        private bool memberCanBeAssignedFromProperties(KeyValuePair<string, KtdType> member, PropertyInfo[] propertyInfo)
+        private bool memberCanBeAssignedFromProperties(KeyValuePair<string, SinTDType> member, PropertyInfo[] propertyInfo)
         {
             int indexOfMemberInArray = Array.FindIndex(propertyInfo,
                 delegate(PropertyInfo element)
@@ -177,7 +177,7 @@ namespace SINFONI
             return true;
         }
 
-        internal Dictionary<string, KtdType> members = new Dictionary<string, KtdType>();
+        internal Dictionary<string, SinTDType> members = new Dictionary<string, SinTDType>();
         internal Dictionary<Type, bool> validMappings = new Dictionary<Type, bool>();
         internal Dictionary<Type, Delegate> mappings = new Dictionary<Type, Delegate>();
     }
