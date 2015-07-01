@@ -86,6 +86,7 @@ namespace KIARA
             switch(Name)
             {
                 case "boolean": return type.IsAssignableFrom(typeof(System.Boolean));
+                case "byte": return type.IsAssignableFrom(typeof(byte));
                 case "i16": return type.IsAssignableFrom(typeof(System.Int16));                
                 case "u16": return type.IsAssignableFrom(typeof(System.UInt16));
                 case "i32": return type.IsAssignableFrom(typeof(System.Int32));
