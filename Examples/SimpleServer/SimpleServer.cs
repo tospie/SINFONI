@@ -30,7 +30,7 @@ namespace SimpleServer
             ProtocolRegistry.Instance.RegisterProtocol(jsonRpc);
             ProtocolRegistry.Instance.RegisterProtocol(fivesJson);
 
-            KIARAServer newServer = new KIARAServer("localhost", 8080, "/service/", "server.kiara");
+            SINFONIServer newServer = new SINFONIServer("localhost", 8080, "/service/", "server.sinfoni");
             var service = newServer.StartService("127.0.0.1", 34568, "/service", "ws", "jsonrpc");
 
             service.OnNewClient += new NewClient(HandleNewClient);
@@ -42,7 +42,7 @@ namespace SimpleServer
         private void HandleNewClient(Connection connection)
         {
             Console.WriteLine("New Client connected!");
-            connection.LoadLocalIDL("server.kiara");
+            connection.LoadLocalIDL("server.sinfoni");
         }
 
         private Vector addVectors(Vector a, Vector b)
