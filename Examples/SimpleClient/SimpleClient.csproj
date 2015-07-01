@@ -68,7 +68,7 @@
     <None Include="server.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="server.kiara">
+    <None Include="server.sinfoni">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
