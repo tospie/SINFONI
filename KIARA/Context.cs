@@ -116,6 +116,7 @@ namespace KIARA
             transportListener.NewClientConnected += (object sender, NewConnectionEventArgs e) =>
             {
                 Connection newConnection = new Connection(e.Connection, protocol);
+                newConnection.LoadIDL(ServerConfig);
                 onNewClient(newConnection);
             };
 
