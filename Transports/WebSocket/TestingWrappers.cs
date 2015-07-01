@@ -18,14 +18,14 @@ namespace KIARA.Transport.WebSocketTransport
 
     public interface IWSJFuncCallFactory
     {
-        FuncCallBase Construct(string serviceName, string methodName);
+        FuncCallBase Construct(string serviceName, string methodName, Connection connection);
     }
 
     public class WSJFuncCallFactory : IWSJFuncCallFactory
     {
-        public FuncCallBase Construct(string serviceName, string methodName)
+        public FuncCallBase Construct(string serviceName, string methodName, Connection connection)
         {
-            return new FuncCallBase(serviceName, methodName);
+            return new FuncCallBase(serviceName, methodName, connection);
         }
     }
 

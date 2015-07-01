@@ -11,92 +11,92 @@ namespace KIARAUnitTests
     [TestFixture()]
     class TestKTD
     {
-
+        KTD ktdInstance = new KTD();
         [Test()]
         public void ShouldContainCorrectDefinitionOfInt16()
         {
-            Assert.IsTrue(KTD.Instance.ContainsType("i16")
-                && KTD.Instance.GetKtdType("i16").Name == "i16"
-                && KTD.Instance.GetKtdType("i16").canBeAssignedFromType(typeof(Int16)));
+            Assert.IsTrue(ktdInstance.ContainsType("i16")
+                && ktdInstance.GetKtdType("i16").Name == "i16"
+                && ktdInstance.GetKtdType("i16").CanBeAssignedFromType(typeof(Int16)));
         }
 
         [Test()]
         public void ShouldContainCorrectDefinitionOfInt32()
         {
-            Assert.IsTrue(KTD.Instance.ContainsType("i32")
-                && KTD.Instance.GetKtdType("i32").Name == "i32"
-                && KTD.Instance.GetKtdType("i32").canBeAssignedFromType(typeof(int)));
+            Assert.IsTrue(ktdInstance.ContainsType("i32")
+                && ktdInstance.GetKtdType("i32").Name == "i32"
+                && ktdInstance.GetKtdType("i32").CanBeAssignedFromType(typeof(int)));
         }
 
         [Test()]
         public void ShouldContainCorrectDefinitionOfInt64()
         {
-            Assert.IsTrue(KTD.Instance.ContainsType("i64")
-                && KTD.Instance.GetKtdType("i64").Name == "i64"
-                && KTD.Instance.GetKtdType("i64").canBeAssignedFromType(typeof(Int64)));
+            Assert.IsTrue(ktdInstance.ContainsType("i64")
+                && ktdInstance.GetKtdType("i64").Name == "i64"
+                && ktdInstance.GetKtdType("i64").CanBeAssignedFromType(typeof(Int64)));
         }
 
         [Test()]
         public void ShouldContainCorrectDefinitionOfUInt16()
         {
-            Assert.IsTrue(KTD.Instance.ContainsType("u16")
-                && KTD.Instance.GetKtdType("u16").Name == "u16"
-                && KTD.Instance.GetKtdType("u16").canBeAssignedFromType(typeof(UInt16)));
+            Assert.IsTrue(ktdInstance.ContainsType("u16")
+                && ktdInstance.GetKtdType("u16").Name == "u16"
+                && ktdInstance.GetKtdType("u16").CanBeAssignedFromType(typeof(UInt16)));
         }
 
         [Test()]
         public void ShouldContainCorrectDefinitionOfUInt32()
         {
-            Assert.IsTrue(KTD.Instance.ContainsType("u32")
-                && KTD.Instance.GetKtdType("u32").Name == "u32"
-                && KTD.Instance.GetKtdType("u32").canBeAssignedFromType(typeof(UInt32)));
+            Assert.IsTrue(ktdInstance.ContainsType("u32")
+                && ktdInstance.GetKtdType("u32").Name == "u32"
+                && ktdInstance.GetKtdType("u32").CanBeAssignedFromType(typeof(UInt32)));
         }
 
         [Test()]
         public void ShouldContainCorrectDefinitionOfUInt64()
         {
-            Assert.IsTrue(KTD.Instance.ContainsType("u64")
-                && KTD.Instance.GetKtdType("u64").Name == "u64"
-                && KTD.Instance.GetKtdType("u64").canBeAssignedFromType(typeof(UInt64)));
+            Assert.IsTrue(ktdInstance.ContainsType("u64")
+                && ktdInstance.GetKtdType("u64").Name == "u64"
+                && ktdInstance.GetKtdType("u64").CanBeAssignedFromType(typeof(UInt64)));
         }
 
         [Test()]
         public void ShouldContainCorrectDefinitionOfBoolean()
         {
-            Assert.IsTrue(KTD.Instance.ContainsType("boolean")
-                && KTD.Instance.GetKtdType("boolean").Name == "boolean"
-                && KTD.Instance.GetKtdType("boolean").canBeAssignedFromType(typeof(bool)));
+            Assert.IsTrue(ktdInstance.ContainsType("boolean")
+                && ktdInstance.GetKtdType("boolean").Name == "boolean"
+                && ktdInstance.GetKtdType("boolean").CanBeAssignedFromType(typeof(bool)));
         }
 
         [Test()]
         public void ShouldCOntainCorrectDefinitionOfFloat()
         {
-            Assert.IsTrue(KTD.Instance.ContainsType("float")
-                && KTD.Instance.GetKtdType("float").Name == "float"
-                && KTD.Instance.GetKtdType("float").canBeAssignedFromType(typeof(float)));
+            Assert.IsTrue(ktdInstance.ContainsType("float")
+                && ktdInstance.GetKtdType("float").Name == "float"
+                && ktdInstance.GetKtdType("float").CanBeAssignedFromType(typeof(float)));
         }
 
         [Test()]
         public void ShouldContainCorrectDefinitionOfString()
         {
-            Assert.IsTrue(KTD.Instance.ContainsType("string")
-                && KTD.Instance.GetKtdType("string").Name == "string"
-                && KTD.Instance.GetKtdType("string").canBeAssignedFromType(typeof(string)));
+            Assert.IsTrue(ktdInstance.ContainsType("string")
+                && ktdInstance.GetKtdType("string").Name == "string"
+                && ktdInstance.GetKtdType("string").CanBeAssignedFromType(typeof(string)));
         }
 
         [Test()]
         public void ShouldContainDefinitionOfAny()
         {
-            Assert.IsTrue(KTD.Instance.ContainsType("any")
-                && KTD.Instance.GetKtdType("any").Name == "any");
+            Assert.IsTrue(ktdInstance.ContainsType("any")
+                && ktdInstance.GetKtdType("any").Name == "any");
         }
 
         [Test()]
         public void ShouldThrowExceptionOnRegisteringSameTypenameTwice()
         {
-            Assert.DoesNotThrow(() => { KTD.Instance.RegisterType(new KtdType("newType")); });
+            Assert.DoesNotThrow(() => { ktdInstance.RegisterType(new KtdType("newType")); });
             Assert.Throws(typeof(TypeNameConflictException),
-                () => { KTD.Instance.RegisterType(new KtdType("newType")); }
+                () => { ktdInstance.RegisterType(new KtdType("newType")); }
                 );
         }
 
@@ -104,20 +104,20 @@ namespace KIARAUnitTests
         public void ShouldThrowExceptionOnRequestingNonExistantType()
         {
             Assert.Throws(typeof(TypeNotRegisteredException),
-                () => KTD.Instance.GetKtdType("notRegistered"));
+                () => ktdInstance.GetKtdType("notRegistered"));
         }
 
         [Test()]
         public void ShouldThrowExceptionOnInvalidTypeName()
         {
-            Assert.Throws<InvalidTypeNameException>(() => KTD.Instance.RegisterType(new KtdType()));
-            Assert.Throws<InvalidTypeNameException>(() => KTD.Instance.RegisterType(new KtdType("")));
+            Assert.Throws<InvalidTypeNameException>(() => ktdInstance.RegisterType(new KtdType()));
+            Assert.Throws<InvalidTypeNameException>(() => ktdInstance.RegisterType(new KtdType("")));
         }
 
         [Test()]
         public void ShouldReturnRequestedType()
         {
-            KtdType requestedType = KTD.Instance.GetKtdType("i16");
+            KtdType requestedType = ktdInstance.GetKtdType("i16");
             Assert.AreEqual("i16", requestedType.Name);
         }
     }

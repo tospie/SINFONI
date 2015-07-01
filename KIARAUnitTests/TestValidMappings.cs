@@ -28,6 +28,7 @@ namespace KIARAUnitTests
 
         KtdStruct intStruct;
         KtdStruct nestedStruct;
+        KtdStruct Vector;
 
         KtdArray ktd_array;
         KtdMap map;
@@ -115,143 +116,154 @@ namespace KIARAUnitTests
             ktd_mapWithStructKeys = new KtdMap();
             ktd_mapWithStructKeys.elementType = ktd_string;
             ktd_mapWithStructKeys.keyType = nestedStruct;
+
+            Vector = new KtdStruct("Vector");
+            Vector.members.Add("x", ktd_float);
+            Vector.members.Add("y", ktd_float);
+            Vector.members.Add("z", ktd_float);
         }
 
         [Test()]
         public void ShouldAssignToInt16()
-        {            
-            Assert.IsTrue(i16.canBeAssignedFromType(typeof(short)));
+        {
+            Assert.IsTrue(i16.CanBeAssignedFromType(typeof(short)));
         }
         
         [Test()]
         public void ShouldAssignToInt32()
         {                    
-            Assert.IsTrue(i32.canBeAssignedFromType(typeof(int)));
+            Assert.IsTrue(i32.CanBeAssignedFromType(typeof(int)));
         }
 
         [Test()]
         public void ShouldAssignToInt64()
         {
-            Assert.IsTrue(i64.canBeAssignedFromType(typeof(long)));
+            Assert.IsTrue(i64.CanBeAssignedFromType(typeof(long)));
         }
 
 
         [Test()]
         public void ShouldAssignToUInt16()
         {
-            Assert.IsTrue(ui16.canBeAssignedFromType(typeof(ushort)));
+            Assert.IsTrue(ui16.CanBeAssignedFromType(typeof(ushort)));
         }
 
         [Test()]
         public void ShouldAssignToUInt32()
         {
-            Assert.IsTrue(ui32.canBeAssignedFromType(typeof(uint)));
+            Assert.IsTrue(ui32.CanBeAssignedFromType(typeof(uint)));
         }
 
         [Test()]
         public void ShouldAssignToUInt64()
         {
-            Assert.IsTrue(ui64.canBeAssignedFromType(typeof(ulong)));
+            Assert.IsTrue(ui64.CanBeAssignedFromType(typeof(ulong)));
         }
 
         [Test()]
         public void ShouldAssignToFloat()
         {
-            Assert.IsTrue(ktd_float.canBeAssignedFromType(typeof(float)));
+            Assert.IsTrue(ktd_float.CanBeAssignedFromType(typeof(float)));
         }
 
         [Test()]
         public void ShouldAssignToDouble()
         {
-            Assert.IsTrue(ktd_double.canBeAssignedFromType(typeof(double)));
+            Assert.IsTrue(ktd_double.CanBeAssignedFromType(typeof(double)));
         }
 
         [Test()]
         public void CanMapStruct()
-        {            
-            Assert.IsTrue(intStruct.canBeAssignedFromType(typeof(testStruct)));
+        {
+            Assert.IsTrue(intStruct.CanBeAssignedFromType(typeof(testStruct)));
         }
 
         [Test()]
         public void CanMapStructsOfStructs()
-        {         
-            Assert.IsTrue(nestedStruct.canBeAssignedFromType(typeof(nestedTestStruct)));
+        {
+            Assert.IsTrue(nestedStruct.CanBeAssignedFromType(typeof(nestedTestStruct)));
         }
            
         [Test()]
         public void CanMapClassWithProperties()
         {
             var c = new testClass { y = 2 };
-            Assert.IsTrue(intStruct.canBeAssignedFromType(c.GetType()));
+            Assert.IsTrue(intStruct.CanBeAssignedFromType(c.GetType()));
         }
 
         [Test()]
         public void CanAssignNestedClass()
         {
-            Assert.IsTrue(nestedStruct.canBeAssignedFromType(typeof(nestedTestClass)));
+            Assert.IsTrue(nestedStruct.CanBeAssignedFromType(typeof(nestedTestClass)));
         }
 
         [Test()]
         public void ShouldMatchArrayTypes()
         {
-            Assert.IsTrue(ktd_array.canBeAssignedFromType(typeof(int[])));
-            Assert.IsTrue(ktd_array.canBeAssignedFromType(typeof(List<int>)));
-            Assert.IsTrue(ktd_array.canBeAssignedFromType(typeof(ISet<int>)));            
+            Assert.IsTrue(ktd_array.CanBeAssignedFromType(typeof(int[])));
+            Assert.IsTrue(ktd_array.CanBeAssignedFromType(typeof(List<int>)));
+            Assert.IsTrue(ktd_array.CanBeAssignedFromType(typeof(ISet<int>)));
         }
 
         [Test()]
         public void ShouldMatchDictionaryTypes()
         {         
-            Assert.IsTrue(map.canBeAssignedFromType(typeof(Dictionary<string, testClass>)));
+            Assert.IsTrue(map.CanBeAssignedFromType(typeof(Dictionary<string, testClass>)));
         }
 
         [Test()]
         public void ShouldReturnFalseForWrongArrayType()
         {
-            Assert.IsFalse(ktd_array.canBeAssignedFromType(typeof(float[])));
-            Assert.IsFalse(ktd_array.canBeAssignedFromType(typeof(List<float>)));
-            Assert.IsFalse(ktd_array.canBeAssignedFromType(typeof(ISet<float>)));      
+            Assert.IsFalse(ktd_array.CanBeAssignedFromType(typeof(float[])));
+            Assert.IsFalse(ktd_array.CanBeAssignedFromType(typeof(List<float>)));
+            Assert.IsFalse(ktd_array.CanBeAssignedFromType(typeof(ISet<float>)));
         }
 
         [Test()]
         public void ShouldReturnFalseForWrongDictionaryKey()
         {
-            Assert.IsFalse(map.canBeAssignedFromType(typeof(Dictionary<int, testClass>)));
+            Assert.IsFalse(map.CanBeAssignedFromType(typeof(Dictionary<int, testClass>)));
         }
 
         [Test()]
         public void ShouldReturnFalseForWrongDictionaryValue()
         {
-            Assert.IsFalse(map.canBeAssignedFromType(typeof(Dictionary<string, nestedTestClass>)));
+            Assert.IsFalse(map.CanBeAssignedFromType(typeof(Dictionary<string, nestedTestClass>)));
         }
 
         [Test()]
         public void ShouldMapArrayElementsAsClassAndStruct()
         {
-            Assert.IsTrue(ktd_arrayOfStructs.canBeAssignedFromType(typeof(List<nestedTestClass>)));
-            Assert.IsTrue(ktd_arrayOfStructs.canBeAssignedFromType(typeof(List<nestedTestStruct>)));
+            Assert.IsTrue(ktd_arrayOfStructs.CanBeAssignedFromType(typeof(List<nestedTestClass>)));
+            Assert.IsTrue(ktd_arrayOfStructs.CanBeAssignedFromType(typeof(List<nestedTestStruct>)));
         }
 
         [Test()]
         public void ShouldMapDictionaryElementsAsClassAndStruct()
         {
-            Assert.IsTrue(ktd_mapWithStructElements.canBeAssignedFromType(typeof(Dictionary<string, nestedTestClass>)));
-            Assert.IsTrue(ktd_mapWithStructElements.canBeAssignedFromType(typeof(Dictionary<string, nestedTestStruct>)));
+            Assert.IsTrue(ktd_mapWithStructElements.CanBeAssignedFromType(typeof(Dictionary<string, nestedTestClass>)));
+            Assert.IsTrue(ktd_mapWithStructElements.CanBeAssignedFromType(typeof(Dictionary<string, nestedTestStruct>)));
         }
 
         [Test()]
         public void ShouldMapDictionaryKeysAsClassAndStruct()
         {
-            Assert.IsTrue(ktd_mapWithStructKeys.canBeAssignedFromType(typeof(Dictionary<nestedTestClass, string>)));
-            Assert.IsTrue(ktd_mapWithStructKeys.canBeAssignedFromType(typeof(Dictionary<nestedTestStruct, string>)));
+            Assert.IsTrue(ktd_mapWithStructKeys.CanBeAssignedFromType(typeof(Dictionary<nestedTestClass, string>)));
+            Assert.IsTrue(ktd_mapWithStructKeys.CanBeAssignedFromType(typeof(Dictionary<nestedTestStruct, string>)));
+        }
+
+        [Test()]
+        public void ShouldMapDictionaryToStruct()
+        {
+            Assert.IsTrue(Vector.CanBeAssignedFromType(typeof(Dictionary<string, float>)));
         }
 
         [Test()]
         public void ShouldCacheValidMapping()
         {
             var KtdType = new KtdStruct("testType");
-            KtdType.members.Add("i16", KTD.Instance.GetKtdType("i16"));
-            KtdType.canBeAssignedFromType(typeof(List<nestedTestStruct>));
+            KtdType.members.Add("i16", i16);
+            KtdType.CanBeAssignedFromType(typeof(List<nestedTestStruct>));
             Assert.Contains(typeof(List<nestedTestStruct>), KtdType.validMappings.Keys);
             Assert.IsFalse(KtdType.validMappings[typeof(List<nestedTestStruct>)]);
         }

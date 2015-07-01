@@ -37,6 +37,9 @@ namespace KIARAUnitTests
         KtdType ktd_string;
         KtdStruct intStruct;
 
+        TestConnection connection;
+
+        KTD ktdInstance;
         struct testStruct
         {
             public int x;
@@ -47,11 +50,11 @@ namespace KIARAUnitTests
         [SetUp()]
         public void Setup()
         {
-            KTD.Instance = new KTD();
-            ServiceRegistry.Instance = new ServiceRegistry();
+            ktdInstance = new KTD();
+            ktdInstance.KiaraServices = new ServiceRegistry();
 
-            i32 = KTD.Instance.GetKtdType("i32");
-            ktd_string = KTD.Instance.GetKtdType("string");
+            i32 = ktdInstance.GetKtdType("i32");
+            ktd_string = ktdInstance.GetKtdType("string");
 
             intStruct = new KtdStruct("intStruct");
             intStruct.members["x"] = i32;
@@ -64,14 +67,14 @@ namespace KIARAUnitTests
             service = new KiaraService("service");
             service.serviceFunctions.Add("function", serviceFunction);
 
-            ServiceRegistry.Instance.services.Add("service", service);
+            ktdInstance.KiaraServices.services.Add("service", service);
+            connection = new TestConnection();
+            connection.Ktd = ktdInstance;
         }
         
         [Test()]
         public void CallShouldBeValidForCorrectParameters()
         {
-            Connection connection = new TestConnection();
-
             var clientFunction = connection.GenerateClientFunction("service", "function");
             Assert.DoesNotThrow(() => clientFunction(1, "Hello World"));
         }
@@ -86,8 +89,6 @@ namespace KIARAUnitTests
             var serviceFunction = new ServiceFunctionDescription("arrayFunction", new KtdType("void"));
             serviceFunction.Parameters.Add("arrayParam", parameterArray);
             service.serviceFunctions.Add("arrayFunction", serviceFunction);
-
-            Connection connection = new TestConnection();
             var clientFunction = connection.GenerateClientFunction("service", "arrayFunction");
             Assert.DoesNotThrow(() => clientFunction(new int[] {1, 2, 3, 4}));
         }
@@ -102,8 +103,6 @@ namespace KIARAUnitTests
             var serviceFunction = new ServiceFunctionDescription("mapFunction", new KtdType("void"));
             serviceFunction.Parameters.Add("mapParam", parameterMap);
             service.serviceFunctions.Add("mapFunction", serviceFunction);
-
-            Connection connection = new TestConnection();
             var clientFunction = connection.GenerateClientFunction("service", "mapFunction");
             Assert.DoesNotThrow(() => clientFunction(new Dictionary<string, int> {
                 {"first", 1},
@@ -117,8 +116,6 @@ namespace KIARAUnitTests
             var serviceFunction = new ServiceFunctionDescription("structFunction", new KtdType("void"));
             serviceFunction.Parameters.Add("structParam", intStruct);
             service.serviceFunctions.Add("structFunction", serviceFunction);
-
-            var connection = new TestConnection();
             var clientFunction = connection.GenerateClientFunction("service", "structFunction");
             Assert.DoesNotThrow(() => clientFunction(new testStruct { x = 1, y = 1 }));
         }
@@ -126,7 +123,6 @@ namespace KIARAUnitTests
         [Test()]
         public void CallShouldThrowExceptionWhenRegisteringToNonexistingService()
         {
-            Connection connection = new TestConnection();
             Assert.Throws<ServiceNotRegisteredException>(
                 () => connection.GenerateClientFunction("invalid_service", "invalid_function"));
         }
@@ -134,7 +130,6 @@ namespace KIARAUnitTests
         [Test()]
         public void CallShouldThrowExceptionWhenRegisteringToNonexistingServiceFunction()
         {
-            Connection connection = new TestConnection();
             Assert.Throws<ServiceNotRegisteredException>(
                 () => connection.GenerateClientFunction("service", "invalid_function"));
         }
@@ -142,8 +137,6 @@ namespace KIARAUnitTests
         [Test()]
         public void CallShouldThrowExceptionForWrongParameterCount()
         {
-            Connection connection = new TestConnection();
-
             var clientFunction = connection.GenerateClientFunction("service", "function");
             Assert.Throws<ParameterMismatchException>(() => clientFunction("Hello World"));
         }
@@ -151,8 +144,6 @@ namespace KIARAUnitTests
         [Test()]
         public void CallShouldThrowExceptionForWrongParameterType()
         {
-            Connection connection = new TestConnection();
-
             var clientFunction = connection.GenerateClientFunction("service", "function");
             Assert.Throws<ParameterMismatchException>(() => clientFunction(1.0f, "Hello World"));
         }
