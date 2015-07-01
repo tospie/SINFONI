@@ -6,6 +6,7 @@ using System.Text;
 using KIARA;
 using KIARA.Transport.WebSocketTransport;
 using KIARA.Protocols.JsonRPC;
+using FiVESJson;
 
 
 namespace SimpleServer
@@ -21,29 +22,19 @@ namespace SimpleServer
 
         public SimpleServer()
         {
-            // string configURI = ServerSyncTools.ConvertFileNameToURI("server.json");
-
             ITransport websocketTransport = new WebSocketTransport();
             TransportRegistry.Instance.RegisterTransport(websocketTransport);
 
             IProtocol jsonRpc = new JsonRpcProtocol();
+            IProtocol fivesJson = new FiVESJsonProtocol();
             ProtocolRegistry.Instance.RegisterProtocol(jsonRpc);
-            // Connection Factory fliegt so raus -> Registered werden müssen Protokoll und Transport
-            // (Register Transport / Register Protocol)
+            ProtocolRegistry.Instance.RegisterProtocol(fivesJson);
 
-            // ServiceFactory.Create -> Start new Server / KIARA Base Server
-            KIARAServer newServer = new KIARAServer("127.0.0.1", 8080, "/service/", "server.kiara");
-            var service = newServer.StartService("127.0.0.1", 44444, "/service", "ws", "jsonrpc");
-
-            // Service erstellen: new Service(transport, protocol, url)
+            KIARAServer newServer = new KIARAServer("localhost", 8080, "/service/", "server.kiara");
+            var service = newServer.StartService("127.0.0.1", 34568, "/service", "ws", "jsonrpc");
 
             service.OnNewClient += new NewClient(HandleNewClient);
-
-            // Bleibt
             service["example.addVectors"] = (Func<Vector, Vector, Vector>)addVectors;
-
-            // Service muss auf server registriert werden
-            // KIARAServer.AddService(service)
 
             Console.Read();
        }
@@ -51,6 +42,7 @@ namespace SimpleServer
         private void HandleNewClient(Connection connection)
         {
             Console.WriteLine("New Client connected!");
+            connection.LoadLocalIDL("server.kiara");
         }
 
         private Vector addVectors(Vector a, Vector b)

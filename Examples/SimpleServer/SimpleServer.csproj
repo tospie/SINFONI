@@ -86,6 +86,10 @@
       <Project>{b43693ef-8534-4491-93b9-d9e4702dc0f3}</Project>
       <Name>KIARA</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Protocols\FiVESJson\FiVESJson.csproj">
+      <Project>{042a4fda-b1e5-4150-9467-740bbbec84a5}</Project>
+      <Name>FiVESJson</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Protocols\JsonRPC\JsonRPC.csproj">
       <Project>{c94e447a-bd82-4db8-b0fa-803d3ccb3ea0}</Project>
       <Name>JsonRPC</Name>
