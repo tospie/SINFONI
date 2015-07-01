@@ -62,7 +62,7 @@ namespace FiVESJson
 
             if (deserializedMessage.Type == MessageType.RESPONSE)
             {
-                deserializedMessage.IsException = (bool)data[2];
+                deserializedMessage.IsException = !((bool)data[2]); // Position 2 of message encodes SUCCESS
                 deserializedMessage.Result = data[3];
             }
 
