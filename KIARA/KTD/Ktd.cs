@@ -65,6 +65,8 @@ namespace KIARA
         private void registerBaseTypes()
         {
             RegisterType(new KtdType("boolean"));
+            RegisterType(new KtdType("byte"));
+
             RegisterType(new KtdType("i16"));
             RegisterType(new KtdType("i32"));
             RegisterType(new KtdType("i64"));
