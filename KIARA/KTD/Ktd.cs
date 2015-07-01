@@ -12,14 +12,10 @@ namespace KIARA
     /// </summary>
     public class KTD
     {
-        /// <summary>
-        /// Singleton handler to the Kiara Type Description
-        /// </summary>
-        public static KTD Instance = new KTD();
-
         internal KTD()
         {
             registerBaseTypes();
+            KiaraServices = new ServiceRegistry();
         }
 
         /// <summary>
