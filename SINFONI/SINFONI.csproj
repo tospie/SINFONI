@@ -84,11 +84,11 @@
     <Compile Include="Protocol\MessageBase.cs" />
     <Compile Include="Protocol\ProtocolUtils.cs" />
     <Compile Include="Services\SINFONIService.cs" />
-    <Compile Include="KTD\SinTD.cs" />
-    <Compile Include="KTD\SinTDArray.cs" />
-    <Compile Include="KTD\SinTDMap.cs" />
-    <Compile Include="KTD\SinTDStruct.cs" />
-    <Compile Include="KTD\SinTDType.cs" />
+    <Compile Include="SinTD\SinTD.cs" />
+    <Compile Include="SinTD\SinTDArray.cs" />
+    <Compile Include="SinTD\SinTDMap.cs" />
+    <Compile Include="SinTD\SinTDStruct.cs" />
+    <Compile Include="SinTD\SinTDType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IDLParser\StructParser.cs" />
     <Compile Include="Protocol\ProtocolRegistry.cs" />
