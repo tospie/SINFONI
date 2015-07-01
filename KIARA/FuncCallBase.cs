@@ -87,10 +87,11 @@ namespace KIARA
 
         #endregion
 
-        public FuncCallBase(string serviceName, string functionName)
+        public FuncCallBase(string serviceName, string functionName, Connection connection)
         {
             ServiceName = serviceName;
             FunctionName = functionName;
+            CallingConnection = connection;
         }
 
 
@@ -161,7 +162,7 @@ namespace KIARA
         /// <param name="type">Type to which the result must be converted.</param>
         protected object ConvertResult(object result, Type type)
         {
-            KtdType idlReturnType = ServiceRegistry.Instance
+            KtdType idlReturnType = CallingConnection.Ktd.KiaraServices
                         .GetService(ServiceName)
                         .GetServiceFunction(FunctionName)
                         .ReturnType;
@@ -210,6 +211,7 @@ namespace KIARA
 
         protected string ServiceName;
         protected string FunctionName;
+        protected Connection CallingConnection;
     }
 }
 
