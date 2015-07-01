@@ -18,6 +18,7 @@ namespace KIARA
             KiaraServices = new ServiceRegistry();
         }
 
+        public ServiceRegistry KiaraServices { get; internal set; }
         /// <summary>
         /// Checks if a type with a specific name is registered in the KTD
         /// </summary>
