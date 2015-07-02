@@ -110,6 +110,7 @@
     <None Include="server.sinfoni">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="SimpleServer.licenseheader" />
     <None Include="SimpleServer.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

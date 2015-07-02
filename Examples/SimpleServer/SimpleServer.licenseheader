@@ -1,4 +1,6 @@
-﻿// This file is part of SINFONI.
+extensions: designer.cs generated.cs
+extensions: .cs .cpp .h
+// This file is part of SINFONI.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -12,27 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SimpleClient
-{
-    public class ClientVector
-    {
-        public float x { get; set; }
-        public float y { get; set; }
-        public float z { get; set; }
-
-        public double Length
-        {
-            get { return getLength(); }
-        }
-
-        private double getLength()
-        {
-            return Math.Sqrt(x * x + y * y + z * z);
-        }
-    }
-}
+extensions: .aspx .ascx
+extensions: .vb
+extensions:  .xml .config .xsd
