@@ -82,7 +82,6 @@
     <Compile Include="Protocol\IMessage.cs" />
     <Compile Include="Protocol\IProtocol.cs" />
     <Compile Include="Protocol\MessageBase.cs" />
-    <Compile Include="Protocol\ProtocolUtils.cs" />
     <Compile Include="Services\SINFONIService.cs" />
     <Compile Include="SinTD\SinTD.cs" />
     <Compile Include="SinTD\SinTDArray.cs" />
