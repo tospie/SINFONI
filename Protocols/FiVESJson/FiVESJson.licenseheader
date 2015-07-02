@@ -1,4 +1,6 @@
-﻿// This file is part of SINFONI.
+extensions: designer.cs generated.cs
+extensions: .cs .cpp .h
+// This file is part of SINFONI.
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -12,20 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public
 // License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FiVESJson
-{
-    public class InvalidMessageTypeException : Exception
-    {
-        public InvalidMessageTypeException(string attemptedType) :
-            base("Unknown message type for received message : " + attemptedType)
-        {            
-        }
-    }
-}
+extensions: .aspx .ascx
+extensions: .vb
+extensions:  .xml .config .xsd
