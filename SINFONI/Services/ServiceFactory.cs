@@ -19,10 +19,6 @@ namespace SINFONI
 {
     public static class ServiceFactory
     {
-        /// <summary>
-        /// Creates a new service with description at <paramref name="configURI"/> using the default context.
-        /// </summary>
-        /// <returns>Created service.</returns>
         public static ServiceImplementation Create()
         {
             ServiceImplementation service = new ServiceImplementation(Context.DefaultContext);

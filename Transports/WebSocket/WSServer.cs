@@ -46,7 +46,7 @@ namespace SINFONI.Transport.WebSocketTransport
     {
         public event EventHandler<NewConnectionEventArgs> NewClientConnected;
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebSocketJSON.WSJServer"/> class.
+        /// Initializes a new instance of the WSJServer class.
         /// </summary>
         /// <param name="onNewClient">The handler to be called for each new client.</param>
         public WSServer()

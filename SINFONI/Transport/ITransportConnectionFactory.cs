@@ -26,19 +26,20 @@ namespace SINFONI
     public interface ITransportConnectionFactory
     {
         /// <summary>
-        /// Opens a connection to the remote server specified by the <paramref name="serverConfig"/> and executes
-        /// <paramref name="onConnected"/> when the connection is established.
+        /// Opens a connection to the remote server and executes <paramref name="onConnected"/> when the connection
+        /// is established.
         /// </summary>
-        /// <param name="serverConfig">Server config.</param>
+        /// <param name="host">IP Address or hostname of the server</param>
+        /// <param name="port">Port under which remote server is listening</param>
+        /// <param name="context">Context under which the connection is openend</param>
         /// <param name="onConnected">Callback to be called when the connection is established.</param>
         ITransportConnection OpenConnection(string host, int port, Context context, Action<Connection> onConnected);
 
         /// <summary>
-        /// Starts the server listening for new clients according to the configuration in the
-        /// <paramref name="serverConfig"/>. For each new client <paramref name="onNewClient"/> is called.
+        /// Starts the server listening for new clients
         /// </summary>
-        /// <param name="serverConfig">Server config.</param>
-        /// <param name="onNewClient">Callback to be called for each new client.</param>
+        /// <param name="uri">URI (hostname or IP address) of the new server.</param>
+        /// <param name="port">Port of the new server</param>
         ITransportListener StartConnectionListener(string uri, int port);
     }
 }

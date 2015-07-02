@@ -67,7 +67,7 @@ namespace SINFONI
         /// Fragment part of the <paramref name="configURI"/> may be used to select the server by its index, e.g.
         /// <c>"http://www.example.org/config.json#3"</c>. If no fragment is provided, or index is invalid, first server
         /// with supported protocol is chosen. Upon connection <paramref name="onConnected"/> is called with the
-        /// constructed <see cref="SINFONIPluginInitializer.Connection"/> object.
+        /// constructed Connection object.
         /// </summary>
         /// <param name="configURI">
         /// URI where config is to be found. Data URIs starting with <c>"data:text/json;base64,"</c> are supported.
@@ -112,16 +112,12 @@ namespace SINFONI
         /// the <paramref name="configURI"/> may be used to select the server by its index, e.g.
         /// <c>"http://www.example.org/config.json#3"</c>. If no fragment is provided, or index is invalid, first server
         /// with supported protocol is chosen. For each connected client <paramref name="onNewClient"/> is called with
-        /// constructed <see cref="SINFONIPluginInitializer.Connection"/> object.
+        /// constructed Connection object.
         /// </summary>
         /// <remarks>
         /// Note that <paramref name="onNewClient"/> may be executed on a different thread than the one you are calling
         /// from, depending on the implementation of the protocol specified in the config file.
         /// </remarks>
-        /// <param name="configURI">
-        /// URI where config is to be found. Data URIs starting with <c>"data:text/json;base64,"</c> are supported.
-        /// </param>
-        /// <param name="onNewClient">Handler to be invoked for each new client.</param>
         public ServiceDescription StartServer(string uri, int port, string transportName, string protocolName,
             Config ServerConfig, Action<Connection> onNewClient)
         {
@@ -211,10 +207,7 @@ namespace SINFONI
         }
 
         internal IProtocolRegistry protocolRegistry = ProtocolRegistry.Instance;
-        internal IWebClient webClient = new WebClientWrapper();
-        // TODO: Diese Liste soll alle durch StartService gestarteten SERVICES enthalten. Die CONFIG oben wird dann aus der Liste dieser
-        // SERVICES erstellt.
-        // StartService benutzt dann KEINE CONFIG mehr, sondern wird direkt durch ANGABE VON TRANSPORT, PROTOCOL und PFAD im Code definiert
+        internal IWebClient webClient = new WebClientWrapper();        
         internal List<Service> registeredServices = new List<Service>();
     }
 }

@@ -41,10 +41,10 @@ namespace SINFONI
         public readonly static ProtocolRegistry Instance = new ProtocolRegistry();
 
         /// <summary>
-        /// Registers a connection <paramref name="factory"/> for the <paramref name="protocolName"/>.
+        /// Registers a protocol implementation. Adds it to the list of available protocols and makes it accessible
+        /// under the name that is specified in the IProtocol implementaion
         /// </summary>
-        /// <param name="protocolName">Protocol name.</param>
-        /// <param name="factory">Connection factory.</param>
+        /// <param name="protocol">Protocol implementation</param>
         public void RegisterProtocol(IProtocol protocol)
         {
             if (protocol.Name == null)
@@ -57,8 +57,8 @@ namespace SINFONI
         }
 
         /// <summary>
-        /// Returns connection factory for <paramref name="protocolName"/>. If protocol is not registered, an exception is
-        /// thrown.
+        /// Returns the protocol with the provided <paramref name="protocolName"/>. If protocol is not registered,
+        /// an exception is thrown.
         /// </summary>
         /// <returns>The protocol factory.</returns>
         /// <param name="protocolName">Connection name.</param>
@@ -99,10 +99,7 @@ namespace SINFONI
         void LoadProtocol(string filename)
         {
             try {
-                // Load an assembly.
                 Assembly assembly = Assembly.LoadFrom(filename);
-
-                // Find connection factory (class implementing IConnectionFactory).
                 List<Type> types = new List<Type>(assembly.GetTypes());
                 Type interfaceType = typeof(IProtocol);
                 Type connectionFactoryType = types.Find(t => interfaceType.IsAssignableFrom(t));
