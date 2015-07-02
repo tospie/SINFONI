@@ -90,9 +90,10 @@ namespace SINFONI
         }
 
         /// <summary>
-        /// Loads an IDL definition file at <paramref name="uri"/> into the connection.
+        /// Loads an IDL definition file from an URI or from the IDL contents specified in the server configuration
+        /// into the connection.
         /// </summary>
-        /// <param name="uri">URI of the IDL definition file.</param>
+        /// <param name="serverConfiguration">Configuration of the server that specifies the IDL</param>
         public void LoadIDL(Config serverConfiguration)
         {
             string contents = "";
@@ -113,7 +114,6 @@ namespace SINFONI
         /// <summary>
         /// Handles an incoming message.
         /// </summary>
-        /// <param name="message">The incoming message.</param>
         public void HandleMessage(object sender, TransportMessageEventArgs e)
         {
             IMessage receivedMessage = null;
@@ -396,12 +396,12 @@ namespace SINFONI
         }
 
         /// <summary>
-        /// Generates a func wrapper for the <paramref name="funcName"/>. Optional <paramref name="typeMapping"/> string
+        /// Generates a client function for the <paramref name="funcName"/>. Optional <paramref name="typeMapping"/> string
         /// may be used to specify data omission and reordering options.
         /// </summary>
-        /// <returns>The generated func wrapper.</returns>
-        /// <param name="funcName">Name of the function to be wrapped.</param>
-        /// <param name="typeMapping">Type mapping string.</param>
+        /// <returns>The generated client function.</returns>
+        /// <param name="serviceName">Service that contains the wrapped function.</param>
+        /// <param name="functionName">Name of the function that should be wrapped.</param>
         public virtual ClientFunction GenerateClientFunction(string serviceName, string functionName)
         {
             if (!SinTD.SINFONIServices.ContainsService(serviceName))
@@ -484,16 +484,14 @@ namespace SINFONI
             List<int> callbacks;
             List<object> convertedArgs = convertCallbackArguments(args, out callbacks);
 
-            // REPLACE BY: var callMessage = Protocol.SerializeCallMessage(callID, funcName, callbacks, convertedArgs);
             IMessage callMessage = createRequestMessage(callID, funcName, callbacks, convertedArgs);
 
             string[] serviceDescription = funcName.Split('.');
 
-            // Usually, a function called via CallClientFunction is parsed from the SINFONI IDL and of ther
+            // Usually, a function called via CallClientFunction is parsed from the SINFONI IDL and of the
             // form serviceName.functionName. However, in some cases (e.g. twisted Unit Tests), functions may be
             // created locally, only having a GUID as function name. In this case, we appen "LOCAL" as service name
             // to mark the function as locally created
-
             if (serviceDescription.Length < 2)
             {
                 string[] localService = new string[2];
