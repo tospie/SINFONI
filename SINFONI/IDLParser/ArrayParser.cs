@@ -32,9 +32,9 @@ namespace SINFONI
             int indexEnd = arrayDefinition.LastIndexOf ('>');
             string elementType = arrayDefinition.Substring(indexStart, indexEnd - indexStart);
 
-            if (elementType.Contains("map"))
+            if (elementType.StartsWith("map"))
                 result.elementType = MapParser.Instance.ParseMap(elementType);
-            else if (elementType.Contains("array"))
+            else if (elementType.StartsWith("array"))
                 result.elementType = ArrayParser.Instance.ParseArray(elementType);
             else
                 result.elementType = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType(elementType.Trim());
