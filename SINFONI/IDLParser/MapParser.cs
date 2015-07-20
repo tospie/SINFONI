@@ -33,10 +33,21 @@ namespace SINFONI
             string valueType = mapDefinition.Substring(comma + 1, closingBracket - comma - 1);
 
             SinTDMap result = new SinTDMap();
-            result.keyType = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType(keyType.Trim());
-            result.elementType = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType(valueType.Trim());
+            result.keyType = getKeyOrValueType(keyType);
+            result.elementType = getKeyOrValueType(valueType);
 
             return result;
+        }
+
+        internal SinTDType getKeyOrValueType(string typeName)
+        {
+            typeName = typeName.Trim();
+            if (typeName.StartsWith("array"))
+                return ArrayParser.Instance.ParseArray(typeName);
+            else if (typeName.StartsWith("map"))
+                return MapParser.Instance.ParseMap(typeName);
+            else
+                return IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType(typeName);
         }
     }
 }

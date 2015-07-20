@@ -212,9 +212,9 @@ namespace SINFONI
         private SinTDType getSinTDType(string typeDefinition)
         {
             SinTDType paramType;
-            if (typeDefinition.Contains("array<"))
+            if (typeDefinition.StartsWith("array<"))
                 paramType = ArrayParser.Instance.ParseArray(typeDefinition);
-            else if (typeDefinition.Contains("map<"))
+            else if (typeDefinition.StartsWith("map<"))
                 paramType = MapParser.Instance.ParseMap(typeDefinition);
             else
                 paramType = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType(typeDefinition);
