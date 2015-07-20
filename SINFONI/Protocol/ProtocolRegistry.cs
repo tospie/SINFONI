@@ -117,7 +117,6 @@ namespace SINFONI
             } catch (BadImageFormatException e) {
                 return;
             } catch (Exception e) {
-                logger.Warn("Failed to load file " + filename + " as a protocol", e);
                 return;
             }
         }
