@@ -152,6 +152,13 @@ namespace SINFONIUnitTests
         }
 
         [Test()]
+        public void ShouldParseMapOfArrays()
+        {
+            var mapOfArrays = MapParser.Instance.ParseMap("map<i32, array<i32>>");
+            Assert.AreEqual(mapOfArrays.elementType.GetType(), typeof(SinTDArray));
+        }
+
+        [Test()]
         public void ShouldParseStructOfBaseTypes()
         {
             string idl = @"struct BaseStruct {
@@ -312,6 +319,41 @@ namespace SINFONIUnitTests
             Assert.AreEqual(typeof(SinTDMap), param2.GetType());
             Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("string"), ((SinTDMap)param2).keyType);
             Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("boolean"), ((SinTDMap)param2).elementType);
+        }
+
+        [Test()]
+        public void ShouldParseServiceFunctionWithMapOfArrays()
+        {
+            string idl = @"service testService
+                            {
+                                void testFunction1(map<string, array<i32>> param);
+                            }";
+            Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
+            var testFunction = IDLParser.Instance.CurrentlyParsedSinTD.SINFONIServices
+                .GetService("testService").GetServiceFunction("testFunction1");
+            var parameter = testFunction.Parameters["param"];
+            Assert.AreEqual(typeof(SinTDMap), parameter.GetType());
+
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("string"),
+                ((SinTDMap)parameter).keyType);
+
+            Assert.AreEqual(typeof(SinTDArray),
+                ((SinTDMap)parameter).elementType.GetType());
+        }
+
+        [Test()]
+        public void ShouldParseServiceFunctionWithArrayOfMaps()
+        {
+            string idl = @"service testService
+                            {
+                                void testFunction1(array<map<string, i32>> param);
+                            }";
+            Assert.DoesNotThrow(() => IDLParser.Instance.ParseIDL(idl));
+            var testFunction = IDLParser.Instance.CurrentlyParsedSinTD.SINFONIServices
+                .GetService("testService").GetServiceFunction("testFunction1");
+            var parameter = testFunction.Parameters["param"];
+            Assert.AreEqual(typeof(SinTDArray), parameter.GetType());
+            Assert.AreEqual(typeof(SinTDMap), ((SinTDArray)parameter).elementType.GetType());
         }
 
         [Test()]
