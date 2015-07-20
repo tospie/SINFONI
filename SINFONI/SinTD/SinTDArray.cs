@@ -103,9 +103,9 @@ namespace SINFONI
             return valueList;
         }
 
-        public ISet<T> AssignValuesToNativeSet<T>(IEnumerable enumerable)
+        public HashSet<T> AssignValuesToNativeSet<T>(IEnumerable enumerable)
         {
-            ISet<T> valueSet = new HashSet<T>();
+            HashSet<T> valueSet = new HashSet<T>();
             foreach (var el in enumerable)
             {
                 valueSet.Add((T)elementType.AssignValuesToNativeType(el, typeof(T)));
@@ -126,9 +126,9 @@ namespace SINFONI
             return arrayValues.ToArray();
         }
 
-        private ISet<T> AssignValuesToSet<T>(object value)
+        private HashSet<T> AssignValuesToSet<T>(object value)
         {
-            ISet<T> returnedSet = new HashSet<T>();
+            HashSet<T> returnedSet = new HashSet<T>();
             return returnedSet;
         }
         // From StackOverflow:
