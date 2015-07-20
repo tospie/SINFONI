@@ -1,11 +1,26 @@
-﻿using System;
+﻿// This file is part of SINFONI.
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3.0 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using KIARA;
-using KIARA.Transport.WebSocketTransport;
-using KIARA.Protocols.JsonRPC;
+using SINFONI;
+using SINFONI.Transport.WebSocketTransport;
+using SINFONI.Protocols.JsonRPC;
+using FiVESJson;
 
 
 namespace SimpleServer
@@ -21,29 +36,19 @@ namespace SimpleServer
 
         public SimpleServer()
         {
-            // string configURI = ServerSyncTools.ConvertFileNameToURI("server.json");
-
             ITransport websocketTransport = new WebSocketTransport();
             TransportRegistry.Instance.RegisterTransport(websocketTransport);
 
             IProtocol jsonRpc = new JsonRpcProtocol();
+            IProtocol fivesJson = new FiVESJsonProtocol();
             ProtocolRegistry.Instance.RegisterProtocol(jsonRpc);
-            // Connection Factory fliegt so raus -> Registered werden müssen Protokoll und Transport
-            // (Register Transport / Register Protocol)
+            ProtocolRegistry.Instance.RegisterProtocol(fivesJson);
 
-            // ServiceFactory.Create -> Start new Server / KIARA Base Server
-            KIARAServer newServer = new KIARAServer("127.0.0.1", 8080, "/service/", "server.kiara");
-            var service = newServer.StartService("127.0.0.1", 44444, "/service", "ws", "jsonrpc");
-
-            // Service erstellen: new Service(transport, protocol, url)
+            SINFONIServer newServer = new SINFONIServer("localhost", 8080, "/service/", "server.sinfoni");
+            var service = newServer.StartService("127.0.0.1", 34568, "/service", "ws", "jsonrpc");
 
             service.OnNewClient += new NewClient(HandleNewClient);
-
-            // Bleibt
             service["example.addVectors"] = (Func<Vector, Vector, Vector>)addVectors;
-
-            // Service muss auf server registriert werden
-            // KIARAServer.AddService(service)
 
             Console.Read();
        }
@@ -51,6 +56,7 @@ namespace SimpleServer
         private void HandleNewClient(Connection connection)
         {
             Console.WriteLine("New Client connected!");
+            connection.LoadLocalIDL("server.sinfoni");
         }
 
         private Vector addVectors(Vector a, Vector b)

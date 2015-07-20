@@ -1,10 +1,25 @@
-﻿using System;
+﻿// This file is part of SINFONI.
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3.0 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using KIARA;
+using SINFONI;
 
-namespace KIARA.Transport.WebSocketTransport
+namespace SINFONI.Transport.WebSocketTransport
 {
     class WSSessionSocketAdapter : ITransportConnection
     {
@@ -13,16 +28,23 @@ namespace KIARA.Transport.WebSocketTransport
             session = aSession;
             session.Closed += HandleClosed;
             session.MessageReceived += HandleMessageReceived;
+            session.DataReceived += HandleDataReceivedReceived;
         }
 
         // This is actually another layer of message here, consider !! The message we receive here is some
         // result of the serialized message object that we use internally. The "Message" event should thus
         // redirect the received message to the de-serializer which then de-serializes the received string
-        // to the KIARA.Message - object
+        // to the SINFONI.Message - object
         void HandleMessageReceived(object sender, WebSocket4Net.MessageReceivedEventArgs e)
         {
             if (Message != null)
                 Message(sender, new TransportMessageEventArgs(e.Message));
+        }
+
+        void HandleDataReceivedReceived(object sender, WebSocket4Net.DataReceivedEventArgs e)
+        {
+            if (Message != null)
+                Message(sender, new TransportMessageEventArgs(e.Data));
         }
 
         void HandleClosed(object sender, EventArgs e)
@@ -47,7 +69,13 @@ namespace KIARA.Transport.WebSocketTransport
 
         public void Send(object message)
         {
-            session.Send((string)message);
+            if (message.GetType() == typeof(string))
+                session.Send((string)message);
+            else
+            {
+                byte[] byteMessage = (byte[])message;
+                session.Send(byteMessage, 0, byteMessage.Length);
+            }
         }
 
         WSSession session;

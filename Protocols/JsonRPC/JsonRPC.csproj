@@ -47,10 +47,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\KIARA\KIARA.csproj">
+    <ProjectReference Include="..\..\SINFONI\SINFONI.csproj">
       <Project>{b43693ef-8534-4491-93b9-d9e4702dc0f3}</Project>
-      <Name>KIARA</Name>
+      <Name>SINFONI</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="JsonRPC.licenseheader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,6 +1,6 @@
 {
   "info": "SimpleServer",
-  "idlURL": "server.kiara",
+  "idlURL": "server.sinfoni",
   "servers": [{
     "services": "*",
     "protocol": {

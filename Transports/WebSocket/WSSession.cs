@@ -1,3 +1,18 @@
+// This file is part of SINFONI.
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 3.0 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
@@ -8,18 +23,19 @@ using Dynamitey;
 using System.Runtime.InteropServices;
 using WebSocket4Net;
 using NLog;
-using KIARA;
+using SINFONI;
 using System.Text;
 
-namespace KIARA.Transport.WebSocketTransport
+namespace SINFONI.Transport.WebSocketTransport
 {
     /// <summary>
-    /// WebSocketJSON session implementation. Contains Connection adapter for KIARA.
+    /// WebSocketJSON session implementation. Contains Connection adapter for SINFONI.
     /// </summary>
     public class WSSession : WebSocketSession<WSSession>
     {
         public event EventHandler Closed;
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
+        public event EventHandler<DataReceivedEventArgs> DataReceived;
 
         public void HandleClosed(string reason)
         {
@@ -38,12 +54,10 @@ namespace KIARA.Transport.WebSocketTransport
 
         public void HandleDataReceived(byte[] data)
         {
-            if (data != null)
-            {
-                var messageAsString = Encoding.UTF8.GetString(data);
-                HandleMessageReceived(messageAsString);
-            }
+            if (DataReceived != null)
+                DataReceived(this, new DataReceivedEventArgs(data));
         }
+
         private static Logger logger = LogManager.GetCurrentClassLogger();
     }
 }

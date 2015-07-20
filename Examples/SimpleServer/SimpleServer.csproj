@@ -33,33 +33,35 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>SimpleServer.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="NLog, Version=3.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NLog.3.0.0.0\lib\net40\NLog.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.Common, Version=1.5.3.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+    <Reference Include="NLog, Version=3.2.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ThirdParty\SuperWebSocket\Net40\Release\SuperSocket.Common.dll</HintPath>
+      <HintPath>..\..\packages\NLog.3.2.0.0\lib\net40\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.Facility, Version=1.5.3.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ThirdParty\SuperWebSocket\Net40\Release\SuperSocket.Facility.dll</HintPath>
+    <Reference Include="SuperSocket.Common">
+      <HintPath>..\..\packages\SuperWebSocketNETServer.0.8\lib\net40\SuperSocket.Common.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.SocketBase, Version=1.5.3.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ThirdParty\SuperWebSocket\Net40\Release\SuperSocket.SocketBase.dll</HintPath>
+    <Reference Include="SuperSocket.Facility">
+      <HintPath>..\..\packages\SuperWebSocketNETServer.0.8\lib\net40\SuperSocket.Facility.dll</HintPath>
     </Reference>
-    <Reference Include="SuperSocket.SocketEngine, Version=1.5.3.0, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ThirdParty\SuperWebSocket\Net40\Release\SuperSocket.SocketEngine.dll</HintPath>
+    <Reference Include="SuperSocket.SocketBase">
+      <HintPath>..\..\packages\SuperWebSocketNETServer.0.8\lib\net40\SuperSocket.SocketBase.dll</HintPath>
     </Reference>
-    <Reference Include="SuperWebSocket, Version=0.8.0.0, Culture=neutral, PublicKeyToken=7ba53b9a7cef5d1c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ThirdParty\SuperWebSocket\Net40\Release\SuperWebSocket.dll</HintPath>
+    <Reference Include="SuperSocket.SocketEngine">
+      <HintPath>..\..\packages\SuperWebSocketNETServer.0.8\lib\net40\SuperSocket.SocketEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperWebSocket">
+      <HintPath>..\..\packages\SuperWebSocketNETServer.0.8\lib\net40\SuperWebSocket.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -70,7 +72,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WebSocket4Net">
-      <HintPath>..\..\packages\WebSocket4Net.0.8\lib\net40\WebSocket4Net.dll</HintPath>
+      <HintPath>..\..\packages\WebSocket4Net.0.12\lib\net40\WebSocket4Net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -79,13 +81,17 @@
     <Compile Include="SimpleServer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\KIARA\KIARA.csproj">
-      <Project>{b43693ef-8534-4491-93b9-d9e4702dc0f3}</Project>
-      <Name>KIARA</Name>
+    <ProjectReference Include="..\..\Protocols\FiVESJson\FiVESJson.csproj">
+      <Project>{042a4fda-b1e5-4150-9467-740bbbec84a5}</Project>
+      <Name>FiVESJson</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Protocols\JsonRPC\JsonRPC.csproj">
       <Project>{c94e447a-bd82-4db8-b0fa-803d3ccb3ea0}</Project>
       <Name>JsonRPC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SINFONI\SINFONI.csproj">
+      <Project>{b43693ef-8534-4491-93b9-d9e4702dc0f3}</Project>
+      <Name>SINFONI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Transports\WebSocket\WebSocket.csproj">
       <Project>{db36d1f8-6e17-4029-bd83-9365df74db53}</Project>
@@ -100,7 +106,11 @@
     <None Include="server.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="server.kiara">
+    <None Include="server.sinfoni">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SimpleServer.licenseheader" />
+    <None Include="SimpleServer.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
