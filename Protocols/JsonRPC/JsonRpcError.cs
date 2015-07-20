@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SINFONI.Protocols.JsonRPC
+namespace JsonRpcProtocol
 {
     public class JsonRpcError
     {

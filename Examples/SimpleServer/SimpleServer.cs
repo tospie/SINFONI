@@ -19,7 +19,6 @@ using System.Linq;
 using System.Text;
 using SINFONI;
 using SINFONI.Transport.WebSocketTransport;
-using SINFONI.Protocols.JsonRPC;
 using FiVESJson;
 
 
@@ -39,7 +38,7 @@ namespace SimpleServer
             ITransport websocketTransport = new WebSocketTransport();
             TransportRegistry.Instance.RegisterTransport(websocketTransport);
 
-            IProtocol jsonRpc = new JsonRpcProtocol();
+            IProtocol jsonRpc = new JsonRpcProtocol.JsonRPC();
             IProtocol fivesJson = new FiVESJsonProtocol();
             ProtocolRegistry.Instance.RegisterProtocol(jsonRpc);
             ProtocolRegistry.Instance.RegisterProtocol(fivesJson);

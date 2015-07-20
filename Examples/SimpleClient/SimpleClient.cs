@@ -17,8 +17,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SINFONI;
-using SINFONI.Protocols.JsonRPC;
+
 using SINFONI.Transport.WebSocketTransport;
+using JsonRpcProtocol;
 
 namespace SimpleClient
 {
@@ -26,7 +27,7 @@ namespace SimpleClient
     {
         public SimpleClient()
         {
-            IProtocol jsonRpcProtocol = new JsonRpcProtocol();
+            IProtocol jsonRpcProtocol = new JsonRPC();
             ITransport webSocketTransport = new WebSocketTransport();
 
             ProtocolRegistry.Instance.RegisterProtocol(jsonRpcProtocol);
