@@ -16,9 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using Newtonsoft.Json;
 using System.Net;
-using Newtonsoft.Json.Linq;
+using System.Web.Script.Serialization;
+
 
 namespace SINFONI
 {
@@ -175,7 +175,7 @@ namespace SINFONI
             }
 
             // Parse the config.
-            return JsonConvert.DeserializeObject<Config>(configContent);
+            return deserializer.Deserialize<Config>(configContent);
         }
 
         private bool IsServerProtocolSupported(ServiceDescription server) {
@@ -209,5 +209,6 @@ namespace SINFONI
         internal IProtocolRegistry protocolRegistry = ProtocolRegistry.Instance;
         internal IWebClient webClient = new WebClientWrapper();        
         internal List<Service> registeredServices = new List<Service>();
+        JavaScriptSerializer deserializer = new JavaScriptSerializer();
     }
 }

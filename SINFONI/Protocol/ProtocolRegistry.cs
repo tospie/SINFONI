@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using NLog;
 using System.Reflection;
 
 namespace SINFONI
@@ -104,8 +103,6 @@ namespace SINFONI
                 Type interfaceType = typeof(IProtocol);
                 Type connectionFactoryType = types.Find(t => interfaceType.IsAssignableFrom(t));
                 if (connectionFactoryType == null || connectionFactoryType.Equals(interfaceType)) {
-                    logger.Info("Assembly in file " + filename +
-                                " doesn't contain any class implementing IConnectionFactory.");
                     return;
                 }
 
@@ -114,13 +111,10 @@ namespace SINFONI
                 try {
                     protocol = (IProtocol)Activator.CreateInstance(connectionFactoryType);
                 } catch (Exception ex) {
-                    logger.Warn("Exception occured during construction of protocol factory for " + filename + ".", ex);
                     return;
                 }
                 RegisterProtocol(protocol);
-                logger.Info("Registered protocol {0}", protocol.Name);
             } catch (BadImageFormatException e) {
-                logger.Info(filename + " is not a valid assembly and thus cannot be loaded as a protocol.", e);
                 return;
             } catch (Exception e) {
                 logger.Warn("Failed to load file " + filename + " as a protocol", e);
@@ -130,7 +124,6 @@ namespace SINFONI
 
         Dictionary<string, IProtocol> registeredProtocols = new Dictionary<string, IProtocol>();
 
-        private static Logger logger = LogManager.GetCurrentClassLogger();
     }
 }
 

@@ -19,7 +19,6 @@ using System.Linq;
 using System.Net;
 using SINFONI.Exceptions;
 using System.Reflection;
-using Dynamitey;
 using System.IO;
 
 namespace SINFONI
@@ -280,6 +279,7 @@ namespace SINFONI
 
         private object CreateCustomDelegate(string funcName, Type delegateType)
         {
+            throw new NotImplementedException("Handling of Callbacks not supported in .Net 3.5 version");
             Type retType = delegateType.GetMethod("Invoke").ReturnType;
             var genericWrapper = new GenericWrapper(arguments =>
             {
@@ -305,7 +305,6 @@ namespace SINFONI
                 }
             });
 
-            return Dynamic.CoerceToDelegate(genericWrapper, delegateType);
         }
 
         private ClientFunction CreateFuncWrapperDelegate(string remoteCallbackUUID)

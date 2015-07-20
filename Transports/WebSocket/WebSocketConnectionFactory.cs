@@ -17,7 +17,6 @@ using System;
 using Newtonsoft.Json.Linq;
 using WebSocket4Net;
 using System.Net;
-using NLog;
 using SuperSocket.SocketBase.Config;
 using SINFONI;
 
@@ -36,9 +35,7 @@ namespace SINFONI.Transport.WebSocketTransport
                 throw new Error(ErrorCode.CONNECTION_ERROR, "No port and/or IP address is present in configuration.");
 
             ITransportConnection transportConnection = webSocketFactory.Construct("ws://" + host + ":" + port + "/");
-            transportConnection.Error += (sender, e) => {
-                logger.Warn("Error in connection to " + host + ":" + port, e.Exception);
-            };
+
             transportConnection.Open();
             return transportConnection;
         }
@@ -71,8 +68,6 @@ namespace SINFONI.Transport.WebSocketTransport
 
         internal IWSJServerFactory wsjServerFactory = new WSJServerFactory();
         internal IWebSocketFactory webSocketFactory = new WebSocketFactory();
-
-        private static Logger logger = LogManager.GetCurrentClassLogger();
     }
 }
 
