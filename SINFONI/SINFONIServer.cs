@@ -61,9 +61,8 @@ namespace SINFONI
             ConfigURI = "http://" + host + ":" + port + path;
             if(!idlURI.Contains("http://"))
             {
-
-                ServerConfigDocument.idlURL = ConfigURI + idlURI + "/";
-                IdlPath = path + idlURI + "/";
+                ServerConfigDocument.idlURL = ConfigURI.Replace("+", "localhost") + idlURI + "/";
+                IdlPath = idlURI + "/";
             }
             startHttpListener();
         }
@@ -148,12 +147,16 @@ namespace SINFONI
                 listenerContext.Response.StatusDescription = "OK";
                 Stream output = listenerContext.Response.OutputStream;
                 byte[] buffer;
-                if (listenerContext.Request.RawUrl == IdlPath)
+                if (listenerContext.Request.RawUrl.Contains(IdlPath))
                 {
                     buffer = Encoding.UTF8.GetBytes(IdlContent);
                 }
                 else
                 {
+                    string requestedServerPath = listenerContext.Request.Url.ToString();
+                    if (!requestedServerPath.EndsWith("/"))
+                        requestedServerPath = String.Concat(requestedServerPath, "/");
+                    ServerConfigDocument.idlURL = requestedServerPath + IdlPath;
                     string configAsString = JsonSerializer.Serialize(ServerConfigDocument);
                     buffer = Encoding.UTF8.GetBytes(configAsString);
                 }
