@@ -57,7 +57,7 @@ namespace SINFONI
             wasParsingBeforeComment = ParseMode.NONE;
 
             string[] idlLines =
-                idlString.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                idlString.Split(new string[] { Environment.NewLine, "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (string line in idlLines)
             {
