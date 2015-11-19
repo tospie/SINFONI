@@ -35,6 +35,7 @@ namespace SINFONI
         public SinTDArray(SinTDType type)
         {
             elementType = type;
+            this.InstanceType = type.InstanceType.MakeArrayType();
         }
 
         public override bool CanBeAssignedFromType(Type type)
