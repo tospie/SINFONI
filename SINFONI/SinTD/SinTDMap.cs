@@ -35,6 +35,9 @@ namespace SINFONI
         {
             keyType = key;
             elementType = element;
+            Type d = typeof(Dictionary<,>);
+            Type[] typeArgs = {key.InstanceType, element.InstanceType};
+            this.InstanceType = d.MakeGenericType(typeArgs);
         }
 
         public override bool CanBeAssignedFromType(Type type)
