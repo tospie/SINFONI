@@ -50,7 +50,8 @@ namespace SINFONI
 
         internal SinTDType(string name, Type baseType)
         {
-            this.BaseType = baseType;
+            this.Name = name;
+            this.InstanceType = baseType;
         }
 
         /// <summary>
@@ -115,8 +116,6 @@ namespace SINFONI
 
             return false;
         }
-
-        private Type BaseType;
     }
  
 }
