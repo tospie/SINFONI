@@ -78,23 +78,23 @@ namespace SINFONI
 
         private void registerBaseTypes()
         {
-            RegisterType(new SinTDType("boolean"));
-            RegisterType(new SinTDType("byte"));
+            RegisterType(new SinTDType("boolean", typeof(bool)));
+            RegisterType(new SinTDType("byte", typeof(byte)));
 
-            RegisterType(new SinTDType("i16"));
-            RegisterType(new SinTDType("i32"));
-            RegisterType(new SinTDType("i64"));
+            RegisterType(new SinTDType("i16", typeof(short)));
+            RegisterType(new SinTDType("i32", typeof(int)));
+            RegisterType(new SinTDType("i64", typeof(long)));
 
-            RegisterType(new SinTDType("u16"));
-            RegisterType(new SinTDType("u32"));
-            RegisterType(new SinTDType("u64"));
+            RegisterType(new SinTDType("u16", typeof(ushort)));
+            RegisterType(new SinTDType("u32", typeof(uint)));
+            RegisterType(new SinTDType("u64", typeof(ulong)));
 
-            RegisterType(new SinTDType("float"));
-            RegisterType(new SinTDType("double"));
+            RegisterType(new SinTDType("float", typeof(float)));
+            RegisterType(new SinTDType("double", typeof(double)));
 
-            RegisterType(new SinTDType("string"));
+            RegisterType(new SinTDType("string", typeof(string)));
 
-            RegisterType(new SinTDType("any"));
+            RegisterType(new SinTDType("any", typeof(object)));
         }
 
         internal Dictionary<string, SinTDType> registeredTypes = new Dictionary<string,SinTDType>();
