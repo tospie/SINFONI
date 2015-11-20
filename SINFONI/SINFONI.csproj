@@ -98,6 +98,7 @@
     <Compile Include="Services\ServiceImplementation.cs" />
     <Compile Include="Services\ServiceRegistry.cs" />
     <Compile Include="Services\ServiceWrapper.cs" />
+    <Compile Include="SinTD\StructBuilder.cs" />
     <Compile Include="TestingWrappers.cs">
       <SubType>Component</SubType>
     </Compile>
