@@ -17,6 +17,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 
 namespace SINFONI
@@ -24,6 +25,7 @@ namespace SINFONI
     public class SinTDStruct : SinTDType
     {
         public SinTDStruct(string name) : base(name) {
+            typeBuilder = StructBuilder.Instance.CreateTypeBuilder(name);
         }
 
         public override object AssignValuesFromObject(object other)
@@ -113,6 +115,18 @@ namespace SINFONI
             return localTypeInstance;
         }
 
+        public override Type InstanceType {
+            get
+            {
+                if(nativeType == null)
+                {
+                    nativeType = typeBuilder.CreateType();
+                }
+
+                return nativeType;
+            }
+        }
+
         public override bool CanBeAssignedFromType(Type type)
         {
             if (validMappings.ContainsKey(type))
@@ -191,8 +205,10 @@ namespace SINFONI
             return true;
         }
 
+        internal Type nativeType;
         internal Dictionary<string, SinTDType> members = new Dictionary<string, SinTDType>();
         internal Dictionary<Type, bool> validMappings = new Dictionary<Type, bool>();
         internal Dictionary<Type, Delegate> mappings = new Dictionary<Type, Delegate>();
+        private TypeBuilder typeBuilder;
     }
 }
