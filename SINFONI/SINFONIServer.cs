@@ -52,7 +52,6 @@ namespace SINFONI
             WebClient webClient = new WebClient();
             IdlContent = webClient.DownloadString(idlURI);
 
-            IDLParser.Instance.ParseIDL(IdlContent);
             ServerConfigDocument = new Config();
             ServerConfigDocument.info = "TODO";
             ServerConfigDocument.idlURL = idlURI;
