@@ -21,21 +21,9 @@ using System.Text;
 
 namespace SINFONI
 {
-    class StructBuilder
+    public class StructBuilder
     {
-        public static StructBuilder Instance
-        {
-            get
-            {
-                if(instance == null)
-                {
-                    instance = new StructBuilder();
-                }
-                return instance;
-            }
-        }
-
-        private StructBuilder()
+        public StructBuilder()
         {
             assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly
                 (assemblyName, AssemblyBuilderAccess.Run);
@@ -50,7 +38,6 @@ namespace SINFONI
                 | TypeAttributes.AutoClass );
         }
 
-        private static StructBuilder instance;
         private AssemblyName assemblyName = new AssemblyName("SINFONIDynamicAssembly");
         private AssemblyBuilder assemblyBuilder;
         private ModuleBuilder moduleBuilder;
