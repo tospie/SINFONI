@@ -33,11 +33,11 @@ namespace SINFONI
             string elementType = arrayDefinition.Substring(indexStart, indexEnd - indexStart);
 
             if (elementType.StartsWith("map"))
-                result.elementType = MapParser.Instance.ParseMap(elementType);
+                result.ElementType = MapParser.Instance.ParseMap(elementType);
             else if (elementType.StartsWith("array"))
-                result.elementType = ArrayParser.Instance.ParseArray(elementType);
+                result.ElementType = ArrayParser.Instance.ParseArray(elementType);
             else
-                result.elementType = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType(elementType.Trim());
+                result.ElementType = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType(elementType.Trim());
 
             return result;
         }

@@ -76,30 +76,30 @@ namespace SINFONIUnitTests
 
         SinTD SinTDInstance = new SinTD();
 
-        [SetUp()]
+        [TestFixtureSetUp()]
         public void TestSetUp()
         {
+            SinTDInstance = new SinTD();
+
             i32 = SinTDInstance.GetSinTDType("i32");
             SinTDString = SinTDInstance.GetSinTDType("string");
             SinTDBool = SinTDInstance.GetSinTDType("boolean");
 
-            intStruct = new SinTDStruct("intStruct");
-            intStruct.members["x"] = i32;
-            intStruct.members["y"] = i32;
+            intStruct = new SinTDStruct("instancesIntStruct");
+            intStruct.AddMember("x", i32);
+            intStruct.AddMember("y", i32);
 
-            aStruct = new SinTDStruct("arrayStruct");
-            aStruct.members.Add("arr", new SinTDArray(i32));
+            aStruct = new SinTDStruct("instancesArrayStruct");
+            aStruct.AddMember("arr", new SinTDArray(i32));
             SinTDInstance.RegisterType(aStruct);
 
-            mStruct = new SinTDStruct("mapStruct");
-            mStruct.members.Add("map", new SinTDMap(SinTDString, SinTDBool));
+            mStruct = new SinTDStruct("isntancesMapStruct");
+            mStruct.AddMember("map", new SinTDMap(SinTDString, SinTDBool));
             SinTDInstance.RegisterType(mStruct);
 
-            sStruct = new SinTDStruct("structStruct");
-            sStruct.members.Add("child", intStruct);
+            sStruct = new SinTDStruct("instancesStructStruct");
+            sStruct.AddMember("child", intStruct);
             SinTDInstance.RegisterType(sStruct);
-
-            SinTDInstance = new SinTD();
         }
 
         [Test()]
@@ -260,7 +260,7 @@ namespace SINFONIUnitTests
         {
             var intArray = new int[] { 1 };
             SinTDArray array = new SinTDArray();
-            array.elementType = SinTDInstance.GetSinTDType("i32");
+            array.ElementType = SinTDInstance.GetSinTDType("i32");
 
             var arrayInstance =  array.AssignValuesFromObject(intArray) as object[];
             Assert.AreEqual(1, arrayInstance.Length);
@@ -272,7 +272,7 @@ namespace SINFONIUnitTests
         {
             var intArray = new int[0];
             SinTDArray array = new SinTDArray();
-            array.elementType = SinTDInstance.GetSinTDType("i32");
+            array.ElementType = SinTDInstance.GetSinTDType("i32");
             var test = array.AssignValuesToNativeType(new int[1]{1}, intArray.GetType());
             Assert.AreEqual(1, ((int[])test).Length);
             Assert.AreEqual(1, ((int[])test)[0]);
@@ -283,7 +283,7 @@ namespace SINFONIUnitTests
         {
             var intList = new List<int>{ 1 };
             SinTDArray array = new SinTDArray();
-            array.elementType = SinTDInstance.GetSinTDType("i32");
+            array.ElementType = SinTDInstance.GetSinTDType("i32");
 
             var arrayInstance = array.AssignValuesFromObject(intList) as object[];
             Assert.AreEqual(1, arrayInstance.Length);
@@ -295,7 +295,7 @@ namespace SINFONIUnitTests
         {
             var intList = new List<int>();
             SinTDArray array = new SinTDArray();
-            array.elementType = SinTDInstance.GetSinTDType("i32");
+            array.ElementType = SinTDInstance.GetSinTDType("i32");
             List<int> test = (List<int>)array.AssignValuesToNativeType(new int[1] { 1 }, intList.GetType());
             Assert.AreEqual(1, test.Count);
             Assert.AreEqual(1, test[0]);
@@ -306,7 +306,7 @@ namespace SINFONIUnitTests
         {
             var intSet = new HashSet<int> { 1 };
             SinTDArray array = new SinTDArray();
-            array.elementType = SinTDInstance.GetSinTDType("i32");
+            array.ElementType = SinTDInstance.GetSinTDType("i32");
 
             object[] arrayInstance = array.AssignValuesFromObject(intSet) as object[];
             Assert.AreEqual(1, arrayInstance.Length);
@@ -318,7 +318,7 @@ namespace SINFONIUnitTests
         {
             var intSet = new HashSet<int>();
             SinTDArray array = new SinTDArray();
-            array.elementType = SinTDInstance.GetSinTDType("i32");
+            array.ElementType = SinTDInstance.GetSinTDType("i32");
             ISet<int> test = (HashSet<int>)array.AssignValuesToNativeType(new int[1] { 1 }, intSet.GetType());
             Assert.AreEqual(1, test.Count);
             Assert.AreEqual(1, test.ElementAt(0));
@@ -330,9 +330,9 @@ namespace SINFONIUnitTests
             var intArray = new int[1][];
             intArray[0] = new int[1] { 2 };
             SinTDArray innerArray = new SinTDArray();
-            innerArray.elementType = SinTDInstance.GetSinTDType("i32");
+            innerArray.ElementType = SinTDInstance.GetSinTDType("i32");
             SinTDArray outerArray = new SinTDArray();
-            outerArray.elementType = innerArray;
+            outerArray.ElementType = innerArray;
             int[][] test = (int[][])outerArray.AssignValuesToNativeType(intArray, intArray.GetType());
             Assert.AreEqual(1, test.Length);
             Assert.AreEqual(1, test[0].Length);
@@ -346,9 +346,9 @@ namespace SINFONIUnitTests
             intArray[0] = new int[1] { 2 };
             List<int>[] listArray = new List<int> [1] { new List<int> { 1 } };
             SinTDArray innerArray = new SinTDArray();
-            innerArray.elementType = SinTDInstance.GetSinTDType("i32");
+            innerArray.ElementType = SinTDInstance.GetSinTDType("i32");
             SinTDArray outerArray = new SinTDArray();
-            outerArray.elementType = innerArray;
+            outerArray.ElementType = innerArray;
             List<int>[] test = (List<int>[])outerArray.AssignValuesToNativeType(intArray, listArray.GetType());
             Assert.IsAssignableFrom<List<int>>(test[0]);
             Assert.AreEqual(2, test[0][0]);
@@ -361,9 +361,9 @@ namespace SINFONIUnitTests
             intArray[0] = new int[1] { 2 };
             List<int[]> arrayList = new List<int[]>{ new int[1] { 1 } };
             SinTDArray innerArray = new SinTDArray();
-            innerArray.elementType = SinTDInstance.GetSinTDType("i32");
+            innerArray.ElementType = SinTDInstance.GetSinTDType("i32");
             SinTDArray outerArray = new SinTDArray();
-            outerArray.elementType = innerArray;
+            outerArray.ElementType = innerArray;
             List<int[]> test = (List<int[]>)outerArray.AssignValuesToNativeType(intArray, arrayList.GetType());
             Assert.IsAssignableFrom<int[]>(test[0]);
             Assert.AreEqual(2, test[0][0]);
@@ -376,9 +376,9 @@ namespace SINFONIUnitTests
             intArray[0] = new int[1] { 2 };
             ISet<int>[] setArray = new HashSet<int>[1] { new HashSet<int> { 1 } };
             SinTDArray innerArray = new SinTDArray();
-            innerArray.elementType = SinTDInstance.GetSinTDType("i32");
+            innerArray.ElementType = SinTDInstance.GetSinTDType("i32");
             SinTDArray outerArray = new SinTDArray();
-            outerArray.elementType = innerArray;
+            outerArray.ElementType = innerArray;
             HashSet<int>[] test = (HashSet<int>[])outerArray.AssignValuesToNativeType(intArray, setArray.GetType());
             Assert.IsAssignableFrom<HashSet<int>>(test[0]);
             Assert.AreEqual(2, test[0].ElementAt(0));
@@ -391,9 +391,9 @@ namespace SINFONIUnitTests
             intArray[0] = new int[1] { 2 };
             ISet<int[]> arraySet = new HashSet<int[]> { new int[1] { 1 } };
             SinTDArray innerArray = new SinTDArray();
-            innerArray.elementType = SinTDInstance.GetSinTDType("i32");
+            innerArray.ElementType = SinTDInstance.GetSinTDType("i32");
             SinTDArray outerArray = new SinTDArray();
-            outerArray.elementType = innerArray;
+            outerArray.ElementType = innerArray;
             ISet<int[]> test = (HashSet<int[]>)outerArray.AssignValuesToNativeType(intArray, arraySet.GetType());
             Assert.IsAssignableFrom<int[]>(test.ElementAt(0));
             Assert.AreEqual(2, test.ElementAt(0)[0]);
@@ -404,7 +404,7 @@ namespace SINFONIUnitTests
         {
             var intArray = new int[] {};
             SinTDArray array = new SinTDArray();
-            array.elementType = SinTDInstance.GetSinTDType("i32");
+            array.ElementType = SinTDInstance.GetSinTDType("i32");
 
             object[] arrayInstance = array.AssignValuesFromObject(intArray) as object[];
             Assert.AreEqual(0, arrayInstance.Length);
@@ -414,7 +414,7 @@ namespace SINFONIUnitTests
         public void ShouldThrowExceptionWhenAssigningNonEnumerableToArray()
         {
             SinTDArray array = new SinTDArray();
-            array.elementType = SinTDInstance.GetSinTDType("i32");
+            array.ElementType = SinTDInstance.GetSinTDType("i32");
 
             Assert.Throws<TypeCastException>(
                 () => { object[] arrayInstance = array.AssignValuesFromObject(1) as object[]; });
@@ -425,7 +425,7 @@ namespace SINFONIUnitTests
         {
             var floatArray = new float[] { 1f };
             SinTDArray array = new SinTDArray();
-            array.elementType = SinTDInstance.GetSinTDType("i32");
+            array.ElementType = SinTDInstance.GetSinTDType("i32");
 
             Assert.Throws<TypeCastException>(
                 () => { var arrayInstance = array.AssignValuesFromObject(floatArray) as object[]; });
@@ -438,9 +438,7 @@ namespace SINFONIUnitTests
                 {"test", 1}
             };
 
-            SinTDMap SinTDMap = new SinTDMap();
-            SinTDMap.keyType = SinTDInstance.GetSinTDType("string");
-            SinTDMap.elementType = SinTDInstance.GetSinTDType("i32");
+            SinTDMap SinTDMap = new SinTDMap(SinTDInstance.GetSinTDType("string"), SinTDInstance.GetSinTDType("i32"));
 
             Dictionary<object, object> mapInstance
                 = SinTDMap.AssignValuesFromObject(baseTypeDictionary) as Dictionary<object, object>;
@@ -457,9 +455,7 @@ namespace SINFONIUnitTests
                 {"test", 1}
             };
 
-            SinTDMap SinTDMap = new SinTDMap();
-            SinTDMap.keyType = SinTDInstance.GetSinTDType("string");
-            SinTDMap.elementType = SinTDInstance.GetSinTDType("i32");
+            SinTDMap SinTDMap = new SinTDMap(SinTDInstance.GetSinTDType("string"), SinTDInstance.GetSinTDType("i32"));
             Dictionary<string, int> nativeDictionary =
                 (Dictionary<string, int>)SinTDMap.AssignValuesToNativeType(baseTypeDictionary,
                 typeof(Dictionary<string, int>));
@@ -474,11 +470,9 @@ namespace SINFONIUnitTests
             };
 
             SinTDArray keyArray = new SinTDArray();
-            keyArray.elementType = SinTDInstance.GetSinTDType("i32");
-            SinTDMap SinTDMap = new SinTDMap();
+            keyArray.ElementType = SinTDInstance.GetSinTDType("i32");
+            SinTDMap SinTDMap = new SinTDMap(keyArray,  SinTDInstance.GetSinTDType("string"));
 
-            SinTDMap.keyType = keyArray;
-            SinTDMap.elementType = SinTDInstance.GetSinTDType("string");
             Dictionary<object, object> mapInstance
                 = SinTDMap.AssignValuesFromObject(arrayKeyDictionary) as Dictionary<object, object>;
 
@@ -495,11 +489,9 @@ namespace SINFONIUnitTests
             };
 
             SinTDArray keyArray = new SinTDArray();
-            keyArray.elementType = SinTDInstance.GetSinTDType("i32");
-            SinTDMap SinTDMap = new SinTDMap();
+            keyArray.ElementType = SinTDInstance.GetSinTDType("i32");
+            SinTDMap SinTDMap = new SinTDMap(keyArray, SinTDInstance.GetSinTDType("string"));
 
-            SinTDMap.keyType = keyArray;
-            SinTDMap.elementType = SinTDInstance.GetSinTDType("string");
             Dictionary<int[], string> nativeDictionary = (Dictionary<int[], string>)SinTDMap
                 .AssignValuesToNativeType(arrayKeyDictionary, arrayKeyDictionary.GetType());
             Assert.AreEqual(arrayKeyDictionary.Keys, nativeDictionary.Keys);
@@ -514,11 +506,9 @@ namespace SINFONIUnitTests
             };
 
             SinTDArray valueArray = new SinTDArray();
-            valueArray.elementType = SinTDInstance.GetSinTDType("i32");
-            SinTDMap SinTDMap = new SinTDMap();
+            valueArray.ElementType = SinTDInstance.GetSinTDType("i32");
+            SinTDMap SinTDMap = new SinTDMap(SinTDInstance.GetSinTDType("string"), valueArray);
 
-            SinTDMap.keyType =  SinTDInstance.GetSinTDType("string");
-            SinTDMap.elementType = valueArray;
             Dictionary<object, object> mapInstance
                 = SinTDMap.AssignValuesFromObject(arrayKeyDictionary) as Dictionary<object, object>;
 
@@ -534,9 +524,7 @@ namespace SINFONIUnitTests
                 {"test", 1}
             };
 
-            SinTDMap SinTDMap = new SinTDMap();
-            SinTDMap.keyType = SinTDInstance.GetSinTDType("i32");
-            SinTDMap.elementType = SinTDInstance.GetSinTDType("i32");
+            SinTDMap SinTDMap = new SinTDMap(SinTDInstance.GetSinTDType("i32"), SinTDInstance.GetSinTDType("i32"));
 
             Assert.Throws<TypeCastException>(
                 () => { var mapInstance
@@ -550,9 +538,7 @@ namespace SINFONIUnitTests
                 {"test", 1}
             };
 
-            SinTDMap SinTDMap = new SinTDMap();
-            SinTDMap.keyType = SinTDInstance.GetSinTDType("string");
-            SinTDMap.elementType = SinTDInstance.GetSinTDType("string");
+            SinTDMap SinTDMap = new SinTDMap(SinTDInstance.GetSinTDType("string"), SinTDInstance.GetSinTDType("string"));
 
             Assert.Throws<TypeCastException>(
                 () => { var mapInstance

@@ -62,7 +62,7 @@ namespace SINFONIUnitTests
             public bool affe;
         }
 
-        [SetUp()]
+        [TestFixtureSetUp()]
         public void Setup()
         {
             SinTDInstance = new SinTD();
@@ -72,8 +72,8 @@ namespace SINFONIUnitTests
             SinTD_string = SinTDInstance.GetSinTDType("string");
 
             intStruct = new SinTDStruct("intStruct");
-            intStruct.members["x"] = i32;
-            intStruct.members["y"] = i32;
+            intStruct.AddMember("x", i32);
+            intStruct.AddMember("y", i32);
 
             serviceFunction = new ServiceFunctionDescription("function", new SinTDType("void"));
             serviceFunction.Parameters.Add("intParameter", i32);
@@ -99,7 +99,7 @@ namespace SINFONIUnitTests
         public void CallShouldBeValidForArrayParameters()
         {
             SinTDArray parameterArray = new SinTDArray();
-            parameterArray.elementType = i32;
+            parameterArray.ElementType = i32;
 
             var serviceFunction = new ServiceFunctionDescription("arrayFunction", new SinTDType("void"));
             serviceFunction.Parameters.Add("arrayParam", parameterArray);
@@ -111,9 +111,7 @@ namespace SINFONIUnitTests
         [Test()]
         public void CallShouldBeValidForMapParameters()
         {
-            SinTDMap parameterMap = new SinTDMap();
-            parameterMap.elementType = i32;
-            parameterMap.keyType = SinTD_string;
+            SinTDMap parameterMap = new SinTDMap(SinTD_string, i32);
 
             var serviceFunction = new ServiceFunctionDescription("mapFunction", new SinTDType("void"));
             serviceFunction.Parameters.Add("mapParam", parameterMap);

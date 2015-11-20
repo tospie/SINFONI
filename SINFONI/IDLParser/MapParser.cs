@@ -32,10 +32,7 @@ namespace SINFONI
             string keyType = mapDefinition.Substring(openingBracket + 1, comma - openingBracket - 1);
             string valueType = mapDefinition.Substring(comma + 1, closingBracket - comma - 1);
 
-            SinTDMap result = new SinTDMap();
-            result.keyType = getKeyOrValueType(keyType);
-            result.elementType = getKeyOrValueType(valueType);
-
+            SinTDMap result = new SinTDMap( getKeyOrValueType(keyType), getKeyOrValueType(valueType));
             return result;
         }
 

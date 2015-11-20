@@ -17,6 +17,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 
 namespace SINFONI
@@ -24,6 +25,7 @@ namespace SINFONI
     public class SinTDStruct : SinTDType
     {
         public SinTDStruct(string name) : base(name) {
+            typeBuilder = StructBuilder.Instance.CreateTypeBuilder(name);
         }
 
         public override object AssignValuesFromObject(object other)
@@ -113,6 +115,18 @@ namespace SINFONI
             return localTypeInstance;
         }
 
+        public override Type InstanceType {
+            get
+            {
+                if(nativeType == null)
+                {
+                    nativeType = typeBuilder.CreateType();
+                }
+
+                return nativeType;
+            }
+        }
+
         public override bool CanBeAssignedFromType(Type type)
         {
             if (validMappings.ContainsKey(type))
@@ -120,6 +134,19 @@ namespace SINFONI
 
             else
                 return validMappingForTypeExists(type);
+        }
+
+        /// <summary>
+        /// Adds a new member field to the struct. It will be assigned the provided name, and use the type
+        /// that was previously created for the added SinTDType. Afterwards, the native type of this SinTD
+        /// struct will be rebuilt
+        /// </summary>
+        /// <param name="name">Name of the new member field</param>
+        /// <param name="type">SinTDType of the new member</param>
+        internal void AddMember(string name, SinTDType type)
+        {
+            this.members.Add(name, type);
+            typeBuilder.DefineField(name, type.InstanceType, FieldAttributes.Public);
         }
 
         private bool validMappingForTypeExists(Type type)
@@ -191,8 +218,11 @@ namespace SINFONI
             return true;
         }
 
-        internal Dictionary<string, SinTDType> members = new Dictionary<string, SinTDType>();
+        internal Type nativeType;
         internal Dictionary<Type, bool> validMappings = new Dictionary<Type, bool>();
         internal Dictionary<Type, Delegate> mappings = new Dictionary<Type, Delegate>();
+
+        internal Dictionary<string, SinTDType> members = new Dictionary<string, SinTDType>();
+        private TypeBuilder typeBuilder;
     }
 }

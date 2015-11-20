@@ -50,7 +50,8 @@ namespace SINFONI
 
         internal SinTDType(string name, Type baseType)
         {
-            this.BaseType = baseType;
+            this.Name = name;
+            this.InstanceType = baseType;
         }
 
         /// <summary>
@@ -58,7 +59,7 @@ namespace SINFONI
         /// </summary>
         public string Name { get; internal set; }
 
-        public Type InstanceType { get; internal set; }
+        public virtual Type InstanceType { get; internal set; }
 
         /// <summary>
         /// Assign values from a native C# object to a SinTD Type. Values are mapped by implicit cast for base types,
@@ -115,8 +116,6 @@ namespace SINFONI
 
             return false;
         }
-
-        private Type BaseType;
     }
  
 }

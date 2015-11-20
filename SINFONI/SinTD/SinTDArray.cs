@@ -35,6 +35,7 @@ namespace SINFONI
         public SinTDArray(SinTDType type)
         {
             elementType = type;
+            this.InstanceType = type.InstanceType.MakeArrayType();
         }
 
         public override bool CanBeAssignedFromType(Type type)
@@ -147,6 +148,14 @@ namespace SINFONI
             return null;
         }
 
-        internal SinTDType elementType;
+        private SinTDType elementType;
+        internal SinTDType ElementType
+          {
+              get { return elementType; }
+              set
+              {
+                  InstanceType = value.InstanceType.MakeArrayType(); elementType = value;
+               }
+           }
     }    
 }

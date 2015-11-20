@@ -112,7 +112,7 @@ namespace SINFONIUnitTests
         public void ShouldParseCorrectArrayType()
         {
             var intArray = ArrayParser.Instance.ParseArray("array<i16>");
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("i16"), intArray.elementType);
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("i16"), intArray.ElementType);
         }
 
         [Test()]
@@ -133,7 +133,7 @@ namespace SINFONIUnitTests
         public void ShouldParseArrayDefinitionWithSpaces()
         {
             var intArray = ArrayParser.Instance.ParseArray("array < i16 >");
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("i16"), intArray.elementType);
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("i16"), intArray.ElementType);
         }
 
         [Test()]
@@ -148,7 +148,7 @@ namespace SINFONIUnitTests
         public void ShouldParseArraysOfMaps()
         {
             var arrayOfMaps = ArrayParser.Instance.ParseArray("array<map<string, i32>>");
-            Assert.AreEqual(arrayOfMaps.elementType.GetType(), typeof(SinTDMap));
+            Assert.AreEqual(arrayOfMaps.ElementType.GetType(), typeof(SinTDMap));
         }
 
         [Test()]
@@ -192,12 +192,12 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldParseStructWithArray()
         {
-            string idl = @"struct ArrayStruct {
+            string idl = @"struct ArrayStruct1 {
                             array<i16> testArray;
                          }";
             IDLParser.Instance.ParseIDL(idl);
-            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedSinTD.ContainsType("ArrayStruct"));
-            SinTDStruct arrayStruct = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("ArrayStruct") as SinTDStruct;
+            Assert.IsTrue(IDLParser.Instance.CurrentlyParsedSinTD.ContainsType("ArrayStruct1"));
+            SinTDStruct arrayStruct = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("ArrayStruct1") as SinTDStruct;
             Assert.Contains("testArray", arrayStruct.members.Keys);
 
             var parsedArray = arrayStruct.members["testArray"];
@@ -207,7 +207,7 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldThrowExceptionOnBadMemberDefinition()
         {
-            string idl = @"struct ArrayStruct {
+            string idl = @"struct ArrayStruct2 {
                             struct another struct {};
                             array<i16> testArray;
                          }";
@@ -217,7 +217,7 @@ namespace SINFONIUnitTests
         [Test()]
         public void ShouldThrowExceptionOnBadObjectDefinition()
         {
-            string idl = @"struct ArrayStruct {
+            string idl = @"struct ArrayStruct3 {
                             array<i16> testArray;
                          }
 
@@ -289,7 +289,7 @@ namespace SINFONIUnitTests
 
             Assert.AreEqual(typeof(SinTDArray), testFunction1.ReturnType.GetType());
             SinTDArray array = (SinTDArray)testFunction1.ReturnType;
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("string"), array.elementType);
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("string"), array.ElementType);
 
             Assert.AreEqual(typeof(SinTDMap), testFunction2.ReturnType.GetType());
             SinTDMap map = (SinTDMap)testFunction2.ReturnType;
@@ -311,7 +311,7 @@ namespace SINFONIUnitTests
                 .SINFONIServices.GetService("serverSync").GetServiceFunction("testFunction1");
             var param1 = testFunction1.Parameters["param"];
             Assert.AreEqual(typeof(SinTDArray), param1.GetType());
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("i32"), ((SinTDArray)param1).elementType);
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("i32"), ((SinTDArray)param1).ElementType);
 
             var testFunction2 = IDLParser.Instance.CurrentlyParsedSinTD
                 .SINFONIServices.GetService("serverSync").GetServiceFunction("testFunction2");
@@ -353,7 +353,7 @@ namespace SINFONIUnitTests
                 .GetService("testService").GetServiceFunction("testFunction1");
             var parameter = testFunction.Parameters["param"];
             Assert.AreEqual(typeof(SinTDArray), parameter.GetType());
-            Assert.AreEqual(typeof(SinTDMap), ((SinTDArray)parameter).elementType.GetType());
+            Assert.AreEqual(typeof(SinTDMap), ((SinTDArray)parameter).ElementType.GetType());
         }
 
         [Test()]
@@ -372,7 +372,7 @@ namespace SINFONIUnitTests
 
             Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("string"), param1);
             Assert.AreEqual(typeof(SinTDArray), param2.GetType());
-            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("i32"), ((SinTDArray)param2).elementType);
+            Assert.AreEqual(IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType("i32"), ((SinTDArray)param2).ElementType);
         }
 
         [Test()]

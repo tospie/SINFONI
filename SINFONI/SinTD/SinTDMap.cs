@@ -31,10 +31,16 @@ namespace SINFONI
     {
         public SinTDMap() { }
 
+        internal SinTDType keyType { get; private set; }
+        internal SinTDType elementType { get; private set; }
+
         public SinTDMap(SinTDType key, SinTDType element)
         {
             keyType = key;
             elementType = element;
+            Type d = typeof(Dictionary<,>);
+            Type[] typeArgs = {key.InstanceType, element.InstanceType};
+            this.InstanceType = d.MakeGenericType(typeArgs);
         }
 
         public override bool CanBeAssignedFromType(Type type)
@@ -89,8 +95,5 @@ namespace SINFONI
             }
             return localTypeDictionary;
         }
-
-        internal SinTDType keyType;
-        internal SinTDType elementType;
     }
 }
