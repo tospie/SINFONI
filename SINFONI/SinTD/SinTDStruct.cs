@@ -136,6 +136,19 @@ namespace SINFONI
                 return validMappingForTypeExists(type);
         }
 
+        /// <summary>
+        /// Adds a new member field to the struct. It will be assigned the provided name, and use the type
+        /// that was previously created for the added SinTDType. Afterwards, the native type of this SinTD
+        /// struct will be rebuilt
+        /// </summary>
+        /// <param name="name">Name of the new member field</param>
+        /// <param name="type">SinTDType of the new member</param>
+        internal void AddMember(string name, SinTDType type)
+        {
+            this.members.Add(name, type);
+            typeBuilder.DefineField(name, type.InstanceType, FieldAttributes.Public);
+        }
+
         private bool validMappingForTypeExists(Type type)
         {
             if (typeof(IDictionary).IsAssignableFrom(type))
@@ -206,9 +219,10 @@ namespace SINFONI
         }
 
         internal Type nativeType;
-        internal Dictionary<string, SinTDType> members = new Dictionary<string, SinTDType>();
         internal Dictionary<Type, bool> validMappings = new Dictionary<Type, bool>();
         internal Dictionary<Type, Delegate> mappings = new Dictionary<Type, Delegate>();
+
+        internal Dictionary<string, SinTDType> members = new Dictionary<string, SinTDType>();
         private TypeBuilder typeBuilder;
     }
 }

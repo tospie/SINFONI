@@ -138,7 +138,7 @@ namespace SINFONI
 
             SinTDType typeObject = getTypeForMember(memberType);
 
-            createdStruct.members.Add(memberName, typeObject);
+            createdStruct.AddMember(memberName, typeObject);
         }
 
         /// <summary>
