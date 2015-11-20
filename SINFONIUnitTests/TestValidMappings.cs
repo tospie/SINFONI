@@ -26,7 +26,6 @@ namespace SINFONIUnitTests
     [TestFixture()]
     class TestValidMappings
     {
-
         SinTDType i16;
         SinTDType i32;
         SinTDType i64;
@@ -80,62 +79,55 @@ namespace SINFONIUnitTests
             public testClass s;
         }
 
-        [SetUp()]
+        [TestFixtureSetUp()]
         public void InitTests()
-        {
-            i16 = new SinTDType("i16");
+        {            
+            i16 = new SinTDType("i16", typeof(short));
 
-            i32 = new SinTDType("i32");
+            i32 = new SinTDType("i32", typeof(int));
 
-            i64 = new SinTDType("i64");
+            i64 = new SinTDType("i64", typeof(long));
 
-            ui16 = new SinTDType("u16");
-            ui32 = new SinTDType("u32");
-            ui64 = new SinTDType("u64");
+            ui16 = new SinTDType("u16", typeof(ushort));
+            ui32 = new SinTDType("u32", typeof(uint));
+            ui64 = new SinTDType("u64", typeof(ulong));
 
-            SinTD_double = new SinTDType("double");
+            SinTD_double = new SinTDType("double", typeof(double));
 
-            SinTD_float = new SinTDType("float");
+            SinTD_float = new SinTDType("float", typeof(float));
 
-            SinTD_string = new SinTDType();
+            SinTD_string = new SinTDType("string", typeof(string));
             SinTD_string.Name = "string";
 
-            SinTD_bool = new SinTDType();
-            SinTD_bool.Name = "boolean";
+            SinTD_bool = new SinTDType("boolean", typeof(bool));
 
-            intStruct = new SinTDStruct("intStruct");
-            intStruct.members["x"] = i32;
-            intStruct.members["y"] = i32;
+            intStruct = new SinTDStruct("mappingsIntStruct");
+            intStruct.AddMember("x", i32);
+            intStruct.AddMember("y", i32);
 
-            nestedStruct = new SinTDStruct("nestedStruct");
-            nestedStruct.members["name"] = SinTD_string;
-            nestedStruct.members["b"] = SinTD_bool;
-            nestedStruct.members["s"] = intStruct;
+            nestedStruct = new SinTDStruct("mappingsNestedStruct");
+            nestedStruct.AddMember("name", SinTD_string);
+            nestedStruct.AddMember("b", SinTD_bool);
+            nestedStruct.AddMember("s", intStruct);
 
             SinTD_array = new SinTDArray();
             SinTD_array.Name = "array<int32>";
-            SinTD_array.elementType = i32;
+            SinTD_array.ElementType = i32;
 
-            map = new SinTDMap();
-            map.keyType = SinTD_string;
-            map.elementType = intStruct;
+            map = new SinTDMap(SinTD_string, intStruct);
 
             SinTD_arrayOfStructs = new SinTDArray();
-            SinTD_arrayOfStructs.Name = "array<nestedStruct>";
-            SinTD_arrayOfStructs.elementType = nestedStruct;
+            SinTD_arrayOfStructs.Name = "array<mappingsNestedStruct>";
+            SinTD_arrayOfStructs.ElementType = nestedStruct;
 
-            SinTD_mapWithStructElements = new SinTDMap();
-            SinTD_mapWithStructElements.elementType = nestedStruct;
-            SinTD_mapWithStructElements.keyType = SinTD_string;
+            SinTD_mapWithStructElements = new SinTDMap(SinTD_string, nestedStruct);
 
-            SinTD_mapWithStructKeys = new SinTDMap();
-            SinTD_mapWithStructKeys.elementType = SinTD_string;
-            SinTD_mapWithStructKeys.keyType = nestedStruct;
+            SinTD_mapWithStructKeys = new SinTDMap(nestedStruct, SinTD_string);
 
             Vector = new SinTDStruct("Vector");
-            Vector.members.Add("x", SinTD_float);
-            Vector.members.Add("y", SinTD_float);
-            Vector.members.Add("z", SinTD_float);
+            Vector.AddMember("x", SinTD_float);
+            Vector.AddMember("y", SinTD_float);
+            Vector.AddMember("z", SinTD_float);
         }
 
         [Test()]
@@ -277,7 +269,7 @@ namespace SINFONIUnitTests
         public void ShouldCacheValidMapping()
         {
             var SinTDType = new SinTDStruct("testType");
-            SinTDType.members.Add("i16", i16);
+            SinTDType.AddMember("i16", i16);
             SinTDType.CanBeAssignedFromType(typeof(List<nestedTestStruct>));
             Assert.Contains(typeof(List<nestedTestStruct>), SinTDType.validMappings.Keys);
             Assert.IsFalse(SinTDType.validMappings[typeof(List<nestedTestStruct>)]);
