@@ -148,6 +148,14 @@ namespace SINFONI
             return null;
         }
 
-        internal SinTDType elementType;
+        private SinTDType elementType;
+        internal SinTDType ElementType
+          {
+              get { return elementType; }
+              set
+              {
+                  InstanceType = value.InstanceType.MakeArrayType(); elementType = value;
+               }
+           }
     }    
 }
