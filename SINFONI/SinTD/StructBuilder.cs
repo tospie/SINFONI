@@ -25,9 +25,10 @@ namespace SINFONI
     {
         public StructBuilder()
         {
+            assemblyName = new AssemblyName("SINFONIDynamicAssembly-" + assemblyId);
             assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly
                 (assemblyName, AssemblyBuilderAccess.Run);
-            moduleBuilder = assemblyBuilder.DefineDynamicModule("SINFONIDynamicTypes");
+            moduleBuilder = assemblyBuilder.DefineDynamicModule("SINFONIDynamicType");
         }
 
         public TypeBuilder CreateTypeBuilder(string typeName)
@@ -38,7 +39,8 @@ namespace SINFONI
                 | TypeAttributes.AutoClass );
         }
 
-        private AssemblyName assemblyName = new AssemblyName("SINFONIDynamicAssembly");
+        private string assemblyId = Guid.NewGuid().ToString();
+        private AssemblyName assemblyName;
         private AssemblyBuilder assemblyBuilder;
         private ModuleBuilder moduleBuilder;
     }
