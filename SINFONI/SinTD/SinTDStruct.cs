@@ -25,7 +25,7 @@ namespace SINFONI
     public class SinTDStruct : SinTDType
     {
         public SinTDStruct(string name) : base(name) {
-            typeBuilder = StructBuilder.Instance.CreateTypeBuilder(name);
+            typeBuilder = structBuilder.CreateTypeBuilder(name);
         }
 
         public override object AssignValuesFromObject(object other)
@@ -219,6 +219,7 @@ namespace SINFONI
         }
 
         internal Type nativeType;
+        private StructBuilder structBuilder = new StructBuilder();
         internal Dictionary<Type, bool> validMappings = new Dictionary<Type, bool>();
         internal Dictionary<Type, Delegate> mappings = new Dictionary<Type, Delegate>();
 
