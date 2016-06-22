@@ -21,8 +21,8 @@ namespace SINFONI.Exceptions
 {
     public class IDLParseException : Exception
     {
-        public IDLParseException(string line, int lineNumber)
-            : base("Cannot parse IDL. Failed at parsing line [" + lineNumber + "]: " + line)
+        public IDLParseException(string line, int lineNumber, string reason)
+            : base("Cannot parse IDL. Failed at parsing line [" + lineNumber + "]: " + line + ". REASON: " + reason)
         {}
     }
 }

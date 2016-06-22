@@ -103,7 +103,14 @@ namespace SINFONI
                 contents = serverConfiguration.idlContents as string;
             else
                 throw new MissingIDLException();
-            SinTD = IDLParser.Instance.ParseIDL(contents);
+            try
+            {
+                SinTD = IDLParser.Instance.ParseIDL(contents);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Failed to parse IDL from " + serverConfiguration.idlURL + ". Reason: " + e.Message);
+            }
         }
 
         public void LoadLocalIDL(string IdlPath)
@@ -369,7 +376,8 @@ namespace SINFONI
             if (failedCall != null)
                 failedCall.HandleError(reason);
             else
-                Console.WriteLine("One Way Call returned Exception: " + errorMessage.Result);
+                Console.WriteLine("One Way Call to " + errorMessage.MethodName
+                    + " returned Exception: " + errorMessage.Result);
         }
 
         private void SendResponse(int callID, Delegate nativeMethod, bool success, object retValue, object exception)

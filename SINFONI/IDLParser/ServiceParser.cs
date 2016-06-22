@@ -80,7 +80,8 @@ namespace SINFONI
             if (!(line.Contains(';')
                 && line.Contains('(')
                 && line.Contains(')')))
-                throw new IDLParseException(line, lineNumber);
+                throw new IDLParseException(line, lineNumber,
+                    "Line seems to define a service function but does not end properly with a semicolon");
 
             int indexOfOpenPar = line.IndexOf('(');
             int indexOfClosePar = line.IndexOf(')');
