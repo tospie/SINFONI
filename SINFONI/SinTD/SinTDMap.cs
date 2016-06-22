@@ -73,7 +73,8 @@ namespace SINFONI
         public override object AssignValuesToNativeType(object value, Type nativeType)
         {
             if(!CanBeAssignedFromType(value.GetType()))
-                throw new SINFONI.Exceptions.TypeCastException("Cannot assign value of SinTDMap to native object of type " + nativeType);
+                throw new SINFONI.Exceptions.TypeCastException("Cannot assign value of SinTDMap<"+
+                    keyType.Name + ", " + elementType.Name + "> to native object of type " + nativeType);
 
            // Dictionary<object, object> valueDictionary = (Dictionary<object, object>)value;
             Type[] keyAndValueTypes = nativeType.GetGenericArguments();
