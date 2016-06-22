@@ -53,6 +53,9 @@ namespace SINFONI
 
         public override object AssignValuesFromObject(object other)
         {
+            if (other == null)
+                return null;
+
             var instanceValues = new Dictionary<object, object>();
             var otherAsDictionary = other as IDictionary;
 

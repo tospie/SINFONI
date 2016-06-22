@@ -67,6 +67,9 @@ namespace SINFONI
 
         private object getFieldValueForSinTDInstance(object other, string fieldName, SinTDType SinTDType)
         {
+            if (other == null)
+                return null;
+
             var assignedValue = other;
             var otherField = other.GetType().GetField(fieldName);
 

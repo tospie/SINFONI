@@ -54,6 +54,9 @@ namespace SINFONI
 
         public override object AssignValuesFromObject(object other)
         {
+            if (other == null)
+                return null;
+
             if(!CanBeAssignedFromType(other.GetType()))
                 throw new TypeCastException("Cannot assign value to Instance of type SinTDArray<" + elementType.Name + "> : "
                     + other + " is of type " + other.GetType());

@@ -70,7 +70,7 @@ namespace SINFONI
         /// <returns>Object that corresponds to an instance of the SinTD Type that maps to the C# object</returns>
         public virtual object AssignValuesFromObject(object other)
         {
-            if(!CanBeAssignedFromType(other.GetType()))
+            if(other != null && !CanBeAssignedFromType(other.GetType()))
                 throw new TypeCastException("Cannot assign value to SinTDInstance of type " + Name + ": "
                     + other + " is of Type " + other.GetType());
             return other;
