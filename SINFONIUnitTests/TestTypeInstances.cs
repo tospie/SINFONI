@@ -703,5 +703,18 @@ namespace SINFONIUnitTests
             Assert.AreEqual(1, nativeClass.x);
             Assert.AreEqual(2, nativeClass.y);
         }
+
+        [Test()]
+        public void ShouldAssignNullValueToStructMember()
+        {
+            var structInstance = new arrayStruct
+            {
+                arr = null
+            };
+
+            Dictionary<string, object> assignedStruct
+                = aStruct.AssignValuesFromObject(structInstance) as Dictionary<string, object>;
+            Assert.IsNull(assignedStruct["arr"]);
+        }
     }
 }
