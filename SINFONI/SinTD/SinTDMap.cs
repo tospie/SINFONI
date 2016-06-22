@@ -45,13 +45,10 @@ namespace SINFONI
 
         public override bool CanBeAssignedFromType(Type type)
         {
-            if (!typeof(IDictionary).IsAssignableFrom(type))
-                return false;
-
-            Type[] keyAndValueTypes = type.GetGenericArguments();
-
-            return keyType.CanBeAssignedFromType(keyAndValueTypes[0])
-                && elementType.CanBeAssignedFromType(keyAndValueTypes[1]);
+            // We only need if the assigned type is a kind of dictionary. The check
+            // whether key and value types fit will be done separately for those in
+            // the recursion
+            return typeof(IDictionary).IsAssignableFrom(type));
         }
 
         public override object AssignValuesFromObject(object other)
