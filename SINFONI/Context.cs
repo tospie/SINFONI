@@ -19,6 +19,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.Net;
 using Newtonsoft.Json.Linq;
+using System.Net.Sockets;
 
 namespace SINFONI
 {
@@ -90,6 +91,10 @@ namespace SINFONI
                 .TransportConnectionFactory;
             IProtocol protocol = protocolRegistry.GetProtocol(protocolName);
             ITransportConnection transportConnection = transportConnectionFactory.OpenConnection(host, port, this, onConnected);
+            transportConnection.Error += (sender, e) =>
+            {
+                Console.WriteLine("An error occured while connection to host " + host + ":" + port + ": " + e.Exception);
+            };
             transportConnection.Opened += (sender, e) =>
             {
                 Connection establishedConnection = new Connection(transportConnection, protocol);
