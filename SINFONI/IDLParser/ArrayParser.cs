@@ -22,7 +22,13 @@ namespace SINFONI
 {
     internal class ArrayParser
     {
+        IDLParser idlParser;
         internal static ArrayParser Instance = new ArrayParser();
+
+        public ArrayParser(IDLParser idlParser)
+        {
+            this.idlParser = idlParser;
+        }
 
         internal SinTDArray ParseArray(string arrayDefinition)
         {

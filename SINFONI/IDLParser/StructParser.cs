@@ -27,6 +27,16 @@ namespace SINFONI
     /// </summary>
     internal class StructParser
     {
+        IDLParser parentParser;
+
+        SinTDStruct currentlyParsedStruct;
+
+        public StructParser(IDLParser parent)
+        {
+            parentParser = parent;
+            ArrayParser arrayParser = new ArrayParser(parentParser);
+            MapParser mapParser = new MapParser(parentParser);
+        }
         internal static StructParser Instance = new StructParser();
 
         /// <summary>
@@ -189,6 +199,5 @@ namespace SINFONI
             return isMap;
         }
 
-        SinTDStruct currentlyParsedStruct;
     }
 }

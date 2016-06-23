@@ -30,6 +30,12 @@ namespace SINFONI
     internal class ServiceParser
     {
         internal static ServiceParser Instance = new ServiceParser();
+        IDLParser parentParser;
+
+        public ServiceParser(IDLParser parent)
+        {
+            parentParser = parent;
+        }
 
         /// <summary>
         /// Reads the name of a service when IDL parser encounters a service definition and creates a service

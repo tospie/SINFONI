@@ -21,6 +21,12 @@ namespace SINFONI
 {
     internal class MapParser
     {
+        IDLParser idlParser;
+
+        public MapParser(IDLParser idlParser)
+        {
+            this.idlParser = idlParser;
+        }
         internal static MapParser Instance = new MapParser();
 
         internal SinTDMap ParseMap(string mapDefinition)
