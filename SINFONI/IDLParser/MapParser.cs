@@ -27,7 +27,6 @@ namespace SINFONI
         {
             this.idlParser = idlParser;
         }
-        internal static MapParser Instance = new MapParser();
 
         internal SinTDMap ParseMap(string mapDefinition)
         {

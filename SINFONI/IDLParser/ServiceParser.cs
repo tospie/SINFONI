@@ -29,7 +29,6 @@ namespace SINFONI
     /// </summary>
     internal class ServiceParser
     {
-        internal static ServiceParser Instance = new ServiceParser();
         IDLParser parentParser;
 
         public ServiceParser(IDLParser parent)

@@ -37,7 +37,6 @@ namespace SINFONI
             ArrayParser arrayParser = new ArrayParser(parentParser);
             MapParser mapParser = new MapParser(parentParser);
         }
-        internal static StructParser Instance = new StructParser();
 
         /// <summary>
         /// When IDL parser parses a line initiating a struct definition, struct parser creates a new struct object

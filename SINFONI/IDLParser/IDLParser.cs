@@ -47,7 +47,6 @@ namespace SINFONI
             ArrayParser = new ArrayParser(this);
             MapParser = new MapParser(this);
         }
-        public static IDLParser Instance = new IDLParser();
 
         public SinTD ParseIDLFromUri(string idlUri)
         {
