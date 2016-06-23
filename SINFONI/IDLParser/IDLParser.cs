@@ -132,7 +132,8 @@ namespace SINFONI
             }
             else
             {
-                throw new IDLParseException(line, lineNumberParsed);
+                throw new IDLParseException(line, lineNumberParsed,
+                    "Expecting declaration of struct or service, but encountered line was " + line);
             }
         }
 
