@@ -105,7 +105,7 @@ namespace SINFONI
                 throw new MissingIDLException();
             try
             {
-                SinTD = IDLParser.Instance.ParseIDL(contents);
+                SinTD = new IDLParser().ParseIDL(contents);
             }
             catch(Exception e)
             {
@@ -116,7 +116,7 @@ namespace SINFONI
         public void LoadLocalIDL(string IdlPath)
         {
             string idlContents = File.ReadAllText(IdlPath);
-            SinTD = IDLParser.Instance.ParseIDL(idlContents);
+            SinTD = new IDLParser().ParseIDL(idlContents);
         }
         /// <summary>
         /// Handles an incoming message.
