@@ -103,11 +103,11 @@ namespace SINFONI
             }
             else if (currentlyParsing == ParseMode.STRUCT)
             {
-                StructParser.Instance.parseLineOfStruct(line);
+                StructParser.parseLineOfStruct(line);
             }
             else if (currentlyParsing == ParseMode.SERVICE)
             {
-                ServiceParser.Instance.parseLineOfService(line, lineNumberParsed);
+                ServiceParser.parseLineOfService(line, lineNumberParsed);
             }
         }
 
@@ -123,12 +123,12 @@ namespace SINFONI
             if (line.Contains("struct") && line.IndexOf("struct") == 0)
             {
                 currentlyParsing = ParseMode.STRUCT;
-                StructParser.Instance.startStructParsing(line);
+                StructParser.startStructParsing(line);
             }
             else if (line.Contains("service") && line.IndexOf("service") == 0)
             {
                 currentlyParsing = ParseMode.SERVICE;
-                ServiceParser.Instance.startServiceParsing(line);
+                ServiceParser.startServiceParsing(line);
             }
             else
             {
