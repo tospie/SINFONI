@@ -40,6 +40,13 @@ namespace SINFONI
 
         public SinTD CurrentlyParsedSinTD { get; internal set; }
 
+        public IDLParser()
+        {
+            ServiceParser = new ServiceParser(this);
+            StructParser = new StructParser(this);
+            ArrayParser = new ArrayParser(this);
+            MapParser = new MapParser(this);
+        }
         public static IDLParser Instance = new IDLParser();
 
         public SinTD ParseIDLFromUri(string idlUri)
@@ -204,6 +211,12 @@ namespace SINFONI
 
         internal ParseMode currentlyParsing = ParseMode.NONE;
         internal ParseMode wasParsingBeforeComment = ParseMode.NONE;
+
+        internal StructParser StructParser { get; private set; }
+        internal ServiceParser ServiceParser { get; private set; }
+        internal ArrayParser ArrayParser { get; private set; }
+        internal MapParser MapParser { get; private set; }
+
         int lineNumberParsed = 0;
     }
 }
