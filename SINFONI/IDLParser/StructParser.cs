@@ -27,7 +27,16 @@ namespace SINFONI
     /// </summary>
     internal class StructParser
     {
-        internal static StructParser Instance = new StructParser();
+        IDLParser parentParser;
+
+        SinTDStruct currentlyParsedStruct;
+
+        public StructParser(IDLParser parent)
+        {
+            parentParser = parent;
+            ArrayParser arrayParser = new ArrayParser(parentParser);
+            MapParser mapParser = new MapParser(parentParser);
+        }
 
         /// <summary>
         /// When IDL parser parses a line initiating a struct definition, struct parser creates a new struct object
@@ -87,7 +96,7 @@ namespace SINFONI
                 // If the closing bracket is the first character in the line, but there is more content after that,
                 // treat the remaining content as content of a new line.
                 if (line.Length > 1)
-                    IDLParser.Instance.parseLine(line.Split('}')[1]);
+                    parentParser.parseLine(line.Split('}')[1]);
             }
         }
 
@@ -96,8 +105,8 @@ namespace SINFONI
         /// </summary>
         internal void finalizeStructParsing()
         {
-            IDLParser.Instance.currentlyParsing = SINFONI.IDLParser.ParseMode.NONE;
-            IDLParser.Instance.CurrentlyParsedSinTD.RegisterType(currentlyParsedStruct);
+            parentParser.currentlyParsing = SINFONI.IDLParser.ParseMode.NONE;
+            parentParser.CurrentlyParsedSinTD.RegisterType(currentlyParsedStruct);
         }
 
 
@@ -153,15 +162,15 @@ namespace SINFONI
 
             if (memberIsArray(memberType))
             {
-                typeObject = ArrayParser.Instance.ParseArray(memberType);
+                typeObject = parentParser.ArrayParser.ParseArray(memberType);
             }
             else if (memberIsMap(memberType))
             {
-                typeObject = MapParser.Instance.ParseMap(memberType);
+                typeObject = parentParser.MapParser.ParseMap(memberType);
             }
             else
             {
-                typeObject = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType(memberType);
+                typeObject = parentParser.CurrentlyParsedSinTD.GetSinTDType(memberType);
             }
 
             return typeObject;
@@ -189,6 +198,5 @@ namespace SINFONI
             return isMap;
         }
 
-        SinTDStruct currentlyParsedStruct;
     }
 }

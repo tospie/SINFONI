@@ -29,7 +29,13 @@ namespace SINFONI
     /// </summary>
     internal class ServiceParser
     {
-        internal static ServiceParser Instance = new ServiceParser();
+
+        IDLParser parentParser;
+
+        public ServiceParser(IDLParser parent)
+        {
+            parentParser = parent;
+        }
 
         /// <summary>
         /// Reads the name of a service when IDL parser encounters a service definition and creates a service
@@ -166,7 +172,7 @@ namespace SINFONI
 
                 int lastClosingBracket = declaration.LastIndexOf('>');
                 values[0] = declaration.Substring(0, lastClosingBracket + 1);
-                values[1] = declaration.Substring(lastClosingBracket + 1, declaration.Length - (lastClosingBracket+1));
+                values[1] = declaration.Substring(lastClosingBracket + 1, declaration.Length - (lastClosingBracket + 1));
             }
             else
             {
@@ -214,11 +220,11 @@ namespace SINFONI
         {
             SinTDType paramType;
             if (typeDefinition.StartsWith("array<"))
-                paramType = ArrayParser.Instance.ParseArray(typeDefinition);
+                paramType = parentParser.ArrayParser.ParseArray(typeDefinition);
             else if (typeDefinition.StartsWith("map<"))
-                paramType = MapParser.Instance.ParseMap(typeDefinition);
+                paramType = parentParser.MapParser.ParseMap(typeDefinition);
             else
-                paramType = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType(typeDefinition);
+                paramType = parentParser.CurrentlyParsedSinTD.GetSinTDType(typeDefinition);
 
             return paramType;
         }
@@ -238,14 +244,14 @@ namespace SINFONI
                 parseLineOfService(lastLine.Split()[0].Trim(), lineNumber);
 
             // Add the service that was parsed to the service registry.
-            IDLParser.Instance.CurrentlyParsedSinTD
+            parentParser.CurrentlyParsedSinTD
                 .SINFONIServices.services.Add(currentlyParsedService.Name, currentlyParsedService);
 
             // End service parsing in main IDL parser. If there is still content following, treat it as new
             // line in the IDL
-            IDLParser.Instance.currentlyParsing = IDLParser.ParseMode.NONE;
+            parentParser.currentlyParsing = IDLParser.ParseMode.NONE;
             if (lastLine.IndexOf('}') == 0 && lastLine.Length > 1)
-                IDLParser.Instance.parseLine(lastLine.Split('}')[1].Trim());
+                parentParser.parseLine(lastLine.Split('}')[1].Trim());
         }
 
         SINFONIService currentlyParsedService;

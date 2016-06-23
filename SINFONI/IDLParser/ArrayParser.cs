@@ -22,22 +22,27 @@ namespace SINFONI
 {
     internal class ArrayParser
     {
-        internal static ArrayParser Instance = new ArrayParser();
+        IDLParser idlParser;
+
+        public ArrayParser(IDLParser idlParser)
+        {
+            this.idlParser = idlParser;
+        }
 
         internal SinTDArray ParseArray(string arrayDefinition)
         {
             SinTDArray result = new SinTDArray();
 
             int indexStart = arrayDefinition.IndexOf('<') + 1;
-            int indexEnd = arrayDefinition.LastIndexOf ('>');
+            int indexEnd = arrayDefinition.LastIndexOf('>');
             string elementType = arrayDefinition.Substring(indexStart, indexEnd - indexStart);
 
             if (elementType.StartsWith("map"))
-                result.ElementType = MapParser.Instance.ParseMap(elementType);
+                result.ElementType = idlParser.MapParser.ParseMap(elementType);
             else if (elementType.StartsWith("array"))
-                result.ElementType = ArrayParser.Instance.ParseArray(elementType);
+                result.ElementType = ParseArray(elementType);
             else
-                result.ElementType = IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType(elementType.Trim());
+                result.ElementType = idlParser.CurrentlyParsedSinTD.GetSinTDType(elementType.Trim());
 
             return result;
         }

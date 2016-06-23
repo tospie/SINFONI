@@ -48,7 +48,7 @@ namespace SINFONI
             // We only need if the assigned type is a kind of dictionary. The check
             // whether key and value types fit will be done separately for those in
             // the recursion
-            return typeof(IDictionary).IsAssignableFrom(type));
+            return typeof(IDictionary).IsAssignableFrom(type);
         }
 
         public override object AssignValuesFromObject(object other)

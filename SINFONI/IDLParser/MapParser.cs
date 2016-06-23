@@ -21,7 +21,12 @@ namespace SINFONI
 {
     internal class MapParser
     {
-        internal static MapParser Instance = new MapParser();
+        IDLParser idlParser;
+
+        public MapParser(IDLParser idlParser)
+        {
+            this.idlParser = idlParser;
+        }
 
         internal SinTDMap ParseMap(string mapDefinition)
         {
@@ -32,7 +37,7 @@ namespace SINFONI
             string keyType = mapDefinition.Substring(openingBracket + 1, comma - openingBracket - 1);
             string valueType = mapDefinition.Substring(comma + 1, closingBracket - comma - 1);
 
-            SinTDMap result = new SinTDMap( getKeyOrValueType(keyType), getKeyOrValueType(valueType));
+            SinTDMap result = new SinTDMap(getKeyOrValueType(keyType), getKeyOrValueType(valueType));
             return result;
         }
 
@@ -40,11 +45,11 @@ namespace SINFONI
         {
             typeName = typeName.Trim();
             if (typeName.StartsWith("array"))
-                return ArrayParser.Instance.ParseArray(typeName);
+                return idlParser.ArrayParser.ParseArray(typeName);
             else if (typeName.StartsWith("map"))
-                return MapParser.Instance.ParseMap(typeName);
+                return ParseMap(typeName);
             else
-                return IDLParser.Instance.CurrentlyParsedSinTD.GetSinTDType(typeName);
+                return idlParser.CurrentlyParsedSinTD.GetSinTDType(typeName);
         }
     }
 }

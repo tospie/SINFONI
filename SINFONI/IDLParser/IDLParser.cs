@@ -40,7 +40,13 @@ namespace SINFONI
 
         public SinTD CurrentlyParsedSinTD { get; internal set; }
 
-        public static IDLParser Instance = new IDLParser();
+        public IDLParser()
+        {
+            ServiceParser = new ServiceParser(this);
+            StructParser = new StructParser(this);
+            ArrayParser = new ArrayParser(this);
+            MapParser = new MapParser(this);
+        }
 
         public SinTD ParseIDLFromUri(string idlUri)
         {
@@ -97,11 +103,11 @@ namespace SINFONI
             }
             else if (currentlyParsing == ParseMode.STRUCT)
             {
-                StructParser.Instance.parseLineOfStruct(line);
+                StructParser.parseLineOfStruct(line);
             }
             else if (currentlyParsing == ParseMode.SERVICE)
             {
-                ServiceParser.Instance.parseLineOfService(line, lineNumberParsed);
+                ServiceParser.parseLineOfService(line, lineNumberParsed);
             }
         }
 
@@ -117,16 +123,17 @@ namespace SINFONI
             if (line.Contains("struct") && line.IndexOf("struct") == 0)
             {
                 currentlyParsing = ParseMode.STRUCT;
-                StructParser.Instance.startStructParsing(line);
+                StructParser.startStructParsing(line);
             }
             else if (line.Contains("service") && line.IndexOf("service") == 0)
             {
                 currentlyParsing = ParseMode.SERVICE;
-                ServiceParser.Instance.startServiceParsing(line);
+                ServiceParser.startServiceParsing(line);
             }
             else
             {
-                throw new IDLParseException(line, lineNumberParsed);
+                throw new IDLParseException(line, lineNumberParsed,
+                    "Expecting declaration of struct or service, but encountered line was " + line);
             }
         }
 
@@ -204,6 +211,12 @@ namespace SINFONI
 
         internal ParseMode currentlyParsing = ParseMode.NONE;
         internal ParseMode wasParsingBeforeComment = ParseMode.NONE;
+
+        internal StructParser StructParser { get; private set; }
+        internal ServiceParser ServiceParser { get; private set; }
+        internal ArrayParser ArrayParser { get; private set; }
+        internal MapParser MapParser { get; private set; }
+
         int lineNumberParsed = 0;
     }
 }
