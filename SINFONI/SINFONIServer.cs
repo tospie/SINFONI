@@ -58,7 +58,7 @@ namespace SINFONI
             ServerConfigDocument.servers = new List<ServiceDescription>();
 
             ConfigURI = "http://" + host + ":" + port + path;
-            if(!idlURI.Contains("http://"))
+            if (!idlURI.Contains("http://"))
             {
                 ServerConfigDocument.idlURL = ConfigURI.Replace("+", "localhost") + idlURI + "/";
                 IdlPath = idlURI + "/";
@@ -88,7 +88,8 @@ namespace SINFONI
         /// <summary>
         /// Shuts down the SINFONI Server and clears all registered services.
         /// </summary>
-        public void ShutDown() {
+        public void ShutDown()
+        {
             Listener.Stop();
             //TODO: We need to iterate over all services and check for transport connections that are still open and need to be closed!!
 
@@ -156,8 +157,8 @@ namespace SINFONI
                     string requestedServerPath = listenerContext.Request.Url.ToString();
                     if (!requestedServerPath.EndsWith("/"))
                         requestedServerPath = String.Concat(requestedServerPath, "/");
-                    ServerConfigDocument.idlURL = requestedServerPath + IdlPath;
-                    string configAsString = JsonSerializer.Serialize(ServerConfigDocument);
+                    deliveredConfig.idlURL = requestedServerPath + IdlPath;
+                    string configAsString = JsonSerializer.Serialize(deliveredConfig);
                     buffer = Encoding.UTF8.GetBytes(configAsString);
                 }
                 output.Write(buffer, 0, buffer.Length);
