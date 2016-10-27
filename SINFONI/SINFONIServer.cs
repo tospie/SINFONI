@@ -146,6 +146,7 @@ namespace SINFONI
                 listenerContext.Response.StatusDescription = "OK";
                 Stream output = listenerContext.Response.OutputStream;
                 byte[] buffer;
+                Config deliveredConfig = substituteAnyHostByExternalIp(listenerContext.Request.UserHostName);
                 if (listenerContext.Request.RawUrl.Contains(IdlPath))
                 {
                     buffer = Encoding.UTF8.GetBytes(IdlContent);
@@ -162,6 +163,34 @@ namespace SINFONI
                 output.Write(buffer, 0, buffer.Length);
                 output.Close();
             }
+        }
+
+        private Config substituteAnyHostByExternalIp(string externalIp)
+        {
+            Config temporaryConfig = new Config();
+            temporaryConfig.idlContents = ServerConfigDocument.idlContents;
+            temporaryConfig.idlURL = ServerConfigDocument.idlURL;
+            temporaryConfig.info = ServerConfigDocument.info;
+            temporaryConfig.servers = new List<ServiceDescription>();
+            if (externalIp.Contains(':'))
+            {
+                externalIp = externalIp.Split(':')[0];
+            }
+            foreach (var server in ServerConfigDocument.servers)
+            {
+                var tempServer = new ServiceDescription();
+                tempServer.protocol = server.protocol;
+                tempServer.implementedServices = server.implementedServices;
+                tempServer.transport = new TransportConfig();
+                tempServer.transport.name = server.transport.name;
+                tempServer.transport.url = server.transport.url;
+                if (tempServer.transport.url.Contains("Any"))
+                {
+                    tempServer.transport.url = tempServer.transport.url.Replace("Any", externalIp);
+                }
+                temporaryConfig.servers.Add(tempServer);
+            }
+            return temporaryConfig;
         }
 
         private string ConfigHost;
