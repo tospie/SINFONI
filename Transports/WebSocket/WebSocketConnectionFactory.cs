@@ -20,6 +20,7 @@ using System.Net;
 using NLog;
 using SuperSocket.SocketBase.Config;
 using SINFONI;
+using System.Net.Sockets;
 
 namespace SINFONI.Transport.WebSocketTransport
 {
@@ -39,7 +40,14 @@ namespace SINFONI.Transport.WebSocketTransport
             transportConnection.Error += (sender, e) => {
                 logger.Warn("Error in connection to " + host + ":" + port, e.Exception);
             };
-            transportConnection.Open();
+            try
+            {
+                transportConnection.Open();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Failed to open Socket connection to ws://{0}:{1}, Reason: {2} ", host, port, e.Message);
+            }
             return transportConnection;
         }
 
