@@ -26,10 +26,10 @@ namespace SimpleClient
     {
         public SimpleClient()
         {
-            IProtocol jsonRpcProtocol = new JsonRpcProtocol();
+            IProtocol simpleBinary = new SimpleBinary.SimpleBinaryProtocol();
             ITransport webSocketTransport = new WebSocketTransport();
 
-            ProtocolRegistry.Instance.RegisterProtocol(jsonRpcProtocol);
+            ProtocolRegistry.Instance.RegisterProtocol(simpleBinary);
             TransportRegistry.Instance.RegisterTransport(webSocketTransport);
             RemoteService = ServiceFactory.Discover("http://localhost:8080/service");
             RemoteService.OnConnected += new Connected(HandleConnected);
@@ -40,6 +40,10 @@ namespace SimpleClient
         private void HandleConnected(Connection connection)
         {
             AddVectors = connection["example.addVectors"];
+            connection.Closed += new EventHandler<ClosedEventArgs>((o, e) =>
+            {
+                Console.WriteLine("Connection was closed");
+            });
             callAddVectors();
         }
 
