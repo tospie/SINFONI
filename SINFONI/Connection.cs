@@ -555,11 +555,9 @@ namespace SINFONI
                 serviceDescription = localService;
             }
 
-            FuncCallBase callObj = null;
+            FuncCallBase callObj = new FuncCallBase(serviceDescription[0], serviceDescription[1], this);
             if (!IsOneWay(funcName))
             {
-                callObj = new FuncCallBase(serviceDescription[0], serviceDescription[1], this);
-
                 // It is important to add an active call to the list before sending it, otherwise we may end up
                 // receiving call-reply before this happens, which will trigger unnecessary call-error and crash the
                 // other end.
