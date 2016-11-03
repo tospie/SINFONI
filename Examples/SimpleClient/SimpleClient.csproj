@@ -54,6 +54,10 @@
       <Project>{c94e447a-bd82-4db8-b0fa-803d3ccb3ea0}</Project>
       <Name>JsonRPC</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Protocols\SimpleBinary\SimpleBinary.csproj">
+      <Project>{3e672803-b01b-46aa-b873-59f3499f3c79}</Project>
+      <Name>SimpleBinary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SINFONI\SINFONI.csproj">
       <Project>{b43693ef-8534-4491-93b9-d9e4702dc0f3}</Project>
       <Name>SINFONI</Name>
