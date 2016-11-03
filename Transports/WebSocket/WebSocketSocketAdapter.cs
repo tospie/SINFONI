@@ -38,7 +38,7 @@ namespace SINFONI.Transport.WebSocketTransport
             WebSocket.Closed += (o, e) =>
             {
                 if (this.Closed != null)
-                    this.Closed(this, e);
+                    this.Closed(this, new ClosedEventArgs("Websocket was closed for unknown reason"));
             };
         }
 
@@ -66,7 +66,7 @@ namespace SINFONI.Transport.WebSocketTransport
 
         public event EventHandler Opened;
 
-        public event EventHandler Closed;
+        public event EventHandler<ClosedEventArgs> Closed;
 
         public void Send(object message)
         {

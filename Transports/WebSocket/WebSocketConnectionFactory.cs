@@ -37,8 +37,9 @@ namespace SINFONI.Transport.WebSocketTransport
                 throw new Error(ErrorCode.CONNECTION_ERROR, "No port and/or IP address is present in configuration.");
 
             ITransportConnection transportConnection = webSocketFactory.Construct("ws://" + host + ":" + port + "/");
-            transportConnection.Error += (sender, e) => {
-                logger.Warn("Error in connection to " + host + ":" + port, e.Exception);
+            transportConnection.Error += (sender, e) =>
+            {
+                Console.WriteLine("Error in connection to " + host + ":" + port + ":   " + e.Exception.Message);
             };
             try
             {

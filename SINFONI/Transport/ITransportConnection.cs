@@ -29,7 +29,7 @@ namespace SINFONI
         /// <summary>
         /// Raised when the connection is closed.
         /// </summary>
-        event EventHandler Closed;
+        event EventHandler<ClosedEventArgs> Closed;
 
         /// <summary>
         /// Raised when an error is occured in the connection.
