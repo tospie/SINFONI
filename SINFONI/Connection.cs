@@ -162,6 +162,25 @@ namespace SINFONI
                 ProcessMessage(receivedMessage);
             }
         }
+        internal void FinishIntialization()
+        {
+            Initialized = true;
+            while (deferredMessagesInQueue > 0)
+            {
+                ProcessDeferredMessage();
+            }
+        }
+
+        private void ProcessDeferredMessage()
+        {
+            lock (deferredMessages)
+            {
+                Console.WriteLine("[SINFONI.Connection] Processing deferred message, {0} left ", deferredMessagesInQueue);
+                IMessage queuedMessage = deferredMessages.Dequeue();
+                deferredMessagesInQueue--;
+                ProcessMessage(queuedMessage);
+            }
+        }
         private void ProcessMessage(IMessage message)
         {
             MessageType msgType = message.Type;
