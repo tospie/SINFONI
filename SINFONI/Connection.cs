@@ -47,7 +47,8 @@ namespace SINFONI
         /// <summary>
         /// Raised when a connection is closed.
         /// </summary>
-        public event EventHandler Closed;
+        public event EventHandler<ClosedEventArgs> Closed;
+
 
         public Connection() { }
 
@@ -57,10 +58,10 @@ namespace SINFONI
             this.TransportConnection = transportConnection;
             this.Protocol = protocol;
             this.TransportConnection.Message += new EventHandler<TransportMessageEventArgs>(HandleMessage);
-            this.TransportConnection.Closed += new EventHandler((o, e) =>
+            this.TransportConnection.Closed += new EventHandler<ClosedEventArgs>((o, e) =>
             {
                 if (this.Closed != null)
-                    this.Closed(this, new EventArgs());
+                    this.Closed(this, e);
             });
         }
 
@@ -71,7 +72,7 @@ namespace SINFONI
         {
             TransportConnection.Close();
             if (Closed != null)
-                Closed(this, new EventArgs());
+                Closed(this, new ClosedEventArgs("Disconnect of Connection was requested"));
         }
 
         /// <summary>
