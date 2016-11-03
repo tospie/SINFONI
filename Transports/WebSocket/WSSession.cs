@@ -33,9 +33,14 @@ namespace SINFONI.Transport.WebSocketTransport
     /// </summary>
     public class WSSession : WebSocketSession<WSSession>
     {
-        public event EventHandler Closed;
+        public event EventHandler<ClosedEventArgs> Closed;
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
         public event EventHandler<DataReceivedEventArgs> DataReceived;
+
+        protected override void HandleException(Exception e)
+        {
+            this.Send("[WSSession] Unhandled exception in Websocket Session: " + e);
+        }
 
         public void HandleClosed(string reason)
         {

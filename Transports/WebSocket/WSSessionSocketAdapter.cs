@@ -47,13 +47,13 @@ namespace SINFONI.Transport.WebSocketTransport
                 Message(sender, new TransportMessageEventArgs(e.Data));
         }
 
-        void HandleClosed(object sender, EventArgs e)
+        void HandleClosed(object sender, ClosedEventArgs e)
         {
             if (Closed != null)
                 Closed(sender, e);
         }
 
-        public event EventHandler Closed;
+        public event EventHandler<ClosedEventArgs> Closed;
 
         public event EventHandler<TransportMessageEventArgs> Message;
 
