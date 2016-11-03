@@ -19,6 +19,7 @@ using System.Text;
 
 namespace SINFONI
 {
+    [Serializable]
     public class MessageBase : IMessage
     {
         public MessageType Type { get; set; }
