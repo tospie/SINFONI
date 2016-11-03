@@ -694,5 +694,7 @@ namespace SINFONI
         private Dictionary<string, bool> oneWayFunctions = new Dictionary<string, bool>();
         protected ITransportConnection TransportConnection;
         protected IProtocol Protocol;
+        private Queue<IMessage> deferredMessages = new Queue<IMessage>();
+        private int deferredMessagesInQueue = 0;
     }
 }
