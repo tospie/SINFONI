@@ -21,6 +21,8 @@ using SINFONI.Exceptions;
 using System.Reflection;
 using Dynamitey;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SINFONI
 {
@@ -124,29 +126,38 @@ namespace SINFONI
         /// </summary>
         public void HandleMessage(object sender, TransportMessageEventArgs e)
         {
+            Task.Factory.StartNew(() =>
+            {
+                HandleMessageAsync(e.Message);
+            });
+        }
+
+        private void HandleMessageAsync(object message)
             IMessage receivedMessage = null;
 
             try
             {
                 // Deserializes Message according to loaded protocol. As client agreed with server on respective protocol
-                receivedMessage = Protocol.DeserializeMessage(e.Message);
+                receivedMessage = Protocol.DeserializeMessage(message);
             }
             catch (Exception)
             {
                 return;
             }
 
-            MessageType msgType = receivedMessage.Type;
+                ProcessMessage(receivedMessage);
+        private void ProcessMessage(IMessage message)
+        {
+            MessageType msgType = message.Type;
             if (msgType == MessageType.RESPONSE)
-                HandleCallResponse(receivedMessage);
+                HandleCallResponse(message);
             else if (msgType == MessageType.EXCEPTION)
-                HandleCallError(receivedMessage);
+                HandleCallError(message);
             else if (msgType == MessageType.REQUEST)
-                HandleCall(receivedMessage);
+                HandleCall(message);
             else
                 SendException(-1, "Unknown message type: " + msgType);
         }
-
         /// <summary>
         /// Is called when Connection receives a message that is identified as service call. Upon receiving a call,
         /// SINFONI will check whether the called service exists, what parameters it expects and which local function
