@@ -39,19 +39,20 @@ namespace SimpleServer
             ITransport websocketTransport = new WebSocketTransport();
             TransportRegistry.Instance.RegisterTransport(websocketTransport);
 
-            IProtocol jsonRpc = new JsonRpcProtocol();
-            IProtocol fivesJson = new FiVESJsonProtocol();
-            ProtocolRegistry.Instance.RegisterProtocol(jsonRpc);
-            ProtocolRegistry.Instance.RegisterProtocol(fivesJson);
+            IProtocol jsonRPC = new JsonRpcProtocol();
+            ProtocolRegistry.Instance.RegisterProtocol(jsonRPC);
+
+            IProtocol simpleBinary = new SimpleBinary.SimpleBinaryProtocol();
+            ProtocolRegistry.Instance.RegisterProtocol(simpleBinary);
 
             SINFONIServer newServer = new SINFONIServer("+", 8080, "/service/", "server.sinfoni");
-            var service = newServer.StartService("127.0.0.1", 34568, "/service", "ws", "jsonrpc");
+            var binaryService = newServer.StartService("localhost", 34569, "/service", "ws", "simple-binary");
 
-            service.OnNewClient += new NewClient(HandleNewClient);
-            service["example.addVectors"] = (Func<Vector, Vector, Vector>)addVectors;
+            binaryService.OnNewClient += new NewClient(HandleNewClient);
+            binaryService["example.addVectors"] = (Func<Vector, Vector, Vector>)addVectors;
 
             Console.Read();
-       }
+        }
 
         private void HandleNewClient(Connection connection)
         {
