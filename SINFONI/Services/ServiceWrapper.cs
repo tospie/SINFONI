@@ -44,6 +44,7 @@ namespace SINFONI
             connection = aConnection;
             
             RegisterMethods(connection);
+            connection.FinishIntialization();
 
             if (InternalOnConnected != null)
                 InternalOnConnected(aConnection);

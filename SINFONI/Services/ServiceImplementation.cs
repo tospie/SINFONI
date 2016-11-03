@@ -32,6 +32,7 @@ namespace SINFONI
         internal void HandleNewClient(Connection connection)
         {
             RegisterMethods(connection);
+            connection.FinishIntialization();
 
             if (OnNewClient != null)
                 OnNewClient(connection);

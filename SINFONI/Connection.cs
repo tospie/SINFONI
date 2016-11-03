@@ -21,6 +21,8 @@ using SINFONI.Exceptions;
 using System.Reflection;
 using Dynamitey;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SINFONI
 {
@@ -47,7 +49,9 @@ namespace SINFONI
         /// <summary>
         /// Raised when a connection is closed.
         /// </summary>
-        public event EventHandler Closed;
+        public event EventHandler<ClosedEventArgs> Closed;
+
+        internal bool Initialized = false;
 
         public Connection() { }
 
@@ -57,10 +61,10 @@ namespace SINFONI
             this.TransportConnection = transportConnection;
             this.Protocol = protocol;
             this.TransportConnection.Message += new EventHandler<TransportMessageEventArgs>(HandleMessage);
-            this.TransportConnection.Closed += new EventHandler((o, e) =>
+            this.TransportConnection.Closed += new EventHandler<ClosedEventArgs>((o, e) =>
             {
                 if (this.Closed != null)
-                    this.Closed(this, new EventArgs());
+                    this.Closed(this, e);
             });
         }
 
@@ -71,7 +75,7 @@ namespace SINFONI
         {
             TransportConnection.Close();
             if (Closed != null)
-                Closed(this, new EventArgs());
+                Closed(this, new ClosedEventArgs("Disconnect of Connection was requested"));
         }
 
         /// <summary>
@@ -123,29 +127,72 @@ namespace SINFONI
         /// </summary>
         public void HandleMessage(object sender, TransportMessageEventArgs e)
         {
+            Task.Factory.StartNew(() =>
+            {
+                HandleMessageAsync(e.Message);
+            });
+        }
+
+        private void HandleMessageAsync(object message)
+        {
+
             IMessage receivedMessage = null;
 
             try
             {
                 // Deserializes Message according to loaded protocol. As client agreed with server on respective protocol
-                receivedMessage = Protocol.DeserializeMessage(e.Message);
+                receivedMessage = Protocol.DeserializeMessage(message);
             }
             catch (Exception)
             {
                 return;
             }
 
-            MessageType msgType = receivedMessage.Type;
+            if (!Initialized || deferredMessagesInQueue > 0)
+            {
+                Console.WriteLine("[SINFONI.Connection] Not ready, deferring message until initialized");
+                lock (deferredMessages)
+                {
+                    deferredMessages.Enqueue(receivedMessage);
+                    deferredMessagesInQueue++;
+                }
+            }
+            else
+            {
+                ProcessMessage(receivedMessage);
+            }
+        }
+        internal void FinishIntialization()
+        {
+            Initialized = true;
+            while (deferredMessagesInQueue > 0)
+            {
+                ProcessDeferredMessage();
+            }
+        }
+
+        private void ProcessDeferredMessage()
+        {
+            lock (deferredMessages)
+            {
+                Console.WriteLine("[SINFONI.Connection] Processing deferred message, {0} left ", deferredMessagesInQueue);
+                IMessage queuedMessage = deferredMessages.Dequeue();
+                deferredMessagesInQueue--;
+                ProcessMessage(queuedMessage);
+            }
+        }
+        private void ProcessMessage(IMessage message)
+        {
+            MessageType msgType = message.Type;
             if (msgType == MessageType.RESPONSE)
-                HandleCallResponse(receivedMessage);
+                HandleCallResponse(message);
             else if (msgType == MessageType.EXCEPTION)
-                HandleCallError(receivedMessage);
+                HandleCallError(message);
             else if (msgType == MessageType.REQUEST)
-                HandleCall(receivedMessage);
+                HandleCall(message);
             else
                 SendException(-1, "Unknown message type: " + msgType);
         }
-
         /// <summary>
         /// Is called when Connection receives a message that is identified as service call. Upon receiving a call,
         /// SINFONI will check whether the called service exists, what parameters it expects and which local function
@@ -508,11 +555,9 @@ namespace SINFONI
                 serviceDescription = localService;
             }
 
-            FuncCallBase callObj = null;
+            FuncCallBase callObj = new FuncCallBase(serviceDescription[0], serviceDescription[1], this);
             if (!IsOneWay(funcName))
             {
-                callObj = new FuncCallBase(serviceDescription[0], serviceDescription[1], this);
-
                 // It is important to add an active call to the list before sending it, otherwise we may end up
                 // receiving call-reply before this happens, which will trigger unnecessary call-error and crash the
                 // other end.
@@ -649,5 +694,7 @@ namespace SINFONI
         private Dictionary<string, bool> oneWayFunctions = new Dictionary<string, bool>();
         protected ITransportConnection TransportConnection;
         protected IProtocol Protocol;
+        private Queue<IMessage> deferredMessages = new Queue<IMessage>();
+        private int deferredMessagesInQueue = 0;
     }
 }
