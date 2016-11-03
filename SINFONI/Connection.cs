@@ -51,6 +51,7 @@ namespace SINFONI
         /// </summary>
         public event EventHandler<ClosedEventArgs> Closed;
 
+        internal bool Initialized = false;
 
         public Connection() { }
 
@@ -133,6 +134,8 @@ namespace SINFONI
         }
 
         private void HandleMessageAsync(object message)
+        {
+
             IMessage receivedMessage = null;
 
             try
@@ -145,7 +148,20 @@ namespace SINFONI
                 return;
             }
 
+            if (!Initialized || deferredMessagesInQueue > 0)
+            {
+                Console.WriteLine("[SINFONI.Connection] Not ready, deferring message until initialized");
+                lock (deferredMessages)
+                {
+                    deferredMessages.Enqueue(receivedMessage);
+                    deferredMessagesInQueue++;
+                }
+            }
+            else
+            {
                 ProcessMessage(receivedMessage);
+            }
+        }
         private void ProcessMessage(IMessage message)
         {
             MessageType msgType = message.Type;
