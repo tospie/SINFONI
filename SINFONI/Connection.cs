@@ -127,10 +127,14 @@ namespace SINFONI
         /// </summary>
         public void HandleMessage(object sender, TransportMessageEventArgs e)
         {
-            Task.Factory.StartNew(() =>
+            var handleMessageTask = Task.Factory.StartNew(() =>
             {
                 HandleMessageAsync(e.Message);
             });
+            handleMessageTask.ContinueWith(te =>
+            {
+                Console.WriteLine("[SINFONI.Connection] Incoming message could not be processed: {0}", te);
+            }, TaskContinuationOptions.OnlyOnFaulted);
         }
 
         private void HandleMessageAsync(object message)
@@ -143,14 +147,18 @@ namespace SINFONI
                 // Deserializes Message according to loaded protocol. As client agreed with server on respective protocol
                 receivedMessage = Protocol.DeserializeMessage(message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return;
+                #if DEBUG
+                Console.WriteLine("An exception occurred while deserializing the message: " + e);
+                #endif
             }
 
             if (!Initialized || deferredMessagesInQueue > 0)
             {
+                #if DEBUG
                 Console.WriteLine("[SINFONI.Connection] Not ready, deferring message until initialized");
+                #endif
                 lock (deferredMessages)
                 {
                     deferredMessages.Enqueue(receivedMessage);
@@ -175,7 +183,9 @@ namespace SINFONI
         {
             lock (deferredMessages)
             {
+                #if DEBUG
                 Console.WriteLine("[SINFONI.Connection] Processing deferred message, {0} left ", deferredMessagesInQueue);
+                #endif
                 IMessage queuedMessage = deferredMessages.Dequeue();
                 deferredMessagesInQueue--;
                 ProcessMessage(queuedMessage);
