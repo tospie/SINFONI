@@ -183,6 +183,13 @@ namespace SINFONI
         }
         private void ProcessMessage(IMessage message)
         {
+            if (message == null)
+            {
+                #if DEBUG
+                Console.WriteLine("A message was discarded because it deserialized to null");
+                #endif
+                return;
+            }
             MessageType msgType = message.Type;
             if (msgType == MessageType.RESPONSE)
                 HandleCallResponse(message);
