@@ -28,7 +28,7 @@ namespace SINFONI.Transport.WebSocketTransport
             session = aSession;
             session.Closed += HandleClosed;
             session.MessageReceived += HandleMessageReceived;
-            session.DataReceived += HandleDataReceivedReceived;
+            session.DataReceived += HandleDataReceived;
         }
 
         // This is actually another layer of message here, consider !! The message we receive here is some
@@ -41,7 +41,7 @@ namespace SINFONI.Transport.WebSocketTransport
                 Message(sender, new TransportMessageEventArgs(e.Message));
         }
 
-        void HandleDataReceivedReceived(object sender, WebSocket4Net.DataReceivedEventArgs e)
+        void HandleDataReceived(object sender, WebSocket4Net.DataReceivedEventArgs e)
         {
             if (Message != null)
                 Message(sender, new TransportMessageEventArgs(e.Data));
