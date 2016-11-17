@@ -29,6 +29,7 @@ namespace SINFONI.Transport.WebSocketTransport
         {
             this.WebSocket = new WebSocket(uri);
             WebSocket.MessageReceived += HandleMessageReceived;
+            WebSocket.DataReceived += HandleDataReceived;
             WebSocket.Error += HandleError;
             this.WebSocket.Opened += (o, e) =>
             {
@@ -52,6 +53,12 @@ namespace SINFONI.Transport.WebSocketTransport
         {
             if (Message != null)
                 Message(sender, new TransportMessageEventArgs(e.Message));
+        }
+
+        void HandleDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (Message != null)
+                Message(sender, new TransportMessageEventArgs(e.Data));
         }
 
         public event EventHandler<TransportMessageEventArgs> Message;
