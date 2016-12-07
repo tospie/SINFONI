@@ -31,7 +31,7 @@ namespace SINFONI.Transport.WebSocketTransport
     {
         #region IConnectionFactory implementation
 
-        public ITransportConnection OpenConnection(string host, int port, Context context, Action<Connection> onConnected)
+        public ITransportConnection CreateTransportConnection(string host, int port, Context context)
         {
             if (port == -1 || host == null)
                 throw new Error(ErrorCode.CONNECTION_ERROR, "No port and/or IP address is present in configuration.");
@@ -41,14 +41,7 @@ namespace SINFONI.Transport.WebSocketTransport
             {
                 Console.WriteLine("Error in connection to " + host + ":" + port + ":   " + e.Exception.Message);
             };
-            try
-            {
-                transportConnection.Open();
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine("Failed to open Socket connection to ws://{0}:{1}, Reason: {2} ", host, port, e.Message);
-            }
+
             return transportConnection;
         }
 

@@ -26,14 +26,13 @@ namespace SINFONI
     public interface ITransportConnectionFactory
     {
         /// <summary>
-        /// Opens a connection to the remote server and executes <paramref name="onConnected"/> when the connection
-        /// is established.
+        /// Creates a TransportConnection object which event handlers can be assigned to. That object can then be used
+        /// to open the connection to the remote server.
         /// </summary>
         /// <param name="host">IP Address or hostname of the server</param>
         /// <param name="port">Port under which remote server is listening</param>
         /// <param name="context">Context under which the connection is openend</param>
-        /// <param name="onConnected">Callback to be called when the connection is established.</param>
-        ITransportConnection OpenConnection(string host, int port, Context context, Action<Connection> onConnected);
+        ITransportConnection CreateTransportConnection(string host, int port, Context context);
 
         /// <summary>
         /// Starts the server listening for new clients
