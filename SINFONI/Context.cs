@@ -90,7 +90,7 @@ namespace SINFONI
                 .GetTransport(transportName)
                 .TransportConnectionFactory;
             IProtocol protocol = protocolRegistry.GetProtocol(protocolName);
-            ITransportConnection transportConnection = transportConnectionFactory.OpenConnection(host, port, this, onConnected);
+            ITransportConnection transportConnection = transportConnectionFactory.CreateTransportConnection(host, port, this);
             transportConnection.Error += (sender, e) =>
             {
                 Console.WriteLine("An error occured while connection to host " + host + ":" + port + ": " + e.Exception);
@@ -101,6 +101,14 @@ namespace SINFONI
                 establishedConnection.LoadIDL(ServerConfiguration);
                 onConnected(establishedConnection);
             };
+            try
+            {
+                transportConnection.Open();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Failed to open Socket connection to ws://{0}:{1}, Reason: {2} ", host, port, e.Message);
+            }
         }
 
         private void GetHostAndPortFromUrl(string url, out string host, out int port)
