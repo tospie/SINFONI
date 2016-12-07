@@ -107,7 +107,8 @@ namespace SINFONI
             }
             catch (Exception e)
             {
-                Console.WriteLine("Failed to open Socket connection to ws://{0}:{1}, Reason: {2} ", host, port, e.Message);
+                Console.WriteLine("Failed to open connection of type {0} to host {1} on port {2}. Reason: {3}",
+                    transportName, host, port, e.Message);
             }
         }
 
